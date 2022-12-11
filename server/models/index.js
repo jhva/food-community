@@ -5,7 +5,7 @@ const config = require("../config/config.json")[env];
 // const User = require("./user");
 // const Hashtag = require("./hashtag");
 // const Post = require("./post");
-const User = require("./user");
+const User = require("./user.js");
 
 const sequelize = new Sequelize(
   config.database,
@@ -20,6 +20,7 @@ db.User = User;
 
 // db.Sequelize = Sequelize;
 User.init(sequelize);
+
 User.associate(db);
 
 module.exports = db;

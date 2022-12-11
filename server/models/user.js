@@ -6,23 +6,33 @@ module.exports = class User extends Sequelize.Model {
       {
         email: {
           type: Sequelize.STRING(40),
-          allowNull: true,
+          allowNull: false,
           unique: true,
         },
-        nick: {
+        phoneNumber: {
+          type: Sequelize.STRING(40),
+          allowNull: false,
+          unique: false,
+        },
+        nickname: {
           type: Sequelize.STRING(15),
           allowNull: false,
+          unique: true,
         },
         password: {
           type: Sequelize.STRING(100),
           allowNull: true,
         },
+        isMarketing: {
+          type: Sequelize.STRING(5),
+          allowNull: false,
+        },
         provider: {
           type: Sequelize.STRING(10),
           allowNull: false,
-          defaultValue: "local",
+          defaultValue: "일반사용자",
         },
-        snsId: {
+        oauthId: {
           type: Sequelize.STRING(30),
           allowNull: true,
         },
@@ -32,8 +42,8 @@ module.exports = class User extends Sequelize.Model {
         timestamps: true,
         underscored: false,
         modelName: "User",
-        tableName: "snsuser",
-        paranoid: true,
+        tableName: "foodUser",
+        paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",
       }
