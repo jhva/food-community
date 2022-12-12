@@ -4,7 +4,7 @@ const User = require("../models/user");
 const passport = require("passport");
 const express = require("express");
 const bcrypt = require("bcrypt");
-
+const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 //이메일 중복검사
@@ -13,35 +13,7 @@ router.post("/check-email");
 //닉네임 중복검사
 router.post("/check-nickname");
 
-// 회원가입
-router.post("/join", isNotLoggedIn, async (req, res, next) => {
-  const { email, nickname, password, phoneNumber, isMarketing } = req.body;
-  try {
-    // const exUser = await User.findOne({ where: { email } });
-    // if (exUser) {
-    //   return res.json({});
-    // }
-    const hash = await bcrypt.hash(password, 12);
-    await User.create({
-      email,
-      nickname,
-      password: hash,
-      phoneNumber,
-      isMarketing,
-    });
-    return res.status(200).json({
-      msg: "회원가입이 완료되었습니다",
-      code: "200",
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      msg: "고객센터에 문의주시기 바랍니다",
-      code: 500,
-    });
-    return next(error);
-  }
-});
+// // 회원가입
 
 //로그인
 router.post("/login", isNotLoggedIn, (req, res, next) => {
