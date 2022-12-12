@@ -3,7 +3,6 @@ const express = require("express");
 const AuthRouter = require("./routes/auth");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-
 const { sessions } = require("./constant/databaseSet");
 
 const app = express();

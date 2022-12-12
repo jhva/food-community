@@ -8,10 +8,10 @@ router.post("/check-email", UserController.checkEmail);
 router.post("/check-nickname", UserController.checkNickname);
 
 // // 회원가입
-router.get("/signUp", UserController.login);
+router.post("/signUp", UserController.signUp);
 
 //로그인
-router.get("/login", UserController.login);
+router.post("/login", UserController.login);
 
 //로그아웃
 router.post("/logout");

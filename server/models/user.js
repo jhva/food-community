@@ -24,11 +24,11 @@ module.exports = class User extends Sequelize.Model {
           allowNull: true,
         },
         accessToken: {
-          type: Sequelize.STRING(100),
+          type: Sequelize.STRING(300),
           allowNull: true,
         },
-        password: {
-          type: Sequelize.STRING(100),
+        refreshToken: {
+          type: Sequelize.STRING(300),
           allowNull: true,
         },
         isMarketing: {
