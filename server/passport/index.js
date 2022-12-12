@@ -1,33 +1,20 @@
-// const { JWTStrategy, ExtractJWT } = require("passport-jwt").Strategy;
-// const LocalStragegy = require("passport-local").Strategy;
-// const { passportConfig } = require("../constant");
-// const jwt = require("jsonwebtoken");
-// const bcrypt = require("bcrypt");
-// const User = require("../models");
+const passport = require("passport");
 
-// const passportLocalloginVerify = async (userEmail, password, done) => {
-//   try {
-//     const user = await User.findOne({ where: { email: userEmail } });
+//카카오로그인
+const kakao = require("./kakaoStrategy");
 
-//     if (!user) {
-//       done(null, false, { msg: "유저가 존재하지 않습니다" });
-//       return;
-//     }
-//     const hash = await bcrypt.compare(password, user.password);
+module.exports = () => {
+  //로그인 성공했을 때 정보를 deserializeUser 함수에게 넘기는 함수
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
 
-//     if (hash) {
-//       done(null, user);
-//       return;
-//     }
+  // 넘어온 id 에 해당하는 데이터가 있으면 데이터베이스에서 찾아서
+  // 세션에 저장함
 
-//     done(null, false, { msg: "올바르지 않은 비밀번호 입니다." });
-//   } catch (e) {
-//     console.log(e);
-//     done(e);
-//   }
-// };
-
-// passport.use(
-//   "signUp",
-//   new LocalStragegy(passportConfig, passportLocalloginVerify)
-// );
+  passport.deserializeUser((obj, done) => {
+    console.log(`obj : ${obj}`);
+    done(null, obj);
+  });
+  kakao();
+};

@@ -1,10 +1,11 @@
+const cors = require("cors");
 const dotenv = require("dotenv");
 const express = require("express");
-const AuthRouter = require("./routes/auth");
+const passport = require("passport");
 const bodyParser = require("body-parser");
+const AuthRouter = require("./routes/auth");
 const cookieParser = require("cookie-parser");
 const { sessions } = require("./constant/databaseSet");
-
 const app = express();
 
 dotenv.config();
@@ -12,14 +13,15 @@ dotenv.config();
 app.set("port", process.env.PORT);
 
 app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(passport.initialize());
 app.use(bodyParser.json());
 app.use(sessions);
+// ㄴ
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
-
 // 라우터
 app.use("/api/auth", AuthRouter);
 
