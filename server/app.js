@@ -1,13 +1,10 @@
 const dotenv = require("dotenv");
 const express = require("express");
-const session = require("express-session");
-const authRouter = require("./routes/auth");
-const cookieParser = require("cookie-parser");
-const MySQLStore = require("express-mysql-session")(session);
+const AuthRouter = require("./routes/auth");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
-const { sequelize } = require("./models");
-const { options } = require("./constant");
+const { sessions } = require("./constant/databaseSet");
 
 const app = express();
 
@@ -15,48 +12,30 @@ dotenv.config();
 
 app.set("port", process.env.PORT);
 
-sequelize
-  .sync({ force: false })
-  .then(() => {
-    console.log("데이터베이스 연결 성공");
-  })
-  .catch((err) => {
-    console.error(err);
-  });
-
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(bodyParser.json());
-app.use(
-  session({
-    secret: process.env.COOKIE_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    store: new MySQLStore(options),
-  })
-);
-
+app.use(sessions);
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
 
-app.use(cookieParser(process.env.COOKIE_SECRET));
-
-//라우터
-app.use("/auth", authRouter);
+// 라우터
+app.use("/api/auth", AuthRouter);
 
 app.use((req, res, next) => {
-  const err = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
-  err.status = 404;
+  res.status(404).json({ msg: "Page Not Found" });
+
   next(err);
 });
 
-//에러가 발생한 경우 처리
+// 에러가 발생한 경우 처리
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
-  res.status(err.status || 500);
-  // res.render("error");
+
+  res.status(err.status || 500).json({ msg: "server error" });
 });
 
 app.listen(app.get("port"), () => {

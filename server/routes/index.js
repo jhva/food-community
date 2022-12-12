@@ -1,5 +1,8 @@
 // const express = require("express");
+// const app = express();
 
-// const { User } = require("../models");
+// // router.get("/abc", async (req, res, next) => {
+// //   console.log("abc");
+// // });
 
-// const router = express.router();
+// module.exports = router;
