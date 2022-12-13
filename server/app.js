@@ -1,11 +1,13 @@
 const cors = require("cors");
 const dotenv = require("dotenv");
 const express = require("express");
-const passport = require("passport");
+const rootRouter = require("./routes");
 const bodyParser = require("body-parser");
-const AuthRouter = require("./routes/auth");
+const { corsConfig } = require("./constant");
 const cookieParser = require("cookie-parser");
 const { sessions } = require("./constant/databaseSet");
+
+//세션 기능은 passport 모듈이 알아서 사용
 const app = express();
 
 dotenv.config();
@@ -13,18 +15,17 @@ dotenv.config();
 app.set("port", process.env.PORT);
 
 app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(passport.initialize());
 app.use(bodyParser.json());
+app.use(cors(corsConfig));
 app.use(sessions);
-// ㄴ
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
 // 라우터
-app.use("/api/auth", AuthRouter);
-
+// app.use("/api/auth", AuthRouter);
+app.use("/", rootRouter);
 app.use((req, res, next) => {
   res.status(404).json({ msg: "Page Not Found" });
 

@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const RateLimit = require("express-rate-limit");
+require("dotenv").config();
 
 exports.isLoggedIn = (req, res, next) => {
   //로그인 되어 있으면 다음 라우터 처리를 수행하고 그렇지 않으면 에러 발생
@@ -21,11 +22,13 @@ exports.isNotLoggedIn = (req, res, next) => {
 };
 
 exports.verifyToken = (req, res, next) => {
+  let decoded;
+
   try {
     //토큰 여부 확인
-    req.decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
+    decoded = jwt.verify(req.header.authorization, process.env.JWT_SECRET);
+    res.json(req.decoded);
     //인증ㅅ겅공시 다음작업 수행
-    return next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       return res.status(419).json({
