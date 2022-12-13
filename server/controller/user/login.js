@@ -9,14 +9,13 @@ module.exports = async (req, res, next) => {
       .status(400)
       .json({ status: 400, msg: "입력을 모두 완료해주세요" });
   }
+  const isEqulsEmail = await User.findOne({ where: { email } });
+  const isEqulsPw = await bcrypt.compare(password, isEqulsEmail.password);
   try {
-    const isEqulsEmail = await User.findOne({ where: { email } });
-
+    let generateAccessTokens = accessToken(email);
+    let generateRefreshToken = refreshToken(email);
     if (isEqulsEmail) {
-      const isEqulsPw = await bcrypt.compare(password, isEqulsEmail.password);
       if (isEqulsPw) {
-        let generateAccessTokens = accessToken(email);
-        let generateRefreshToken = refreshToken(email);
         await User.update(
           {
             accessToken: generateAccessTokens,

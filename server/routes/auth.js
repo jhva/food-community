@@ -11,6 +11,9 @@ router.post("/signup", controllers.signup);
 
 router.post("/login", controllers.login);
 router.post("/logout", controllers.logout);
+
+router.get("/auth/kakao", controllers.authkakao);
+router.post("/auth/kakao/callback", controllers.kakaocallback);
 // router.get("/test", controllers.test);
 
 //카카오 로그인

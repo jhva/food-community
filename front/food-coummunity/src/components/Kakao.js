@@ -10,7 +10,7 @@ const Kakao = ({ setIsShow, isShow }) => {
   const navigate = useNavigate();
   const codeFunction = async () => {
     try {
-      const res = await api.get(`auth/kakao/callback?code=${code}`);
+      const res = await api.post(`user/auth/kakao/callback?code=${code}`);
       if (res.status === "success") {
         setIsShow(true);
       }
