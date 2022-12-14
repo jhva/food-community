@@ -10,9 +10,11 @@ const NavBar = () => {
         justifyContent: 'center',
         display: 'flex',
         alignItems: 'center',
+        marginBottom: '10px',
+        // padding: '0px 0px',
       }}
     >
-      <h1>Nav</h1>
+      네브
     </div>
   );
 };

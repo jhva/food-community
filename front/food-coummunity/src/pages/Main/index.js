@@ -1,13 +1,14 @@
 import KakaoMap from 'components/kakao/KakaoMap';
 import NavBar from 'components/navbar';
 import React from 'react';
+import S from './styles';
 
 const Main = () => {
   return (
-    <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+    <S.RootMainStyle>
       <NavBar />
       <KakaoMap />
-    </div>
+    </S.RootMainStyle>
   );
 };
 

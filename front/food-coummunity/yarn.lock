@@ -6256,6 +6256,11 @@ jsonpointer@^5.0.0:
     array-includes "^3.1.5"
     object.assign "^4.1.3"
 
+kakao.maps.d.ts@^0.1.33:
+  version "0.1.33"
+  resolved "https://registry.yarnpkg.com/kakao.maps.d.ts/-/kakao.maps.d.ts-0.1.33.tgz#25d68b5ebd49c5925cf6e4766e4d051fccf2e86e"
+  integrity sha512-ANsAznVkdnaV1EhZcbE3wcEOWbJSX7YOs3Cka1gOPzMDVibNQ6mm8zgju26R1qSAKWBNNGbDZy5BmtZ6pQ8peA==
+
 kind-of@^6.0.2:
   version "6.0.3"
   resolved "https://registry.npmjs.org/kind-of/-/kind-of-6.0.3.tgz"
@@ -7788,6 +7793,13 @@ react-kakao-login@^2.1.1:
   version "2.1.1"
   resolved "https://registry.npmjs.org/react-kakao-login/-/react-kakao-login-2.1.1.tgz"
   integrity sha512-t9htk41/i0zUY7q92mtqdqVZZ018BPi1DgbSVVrPCmuMKhZGJOnZ9OfaKLVPu3sn8QXbJc3dPwqKOiElpb44hQ==
+
+react-kakao-maps-sdk@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/react-kakao-maps-sdk/-/react-kakao-maps-sdk-1.1.5.tgz#e8027a56ce9da770769be0e5faee5442bffe01f9"
+  integrity sha512-NYL1ZwjwlcOwLDogw3jTB4b9JMlo5uVsJ6z7+jUXCYQMFoKlQfFuBQoh4zCeMADL28yy4yoa8BT4H4pSg79vwg==
+  dependencies:
+    kakao.maps.d.ts "^0.1.33"
 
 react-lifecycles-compat@^3.0.0:
   version "3.0.4"
