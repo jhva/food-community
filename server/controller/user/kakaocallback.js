@@ -1,6 +1,4 @@
-const router = require("express").Router();
 const axios = require("axios");
-const qs = require("qs");
 
 require("dotenv").config();
 
@@ -28,7 +26,9 @@ module.exports = async (req, res) => {
       })
       .then((data) => {
         console.log(data);
-        res.status(200).json({ status: 200, data: [data.data] });
+        res
+          .status(200)
+          .json({ status: 200, msg: "success", data: [data.data] });
       });
   } catch (err) {
     res.status(500).json({ msg: "카카오 로그인 오류" });
