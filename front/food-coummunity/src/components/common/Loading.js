@@ -14,7 +14,7 @@ const Loading = (props) => {
 export default Loading;
 
 export const Background = styled.div`
-  width: 65%;
+  width: 77%;
   height: 100vh;
   top: 0;
   left: 0;
