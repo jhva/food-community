@@ -1,26 +1,27 @@
-import api from './api/api';
-import { useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Navigate,
-  Route,
-  Routes,
-} from 'react-router-dom';
-import LoginComplete from './LoginComplete';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 import Kakao from './components/kakao/Kakao';
 import React, { useState } from 'react';
-import Test from 'Test';
-import Main from 'pages/Main';
+import { GlobalStyle } from './utils';
+import S from './utils/styles';
+import Main from 'pages/main';
+import theme from 'theme';
+
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path='/' element={<Main />} />
-        <Route path='/test' element={<Test />} />
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <S.RootStyle>
+        <Router>
+          <Routes>
+            <Route path='/' element={<Main />} />
+            {/* <Route path='/test' element={<Test />} /> */}
 
-        <Route path='/auth/kakao/callback' element={<Kakao />} />
-      </Routes>
-    </Router>
+            <Route path='/auth/kakao/callback' element={<Kakao />} />
+          </Routes>
+        </Router>
+      </S.RootStyle>
+    </ThemeProvider>
   );
 }
 
