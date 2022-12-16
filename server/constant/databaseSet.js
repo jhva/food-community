@@ -19,10 +19,15 @@ let sessions = session({
   resave: false,
   saveUninitialized: true,
   store: new MySQLStore(options),
+  cookie: {
+    secure: false,
+
+    httpOnly: true,
+  },
 });
 
 sequelize
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
     console.log("데이터베이스 연결 성공");
   })

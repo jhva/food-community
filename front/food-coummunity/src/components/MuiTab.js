@@ -3,14 +3,16 @@ import { Box, Tab, Tabs, Typography } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
 import CreateRecruitment from './recruitlist/CreateRecruitment';
 import RecruitmentStatus from './recruitlist/RecruitmentStatus';
+import { BasicButton } from './button';
 
-export default function MuiTab() {
-  const [value, setValue] = React.useState('0');
-
-  const handleChange = React.useCallback((event, newValue) => {
-    setValue(newValue);
-  }, []);
-
+export default function MuiTab({
+  setValue,
+  value,
+  handleChange,
+  selectData,
+  setSelectData,
+  searchData,
+}) {
   return (
     <TabContext value={value}>
       <Box style={{ width: '50%' }}>
@@ -20,10 +22,13 @@ export default function MuiTab() {
           <Tab style={{ width: '50%' }} label='모집 만들기' value={'1'} />
         </Tabs>
         <TabPanel style={{ bacground: 'blue' }} value={'0'}>
-          <RecruitmentStatus />
+          <RecruitmentStatus searchData={searchData} />
         </TabPanel>
         <TabPanel value={'1'}>
-          <CreateRecruitment />
+          <CreateRecruitment
+            selectData={selectData}
+            setSelectData={setSelectData}
+          />
         </TabPanel>
       </Box>
     </TabContext>

@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 const { kakao } = window;
 
-const KakaoMap = () => {
+const KakaoMap = ({ handleClick, setSearchData }) => {
   const { location, error, isLoading } = useLocation(geolocationOptions);
 
   const [initLocation, setInitLocation] = useState({
@@ -84,7 +84,7 @@ const KakaoMap = () => {
   useEffect(() => {
     mainSearch();
   }, [mainSearchAddressCenter]);
-  console.log(isGeolocation);
+  // console.log(isGeolocation);
   useEffect(() => {
     // console.log('4, 지도의 정보를 다시 받아옴')
     handleMapInfo();
@@ -135,6 +135,10 @@ const KakaoMap = () => {
             {markerData &&
               markerData.map((el, index) => (
                 <MapMarker
+                  onClick={(e) => {
+                    handleClick(el);
+                    setSearchData(markerData);
+                  }}
                   image={{
                     src: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 마커이미지의 주소입니다
                     size: {
@@ -149,15 +153,22 @@ const KakaoMap = () => {
                     lng: !isGeolocation ? location?.longitude : el.x,
                   }}
                 >
-                  <div style={{ padding: '5px', color: '#000' }}>
-                    {markerData && el?.place_name}
-                    {/* {state.errMsg ? state.errMsg : '여기에 계신가요?!'} */}
+                  <div
+                    style={{
+                      height: '50px',
+                    }}
+                  >
+                    {el?.placename}
                   </div>
+                  {/* <div
+                    style={{ padding: '5px', color: '#000', background: 'red' }}
+                  >
+                    {markerData && el?.place_name}
+                  </div> */}
                 </MapMarker>
                 // <div>여기에요여기 ㅠㅠ</div>
               ))}
           </Map>
-          <MuiTab />
         </>
       )}
     </>

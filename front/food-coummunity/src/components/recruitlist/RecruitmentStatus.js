@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, TextField } from '@mui/material';
-import SearchInput from '../inputs/SearchInput';
 
-const RecruitmentStatus = () => {
+const RecruitmentStatus = ({ searchData }) => {
+  console.log(searchData);
+  const [isOpen, setIsOpen] = useState(false);
+  const handleOpen = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <Box
       component='form'
@@ -11,7 +15,14 @@ const RecruitmentStatus = () => {
       }}
       noValidate
       autoComplete='off'
-    ></Box>
+    >
+      <div>
+        <h3 style={{ cursor: 'pointer' }} onClick={handleOpen}>
+          검색 결과 리스트 보기👇
+        </h3>
+        {isOpen && searchData.map((item) => <p>{item}</p>)}
+      </div>
+    </Box>
   );
 };
 

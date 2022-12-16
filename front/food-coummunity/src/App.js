@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import Main from 'pages/main';
 import theme from 'theme';
 import NavBar from 'components/navbar';
+import ChatPage from 'pages/chat/ChatPage';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Main />} />
             {/* <Route path='/test' element={<Test />} /> */}
-
+            <Route path='/chat' element={<ChatPage />} />
             <Route path='/auth/kakao/callback' element={<Kakao />} />
           </Routes>
         </Router>

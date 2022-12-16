@@ -1,5 +1,4 @@
 const cors = require("cors");
-const socket = require("./socket");
 const express = require("express");
 const rootRouter = require("./routes");
 const bodyParser = require("body-parser");
@@ -8,10 +7,10 @@ const cookieParser = require("cookie-parser");
 const { sessions } = require("./constant/databaseSet");
 
 //세션 기능은 passport 모듈이 알아서 사용
-const app = express();
-require("dotenv").config();
 
-// socket();
+const app = express();
+
+require("dotenv").config();
 
 app.set("port", process.env.PORT);
 
@@ -41,6 +40,8 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json({ msg: "server error" });
 });
 
-app.listen(app.get("port"), () => {
+const SERVER = app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트 열림");
 });
+
+require("./socket")(SERVER);
