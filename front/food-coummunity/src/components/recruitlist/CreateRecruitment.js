@@ -45,6 +45,7 @@ const CreateRecruitment = ({ selectData, setSelectData }) => {
             onChange={(e) => {
               onChange(e);
             }}
+            variant='standard'
             value={value.title}
             label={'모집 제목'}
           />
@@ -52,6 +53,7 @@ const CreateRecruitment = ({ selectData, setSelectData }) => {
             onChange={(e) => {
               onChange(e);
             }}
+            variant='standard'
             name='maxinum'
             value={value.maxinum}
             label={'모집 인원'}
@@ -70,6 +72,7 @@ const CreateRecruitment = ({ selectData, setSelectData }) => {
             label={'모집 내용'}
           />
           <CustomTextField
+            variant='standard'
             placeholder={'모집 장소'}
             disabled
             value={selectData.place_name}

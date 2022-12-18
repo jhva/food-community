@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import Login from 'components/modal/Login';
+import SignUp from 'components/modal/SignUp';
 
-const NavBar = () => {
+const NavBar = ({ isGeolocation }) => {
   const user = false;
-
   const navigate = useNavigate();
+
+  const [isLoginOpenModal, setIsLoginOpenModal] = useState(false);
+  const [isSignUpOpenModal, setIsSignUpOpenModal] = useState(false);
 
   const handleNavigate = (type) => {
     switch (type) {
@@ -33,8 +37,27 @@ const NavBar = () => {
             채팅{' '}
           </p>
           <p>게시판</p>
-          <p>로그인</p>
-          {user && <p>마이페이지 </p>}
+          <p
+            onClick={() => {
+              setIsLoginOpenModal(true);
+            }}
+          >
+            로그인
+          </p>
+          {isLoginOpenModal ? (
+            <Login
+              setIsSignUpOpenModal={setIsSignUpOpenModal}
+              setIsLoginOpenModal={setIsLoginOpenModal}
+            />
+          ) : null}
+          {isSignUpOpenModal ? (
+            <SignUp
+              setIsLoginOpenModal={setIsLoginOpenModal}
+              setIsSignUpOpenModal={setIsSignUpOpenModal}
+            />
+          ) : null}
+
+          {/* {user && <p>마이페이지 </p>} */}
         </RightContainer>
       </Container>
     </NavBarContainer>

@@ -22,6 +22,18 @@ body {
   button{
     cursor: pointer;
   }
+  input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { 
+	-webkit-appearance: none;
+} 
 `;
 
-export { GlobalStyle };
+const PhoneNumberConvert = (number) => {
+  console.log(number);
+  return number
+    ?.toString()
+    ?.replace(/\D+/g, '')
+    ?.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+};
+
+export { GlobalStyle, PhoneNumberConvert };

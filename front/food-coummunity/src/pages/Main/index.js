@@ -59,7 +59,7 @@ const Main = () => {
   return (
     <>
       <S.RootMainStyle>
-        <NavBar />
+        <NavBar isGeolocation={isGeolocation} />
         <S.SectionMainStyle>
           <SearchInput
             onChange={handleSearchAddress}
