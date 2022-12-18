@@ -7,9 +7,12 @@ import MuiTab from 'components/MuiTab';
 import SearchInput from 'components/inputs/SearchInput';
 import styled from 'styled-components';
 
-const { kakao } = window;
-
-const KakaoMap = ({ handleClick, setSearchData }) => {
+const KakaoMap = ({
+  handleClick,
+  mainSearchAddressCenter,
+  markerData,
+  isGeolocation,
+}) => {
   const { location, error, isLoading } = useLocation(geolocationOptions);
 
   const [initLocation, setInitLocation] = useState({
@@ -17,38 +20,9 @@ const KakaoMap = ({ handleClick, setSearchData }) => {
     lat: location.latitude,
     lng: location.longitude,
   });
-  const [markerData, setMarkerData] = useState([]);
   const [map, setMap] = useState();
-  const [searchAddress, SetSearchAddress] = useState();
-  const [mainSearchAddressCenter, SetMainSearchAddressCenter] = useState();
-  const [isGeolocation, setIsGeolocation] = useState(false);
   const [info, setInfo] = useState();
 
-  const SearchMap = () => {
-    const ps = new kakao.maps.services.Places();
-    const placesSearchCB = function (data, status, pagination) {
-      if (status === kakao.maps.services.Status.OK) {
-        const newSearch = data[0];
-        setIsGeolocation(true);
-        SetMainSearchAddressCenter({
-          center: { lat: newSearch.y, lng: newSearch.x },
-        });
-        setMarkerData(markerData.concat(data));
-      }
-    };
-    ps.keywordSearch(`${searchAddress}`, placesSearchCB);
-    SetSearchAddress('');
-  };
-
-  const handleSearchAddress = (e) => {
-    SetSearchAddress(e.target.value);
-  };
-  const onKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      console.log('12');
-      SearchMap();
-    }
-  };
   // 주소 검색시 위치로 이동
   const mainSearch = () => {
     {
@@ -91,13 +65,6 @@ const KakaoMap = ({ handleClick, setSearchData }) => {
   }, [map, initLocation]);
   return (
     <>
-      <SearchDisplay>
-        <SearchInput
-          onKeyPress={onKeyPress}
-          value={searchAddress}
-          onChange={handleSearchAddress}
-        />
-      </SearchDisplay>
       {isLoading ? (
         <>
           <Loading text={'🙌 현재 위치를 가져오고있어요!!'} />
@@ -137,7 +104,6 @@ const KakaoMap = ({ handleClick, setSearchData }) => {
                 <MapMarker
                   onClick={(e) => {
                     handleClick(el);
-                    setSearchData(markerData);
                   }}
                   image={{
                     src: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 마커이미지의 주소입니다
@@ -160,13 +126,7 @@ const KakaoMap = ({ handleClick, setSearchData }) => {
                   >
                     {el?.placename}
                   </div>
-                  {/* <div
-                    style={{ padding: '5px', color: '#000', background: 'red' }}
-                  >
-                    {markerData && el?.place_name}
-                  </div> */}
                 </MapMarker>
-                // <div>여기에요여기 ㅠㅠ</div>
               ))}
           </Map>
         </>

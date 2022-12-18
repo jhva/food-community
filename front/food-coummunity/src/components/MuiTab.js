@@ -6,8 +6,8 @@ import RecruitmentStatus from './recruitlist/RecruitmentStatus';
 import { BasicButton } from './button';
 
 export default function MuiTab({
-  setValue,
   value,
+  markerData,
   handleChange,
   selectData,
   setSelectData,
@@ -22,7 +22,7 @@ export default function MuiTab({
           <Tab style={{ width: '50%' }} label='모집 만들기' value={'1'} />
         </Tabs>
         <TabPanel style={{ bacground: 'blue' }} value={'0'}>
-          <RecruitmentStatus searchData={searchData} />
+          <RecruitmentStatus markerData={markerData} />
         </TabPanel>
         <TabPanel value={'1'}>
           <CreateRecruitment
