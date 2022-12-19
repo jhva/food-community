@@ -1,45 +1,30 @@
-const { refreshToken, accessToken } = require("../../jwt/jwt");
+const { generateAccessToken, refresh } = require("../../jwt/jwt");
 const User = require("../../models/user");
 const bcrypt = require("bcrypt");
 
 module.exports = async (req, res, next) => {
   const { email, password } = req.body;
-  if (!email || !password) {
-    return res
-      .status(400)
-      .json({ status: 400, msg: "입력을 모두 완료해주세요" });
-  }
-  const isEqulsEmail = await User.findOne({ where: { email } });
-  const isEqulsPw = await bcrypt.compare(password, isEqulsEmail.password);
-  try {
-    let generateAccessTokens = accessToken(email);
-    let generateRefreshToken = refreshToken(email);
-    if (isEqulsEmail) {
-      if (isEqulsPw) {
-        await User.update(
-          {
-            accessToken: generateAccessTokens,
-            refreshToken: generateRefreshToken,
-          },
-          { where: { email } }
-        );
-        return res
-          .cookie("secret", generateAccessTokens)
-          .status(200)
-          .json({ msg: "success", status: 200, data: [isEqulsEmail] });
-      } else {
-        return res.status(400).json({
-          msg: "로그인 실패하였습니다",
-          status: 400,
-        });
-      }
-    } else {
-      return res.status(400).json({
-        msg: "등록된 이메일이 없습니다",
-        status: 400,
+  const user = await User.findOne({ where: { email: email } });
+  if (user) {
+    const password_valid = bcrypt.compare(password, user.password);
+    if (password_valid) {
+      let accesstoken = generateAccessToken(
+        { email: user.email },
+        process.env.ACCESS_TOKEN
+      );
+      let refreshtoken = refresh();
+
+      return res.status(200).json({
+        status: 200,
+        msg: "success",
+        data: [user],
+        accessToken: accesstoken,
+        refreshToken: refreshtoken,
       });
+    } else {
+      res.status(400).json({ error: "비밀번호가 맞지않습니다" });
     }
-  } catch (e) {
-    console.log(e);
+  } else {
+    res.status(404).json({ error: "해당 유저가 존재하지 않습니다." });
   }
 };

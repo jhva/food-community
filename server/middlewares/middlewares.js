@@ -27,7 +27,8 @@ exports.verifyToken = (req, res, next) => {
   try {
     //토큰 여부 확인
     decoded = jwt.verify(req.header.authorization, process.env.JWT_SECRET);
-    res.json(req.decoded);
+    // res.json(req.decoded);
+    // next()
     //인증ㅅ겅공시 다음작업 수행
   } catch (error) {
     if (error.name === "TokenExpiredError") {
