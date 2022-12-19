@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
     const password_valid = bcrypt.compare(password, user.password);
     if (password_valid) {
       let accesstoken = generateAccessToken(
-        { email: user.email },
+        { email: user.email, nickname: user.nickname, id: user.id },
         process.env.ACCESS_TOKEN
       );
       let refreshtoken = refresh();
