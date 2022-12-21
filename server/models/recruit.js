@@ -30,11 +30,12 @@ module.exports = class Recruit extends Sequelize.Model {
           unique: false,
         },
         lat: {
-          type: Sequelize.FLOAT,
+          type: DataTypes.DOUBLE,
+
           allowNull: false,
         },
         lng: {
-          type: Sequelize.FLOAT,
+          type: DataTypes.DOUBLE,
           allowNull: false,
         },
       },
@@ -43,7 +44,7 @@ module.exports = class Recruit extends Sequelize.Model {
         timestamps: true,
         underscored: false,
         modelName: "Recruit",
-        tableName: "recruit",
+        tableName: "recruits",
         comment: "모집구분",
         paranoid: false,
         charset: "utf8",

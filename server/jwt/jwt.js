@@ -12,7 +12,7 @@ module.exports = {
     });
   },
   refresh: () => {
-    return sign({}, process.env.REFRESH_TOKEN, {
+    return jwt.sign({}, secret, {
       // refresh token은 payload 없이 발급
       algorithm: "HS256",
       expiresIn: "2h",
