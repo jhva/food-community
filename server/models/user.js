@@ -29,10 +29,10 @@ module.exports = class User extends Sequelize.Model {
           allowNull: true,
         },
 
-        refreshToken: {
-          type: Sequelize.STRING(300),
-          allowNull: true,
-        },
+        // refreshToken: {
+        //   type: Sequelize.STRING(300),
+        //   allowNull: true,
+        // },
         isMarketing: {
           type: Sequelize.STRING(5),
           allowNull: false,
@@ -61,5 +61,9 @@ module.exports = class User extends Sequelize.Model {
   }
   static associate(db) {
     db.User.hasMany(db.Recruit);
+    db.User.hasMany(db.Board);
+    db.User.hasMany(db.AttendRecruit);
+    db.User.hasMany(db.ChatRoom);
+    db.User.hasMany(db.ChatMsg);
   }
 };

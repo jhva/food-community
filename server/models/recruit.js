@@ -30,12 +30,12 @@ module.exports = class Recruit extends Sequelize.Model {
           unique: false,
         },
         lat: {
-          type: DataTypes.DOUBLE,
+          type: Sequelize.DOUBLE,
 
           allowNull: false,
         },
         lng: {
-          type: DataTypes.DOUBLE,
+          type: Sequelize.DOUBLE,
           allowNull: false,
         },
       },
@@ -54,5 +54,8 @@ module.exports = class Recruit extends Sequelize.Model {
   }
   static associate(db) {
     db.Recruit.belongsTo(db.User);
+    db.Recruit.hasMany(db.AttendRecruit);
+    db.Recruit.hasMany(db.ChatRoom);
+    
   }
 };
