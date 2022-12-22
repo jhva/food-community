@@ -28,7 +28,7 @@ exports.verifyToken = (req, res, next) => {
     //토큰 여부 확인
     decoded = jwt.verify(req.header.authorization, process.env.JWT_SECRET);
     // res.json(req.decoded);
-    // next()
+    next();
     //인증ㅅ겅공시 다음작업 수행
   } catch (error) {
     if (error.name === "TokenExpiredError") {
@@ -44,16 +44,3 @@ exports.verifyToken = (req, res, next) => {
   }
 };
 
-///사용량 제한을 위한 미들웨어
-
-exports.apiLimiter = RateLimit({
-  windowMs: 60 * 1000, //1분,
-  max: 10, // 1분안에 10번이상못함
-  delayMs: 0,
-  handler(req, res) {
-    res.status(this.statusCode).json({
-      code: this.statusCode,
-      message: "1분 단위로 요청을 해야함여",
-    });
-  },
-});

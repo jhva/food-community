@@ -1,6 +1,6 @@
 module.exports = async (req, res, next) => {
   return res
-    .cookie("secret", "")
+    .cookie("user", "")
     .status(200)
     .json({ status: 200, msg: "logout success" });
 };

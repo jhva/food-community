@@ -29,10 +29,10 @@ module.exports = class User extends Sequelize.Model {
           allowNull: true,
         },
 
-        // refreshToken: {
-        //   type: Sequelize.STRING(300),
-        //   allowNull: true,
-        // },
+        refreshToken: {
+          type: Sequelize.STRING(350),
+          allowNull: true,
+        },
         isMarketing: {
           type: Sequelize.STRING(5),
           allowNull: false,
@@ -53,6 +53,7 @@ module.exports = class User extends Sequelize.Model {
         underscored: false,
         modelName: "User",
         tableName: "foodUser",
+        comment:"유저",
         paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",

@@ -12,27 +12,55 @@ module.exports = {
     });
   },
   refresh: () => {
-    return jwt.sign({}, secret, {
+    return sign({}, process.env.REFRESH_TOKEN, {
       // refresh token은 payload 없이 발급
       algorithm: "HS256",
-      expiresIn: "2h",
+      expiresIn: "14d",
     });
   },
-  sendAccessToken: (res, accessToken) => {
-    res.cookie("jwt", accessToken);
-  },
-  isAuthorized: (req, res) => {
-    let auth = req.headers.cookie;
-    if (!auth) {
-      return null;
-    }
+  isAuthorization: (req, res, next) => {
+    if (req.headers.authorization) {
+      const token = req.headers.authorization.split('Bearer ')[1];
 
-    let token = auth.split(" ")[0].split("=")[1];
+      try {
+        req.decoded = verify(token, process.env.ACCESS_TOKEN)
+        return next();
+      } catch (e) {
+        //유효하지 않을경우 
+        if (e.name === 'TokenExpireError') {
+          return res.status(419).json({
+            code: 419,
+            msg: '토큰이 만료되었습니다.'
+          });
+        }
+        return res.status(401).json({
+          code: 401,
+          msg: '유효하지 않은 토큰입니다.'
+        });
 
-    try {
-      return verify(token, process.env.ACCESS_TOKEN);
-    } catch (err) {
-      console.log(err);
+      }
+    } else {
+      res.status(401).json({ msg: "권한이 없습니다.", code: 401 });
+
     }
   },
+
+    // isAuthorization: (req, res, next) => {
+    //   if (req.headers.authorization) {
+    //     const token = req.headers.authorization.split('Bearer ')[1];
+
+    //     verify(token, process.env.ACCESS_TOKEN, (err) => {
+    //       if (err) {
+    //         res.status(401).json({ error: '토큰을 다시확인해주세요' });
+    //       } else {
+    //         next();
+    //       }
+    //     });
+    //   } else {
+    //     res.status(401).json({ error: '해당 토큰이 없습니다' });
+    //   }
+    // }
+
 };
+
+
