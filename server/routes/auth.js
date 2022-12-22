@@ -24,4 +24,10 @@ router.get("/test2", isAuthorization, controllers.test2);
 //챗
 // router.get("/chat", controllers.chat);
 
+
+//board 
+
+//recruit
+
+
 module.exports = router;
