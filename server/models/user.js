@@ -5,7 +5,7 @@ module.exports = class User extends Sequelize.Model {
     return super.init(
       {
         email: {
-          type: Sequelize.STRING(40),
+          type: Sequelize.STRING(100),
           allowNull: false,
           unique: true,
         },
@@ -53,7 +53,7 @@ module.exports = class User extends Sequelize.Model {
         underscored: false,
         modelName: "User",
         tableName: "foodUser",
-        comment:"유저",
+        comment: "유저",
         paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",
