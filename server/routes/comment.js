@@ -3,6 +3,6 @@ const controllers = require("../controller");
 const { isAuthorization } = require("../jwt");
 
 router.post("/:boardId", isAuthorization, controllers.postComment);
-router.delete("/:boardId", isAuthorization, controllers.deleteBoard);
+router.delete("/:commentId", isAuthorization, controllers.deleteComment);
 
 module.exports = router;
