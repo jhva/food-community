@@ -22,6 +22,13 @@ module.exports = {
   deleteComment: require("./comment/deleteComment"),
 
   //recruit
+  postRecurit: require("./recruit/postRecurit"),
+  deleteRecruit: require("./recruit/deleteRecruit"),
+  getRecruit: require("./recruit/getRecruit"),
+  patchRecruit: require("./recruit/patchRecruit.js"),
+
+  //attend
+  postAttendRecruit: require("./attend/postAttendRecruit"),
 
   // chat: require("./chat"),
 };

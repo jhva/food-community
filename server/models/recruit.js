@@ -13,6 +13,7 @@ module.exports = class Recruit extends Sequelize.Model {
           type: Sequelize.INTEGER,
           allowNull: false,
           unique: false,
+          comment: "모집인원",
         },
         content: {
           type: Sequelize.STRING(40),
@@ -21,13 +22,17 @@ module.exports = class Recruit extends Sequelize.Model {
         },
         status: {
           type: Sequelize.STRING(10),
-          allowNull: false,
+          allowNull: true,
           unique: false,
+          comment: "모집 상태",
+          defaultValue: "모집 중",
         },
         statusNumber: {
           type: Sequelize.INTEGER,
-          allowNull: false,
+          allowNull: true,
           unique: false,
+          comment: "maxinum 컬럼이랑 비교할 컬럼",
+          defaultValue: 1,
         },
         lat: {
           type: Sequelize.DOUBLE,
@@ -56,6 +61,5 @@ module.exports = class Recruit extends Sequelize.Model {
     db.Recruit.belongsTo(db.User);
     db.Recruit.hasMany(db.AttendRecruit);
     db.Recruit.hasMany(db.ChatRoom);
-    
   }
 };
