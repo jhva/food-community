@@ -22,6 +22,6 @@ module.exports = async (req, res, next) => {
       });
     })
     .catch((err) => {
-      ERROR(500, err);
+      ERROR(500,err,res);
     });
 };

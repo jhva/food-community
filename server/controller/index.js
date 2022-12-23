@@ -16,6 +16,11 @@ module.exports = {
   getBoard: require("./board/getBoard"),
   detailBoard: require("./board/detailBoard"),
   deleteBoard: require("./board/deleteBoard"),
+
+  //comment
+  postComment: require("./comment/postComment"),
+  deleteComment: require("./comment/deleteComment"),
+
   //recruit
 
   // chat: require("./chat"),

@@ -1,7 +1,7 @@
-const ERROR = (status,err) => {
+const ERROR = (status, err, res) => {
   switch (status) {
     case 500:
-      console.error(err)
+      console.error(err);
       res.status(500).json({
         msg: "server err",
         code: 500,

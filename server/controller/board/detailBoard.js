@@ -11,6 +11,6 @@ module.exports = async (req, res, next) => {
     })
     .catch((err) => {
       console.error(err);
-      ERROR(500);
+      ERROR(500,err,res);
     });
 };
