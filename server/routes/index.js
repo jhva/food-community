@@ -1,11 +1,8 @@
 const router = require("express").Router();
 const authRouter = require("./auth");
-// const app = express();
-
-// // router.get("/abc", async (req, res, next) => {
-// //   console.log("abc");
-// // });
+const boardRouter = require("./board");
 
 router.use("/user", authRouter);
+router.use("/board", boardRouter);
 
 module.exports = router;

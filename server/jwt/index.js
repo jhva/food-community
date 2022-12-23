@@ -6,7 +6,7 @@ const { sign, verify } = require("jsonwebtoken");
 module.exports = {
   generateAccessToken: (data) => {
     return sign(data, process.env.ACCESS_TOKEN, {
-      expiresIn: "15m",
+      expiresIn: "1h",
       algorithm: "HS256", // 해싱 알고리즘
       issuer: "kjh", // 발행자
     });
@@ -25,13 +25,14 @@ module.exports = {
         req.authId = verify(token, process.env.ACCESS_TOKEN).id;
         next();
       } catch (e) {
-        //유효하지 않을경우
-        if (e.name === "TokenExpireError") {
+        if (e.name === "TokenExpiredError") {
           return res.status(419).json({
             code: 419,
-            msg: "토큰이 만료되었습니다.",
+            msg: "토큰이 만료되었습니다. 로그인 을 다시 시도해주세요",
           });
         }
+        //유효하지 않을경우
+
         return res.status(401).json({
           code: 401,
           msg: "유효하지 않은 토큰입니다.",

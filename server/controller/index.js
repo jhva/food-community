@@ -3,12 +3,20 @@ module.exports = {
   test2: require("./user/test2"),
   // naverlogin: require("./user/naverlogin"),
 
-  signup: require("./user/signup"),
-  authkakao: require("./user/authkakao"),
   kakaocallback: require("./user/kakaocallback"),
-  login: require("./user/login"),
+  authkakao: require("./user/authkakao"),
+  signup: require("./user/signup"),
   logout: require("./user/logout"),
+  login: require("./user/login"),
   // kakaocallback: require("./user/kakaocallback"),
-  
+
+  //board
+  postBoard: require("./board/postBoard"),
+  patchBoard: require("./board/patchBoard"),
+  getBoard: require("./board/getBoard"),
+  detailBoard: require("./board/detailBoard"),
+  deleteBoard: require("./board/deleteBoard"),
+  //recruit
+
   // chat: require("./chat"),
 };
