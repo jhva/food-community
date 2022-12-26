@@ -21,6 +21,7 @@ module.exports = async (req, res, next) => {
         UserId: req.authId,
         RecruitId: returnRecruitId.id
       })
+      
     }
 
 
