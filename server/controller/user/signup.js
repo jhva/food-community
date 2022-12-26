@@ -4,10 +4,11 @@ const bcrypt = require("bcrypt");
 module.exports = async (req, res, next) => {
   const { username, email, phoneNumber, nickname, password, isMarketing } =
     req.body;
-  const isUserEmail = await User.findOne({ where: { email: email } });
-  const isNickname = await User.findOne({ where: { nickname: nickname } });
+
 
   try {
+    const isUserEmail = await User.findOne({ where: { email: email } });
+    const isNickname = await User.findOne({ where: { nickname: nickname } });
     if (isUserEmail) {
       return res.status(400).json({
         status: 400,
