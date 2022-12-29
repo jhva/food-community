@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-module.exports = class Recruit extends Sequelize.Model {
+module.exports = class Recruits extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -20,13 +20,7 @@ module.exports = class Recruit extends Sequelize.Model {
           allowNull: false,
           unique: false,
         },
-        status: {
-          type: Sequelize.STRING(10),
-          allowNull: true,
-          unique: false,
-          comment: "모집 상태",
-          defaultValue: "모집 중",
-        },
+
         statusNumber: {
           type: Sequelize.INTEGER,
           allowNull: true,
@@ -58,8 +52,8 @@ module.exports = class Recruit extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.Recruit.belongsTo(db.User);
-    db.Recruit.hasMany(db.AttendRecruit);
-    db.Recruit.hasMany(db.ChatRoom);
+    db.Recruits.belongsTo(db.User);
+    db.Recruits.hasMany(db.AttendRecruit);
+    db.Recruits.hasMany(db.ChatRoom);
   }
 };

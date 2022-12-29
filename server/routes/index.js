@@ -9,6 +9,6 @@ router.use("/user", authRouter);
 router.use("/board", boardRouter);
 router.use("/comment", commentRouter);
 router.use("/recurit", recuritRouter);
-router.use("/attend-recurit", attendRouter);
+router.use("/attend", attendRouter);
 
 module.exports = router;

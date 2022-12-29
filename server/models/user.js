@@ -61,7 +61,7 @@ module.exports = class User extends Sequelize.Model {
     );
   }
   static associate(db) {
-    db.User.hasMany(db.Recruit);
+    db.User.hasMany(db.Recruits);
     db.User.hasMany(db.Board);
     db.User.hasMany(db.AttendRecruit);
     db.User.hasMany(db.ChatRoom);

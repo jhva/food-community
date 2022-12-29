@@ -19,6 +19,6 @@ module.exports = class AttendRecruit extends Sequelize.Model {
   }
   static associate(db) {
     db.AttendRecruit.belongsTo(db.User);
-    db.AttendRecruit.belongsTo(db.Recruit);
+    db.AttendRecruit.belongsTo(db.Recruits);
   }
 };

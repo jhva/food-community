@@ -1,0 +1,40 @@
+const { ERROR } = require("../../error");
+const Recruit = require("../../models/recruits");
+const AttendRecruit = require("../../models/attendRecruit");
+const { RES } = require("../../response");
+
+module.exports = async (req, res, next) => {
+  const { title, maxinum, content, lat, lng } = req.body;
+  if (
+    title === undefined ||
+    maxinum === undefined ||
+    content === undefined ||
+    lat === undefined ||
+    lng === undefined
+  ) {
+    return ERROR(400, "모든 필드값을 입력해주세요", res);
+  }
+  const returnRecruitId = await Recruit.create({
+    title,
+    maxinum,
+    content,
+    lat,
+    lng,
+    UserId: req.authId,
+  });
+
+  if (returnRecruitId.id) {
+    try {
+      await AttendRecruit.create({
+        UserId: req.authId,
+        RecruitId: returnRecruitId.id,
+      });
+
+      RES(200, "recruit start success", res);
+    } catch (e) {
+      ERROR(500, "server err", res, e);
+    }
+  } else {
+    ERROR(500, "server err", res, e);
+  }
+};
