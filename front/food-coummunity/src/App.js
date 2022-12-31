@@ -9,6 +9,7 @@ import Main from 'pages/main';
 import theme from 'theme';
 import NavBar from 'components/navbar';
 import ChatPage from 'pages/chat/ChatPage';
+import ChatRoom from 'pages/chat/ChatRoom';
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
             <Route path='/' element={<Main />} />
             {/* <Route path='/test' element={<Test />} /> */}
             <Route path='/chat' element={<ChatPage />} />
+            <Route path='/chatroom' element={<ChatRoom />}>
+              <Route path='/chatroom/:id' element={<ChatRoom />} />
+            </Route>
+
             <Route path='/auth/kakao/callback' element={<Kakao />} />
           </Routes>
         </Router>

@@ -1,7 +1,7 @@
-const { ERROR } = require("../../error");
 const AttendRecruit = require("../../models/attendRecruit");
 const Recruits = require("../../models/recruits");
 const ChatRoom = require("../../models/chatroom");
+const { ERROR } = require("../../error");
 const { RES } = require("../../response");
 
 module.exports = async (req, res, next) => {
@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
   });
 
   if (statusNumber === maxinum) {
-    return ERROR(400, "인원이 초과하였습니다", res);
+    return ERROR(400, "인원이 모집이 종료 되었습니다.", res);
   }
 
   if (myUser) {

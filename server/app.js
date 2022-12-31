@@ -5,9 +5,7 @@ const bodyParser = require("body-parser");
 const { corsConfig } = require("./constant");
 const cookieParser = require("cookie-parser");
 const { sessions } = require("./constant/databaseSet");
-
 //세션 기능은 passport 모듈이 알아서 사용
-
 const app = express();
 
 require("dotenv").config();

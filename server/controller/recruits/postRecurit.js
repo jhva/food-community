@@ -1,7 +1,6 @@
 const { ERROR } = require("../../error");
 const Recruit = require("../../models/recruits");
 const AttendRecruit = require("../../models/attendRecruit");
-const { RES } = require("../../response");
 
 module.exports = async (req, res, next) => {
   const { title, maxinum, content, lat, lng } = req.body;
@@ -16,7 +15,7 @@ module.exports = async (req, res, next) => {
   }
   const returnRecruitId = await Recruit.create({
     title,
-    maxinum,
+    maxinum: maxinum + 1,
     content,
     lat,
     lng,

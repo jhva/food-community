@@ -1,6 +1,6 @@
 module.exports = {
-  test: require("./user/test"),
   test2: require("./user/test2"),
+  test: require("./user/test"),
   // naverlogin: require("./user/naverlogin"),
 
   kakaocallback: require("./user/kakaocallback"),
@@ -11,24 +11,26 @@ module.exports = {
   // kakaocallback: require("./user/kakaocallback"),
 
   //board
-  postBoard: require("./board/postBoard"),
-  patchBoard: require("./board/patchBoard"),
-  getBoard: require("./board/getBoard"),
   detailBoard: require("./board/detailBoard"),
   deleteBoard: require("./board/deleteBoard"),
+  patchBoard: require("./board/patchBoard"),
+  postBoard: require("./board/postBoard"),
+  getBoard: require("./board/getBoard"),
 
   //comment
-  postComment: require("./comment/postComment"),
   deleteComment: require("./comment/deleteComment"),
+  postComment: require("./comment/postComment"),
 
   //recruit
-  postRecurit: require("./recruits/postRecurit"),
-  deleteRecruit: require("./recruits/deleteRecruit"),
-  getRecruit: require("./recruits/getRecruit"),
   patchRecruit: require("./recruits/patchRecruit.js"),
+  deleteRecruit: require("./recruits/deleteRecruit"),
+  postRecurit: require("./recruits/postRecurit"),
+  getRecruit: require("./recruits/getRecruit"),
 
   //attend
   postAttend: require("./attend/postAttend"),
 
-  // chat: require("./chat"),
+  // chat
+  postChat: require("./chat/postChat"),
+  getRooms: require("./chat/getRooms"),
 };

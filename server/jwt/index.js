@@ -21,6 +21,8 @@ module.exports = {
   isAuthorization: (req, res, next) => {
     if (req.headers.authorization) {
       const token = req.headers.authorization.split("Bearer ")[1];
+      //Bearer
+      console.log(req.headers);
       try {
         req.authId = verify(token, process.env.ACCESS_TOKEN).id;
         next();

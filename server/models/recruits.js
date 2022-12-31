@@ -53,7 +53,9 @@ module.exports = class Recruits extends Sequelize.Model {
   }
   static associate(db) {
     db.Recruits.belongsTo(db.User);
-    db.Recruits.hasMany(db.AttendRecruit);
     db.Recruits.hasMany(db.ChatRoom);
+    db.Recruits.hasMany(db.AttendRecruit);
+    // db.Recruits.hasOne(db.ChatRoom);
+    db.Recruits.hasMany(db.ChatMsg);
   }
 };
