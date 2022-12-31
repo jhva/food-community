@@ -4,12 +4,11 @@ module.exports = (app) => {
   });
   io.on("connection", (socket) => {
     console.log("New client connected");
-    console.log(`User Connected: ${socket.id}`);
 
     socket.on("disconnect", () => console.log("user disconnect", socket.id));
 
-    socket.on("good", (data) => {
-      console.log(data); // 클라이언트 -> 서버
+    socket.on("msg", (req) => {
+      console.log(req);
     });
   });
 };

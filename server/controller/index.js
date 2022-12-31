@@ -33,4 +33,5 @@ module.exports = {
   // chat
   postChat: require("./chat/postChat"),
   getRooms: require("./chat/getRooms"),
+  getMsgList: require("./chat/getMsgList"),
 };

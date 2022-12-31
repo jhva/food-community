@@ -6,7 +6,7 @@ const { sign, verify } = require("jsonwebtoken");
 module.exports = {
   generateAccessToken: (data) => {
     return sign(data, process.env.ACCESS_TOKEN, {
-      expiresIn: "1h",
+      expiresIn: "10h",
       algorithm: "HS256", // 해싱 알고리즘
       issuer: "kjh", // 발행자
     });

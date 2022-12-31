@@ -1,5 +1,4 @@
 const ERROR = (status, msg, res, err) => {
-  console.log(err);
   switch (status) {
     case 500:
       res.status(500).json({
