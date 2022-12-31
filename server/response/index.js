@@ -1,4 +1,4 @@
-const RES = (status, msg, res, data) => {
+const RES = (status, msg, res) => {
   switch (status) {
     case 200:
       res.status(200).json({

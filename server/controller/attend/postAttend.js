@@ -3,39 +3,23 @@ const AttendRecruit = require("../../models/attendRecruit");
 const Recruits = require("../../models/recruits");
 const ChatRoom = require("../../models/chatroom");
 const { RES } = require("../../response");
-const { Op } = require("sequelize");
 
 module.exports = async (req, res, next) => {
-  const { isAttend, RecruitId, statusNumber } = req.body;
-  const deninedMyUser = await Recruits.findAll({
+  const { isAttend, RecruitId, statusNumber, maxinum } = req.body;
+
+  const myUser = await AttendRecruit.findOne({
     where: {
       UserId: req.authId,
+      RecruitId,
     },
   });
-  const duplicateUser = await AttendRecruit.findAll({
-    where: {
-      UserId: req.authId,
-    },
-  });
-  const completedRecruitData = await Recruits.findAll({
-    attributes: ["statusNumber", "maxinum"],
-    where: {
-      maxinum: { [Op.eq]: statusNumber },
-    },
-  });
-  const data = await AttendRecruit.findAll({
-    where: {
-      RecruitId: RecruitId,
-    },
-  });
-  if (deninedMyUser.length >= 1) {
-    return ERROR(400, "그룹을 만든 사람은 참가 할 수 없습니다", res);
+
+  if (statusNumber === maxinum) {
+    return ERROR(400, "인원이 초과하였습니다", res);
   }
-  if (duplicateUser.length >= 1) {
-    return ERROR(400, "참가는 한번만 가능합니다", res);
-  }
-  if (!completedRecruitData) {
-    return ERROR(400, "참가 모집이 종료되었습니다", res);
+
+  if (myUser) {
+    return ERROR(400, "이미 참석하신 그룹입니다", res);
   }
 
   try {
@@ -52,7 +36,12 @@ module.exports = async (req, res, next) => {
           },
         }
       );
-      if (completedRecruitData) {
+      if (maxinum === statusNumber + 1) {
+        const data = await AttendRecruit.findAll({
+          where: {
+            RecruitId,
+          },
+        });
         data.forEach((data) => {
           ChatRoom.bulkCreate([
             {
@@ -61,7 +50,6 @@ module.exports = async (req, res, next) => {
             },
           ]);
         });
-        // await ChatRoom.bulkCreate([]);
       }
       return RES(200, "success", res);
     } else {

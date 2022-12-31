@@ -22,15 +22,18 @@ module.exports = async (req, res, next) => {
     lng,
     UserId: req.authId,
   });
-
   if (returnRecruitId.id) {
     try {
       await AttendRecruit.create({
         UserId: req.authId,
         RecruitId: returnRecruitId.id,
       });
-
-      RES(200, "recruit start success", res);
+      res.status(200).json({
+        status: 200,
+        msg: "recruit start success",
+        statusNumber: returnRecruitId.getDataValue("statusNumber"),
+        maxinum: returnRecruitId.getDataValue("maxinum"),
+      });
     } catch (e) {
       ERROR(500, "server err", res, e);
     }
