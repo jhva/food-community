@@ -10,8 +10,9 @@ export default function MuiTab({
   markerData,
   handleChange,
   selectData,
+  handleClick,
+  page,
   setSelectData,
-  searchData,
 }) {
   return (
     <TabContext value={value}>
@@ -22,7 +23,11 @@ export default function MuiTab({
           <Tab style={{ width: '50%' }} label='모집 만들기' value={'1'} />
         </Tabs>
         <TabPanel style={{ bacground: 'blue' }} value={'0'}>
-          <RecruitmentStatus markerData={markerData} />
+          <RecruitmentStatus
+            handleClick={handleClick}
+            markerData={markerData}
+            page={page}
+          />
         </TabPanel>
         <TabPanel value={'1'}>
           <CreateRecruitment

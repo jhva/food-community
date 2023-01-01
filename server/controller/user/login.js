@@ -14,15 +14,23 @@ module.exports = async (req, res, next) => {
       );
       let refreshtoken = refresh();
 
+      let userfilter = {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        phoneNumber: user.phoneNumber,
+        nickname: user.nickname,
+        priovider: user.priovider,
+        accesstoken,
+        refreshtoken,
+      };
       return res
         .cookie("user", refreshtoken, { httpOnly: true })
         .status(200)
         .json({
           status: 200,
           msg: "login success",
-          data: user,
-          accessToken: accesstoken,
-          refreshToken: refreshtoken,
+          data: userfilter,
         });
     } else {
       res.status(400).json({ error: "비밀번호가 맞지않습니다" });

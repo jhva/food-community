@@ -8,7 +8,15 @@ import {
 } from 'components/button';
 import CustomTextField from 'components/inputs/CustomTextField';
 import { PhoneNumberConvert } from 'utils';
+
+import { useDispatch, useSelector } from 'react-redux';
+
+import api from 'api/api';
+import { connectSignUp } from 'redux/userReducer';
+
 const SignUp = ({ setIsSignUpOpenModal, setIsLoginOpenModal }) => {
+  const dispatch = useDispatch();
+
   const [userInfo, setUserInfo] = useState({
     email: '',
     username: '',
@@ -35,12 +43,24 @@ const SignUp = ({ setIsSignUpOpenModal, setIsLoginOpenModal }) => {
     labelPhoneNumber: '',
     errorAll: '',
   });
+
   const handleSignup = () => {
     const { email, username, password, nickname, phoneNumber } = userInfo;
     if (!email || !username || !password || !nickname || !phoneNumber) {
       alert('정보를 모두 기입해주세요');
       return;
     }
+    let body = {
+      email,
+      username,
+      password,
+      nickname,
+      phoneNumber,
+      isMarketing: 'Y',
+    };
+    console.log(body);
+    dispatch(connectSignUp(body));
+
     setIsSignUpOpenModal(false);
     setIsLoginOpenModal(true);
   };

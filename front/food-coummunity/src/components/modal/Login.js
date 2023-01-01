@@ -1,12 +1,36 @@
 import { Box, TextField } from '@mui/material';
 import { BasicButton, CustomCancelMdCancel } from 'components/button';
 import CustomTextField from 'components/inputs/CustomTextField';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { ModalBackdrop } from './commonStyle';
 import kakaoImg from 'assets/kakaologin.png';
+import { useDispatch } from 'react-redux';
+import { LOGIN } from 'redux/userReducer';
+import { localLogin } from '../../redux/userReducer';
 
 const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
+  const dispatch = useDispatch();
+  const [value, setValue] = useState({
+    email: '',
+    password: '',
+  });
+  const { email, password } = value;
+
+  const handleChange = (type) => (e) => {
+    setValue({ ...value, [type]: e.target.value });
+  };
+
+  const handleLogin = () => {
+    console.log('!23');
+    if (email.trim() === '' || password.trim() === '') {
+      return alert('다시 입력해주시기 바랍니다');
+    }
+    let body = { email, password };
+    dispatch(localLogin(body));
+    setIsLoginOpenModal(false);
+  };
+
   const handleClosingModal = useCallback((type) => {
     if (type == '닫기') {
       setIsLoginOpenModal(false);
@@ -34,12 +58,14 @@ const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
           <TitleBox>{'같이먹으러가요 \n로그인'}</TitleBox>
           <TextFieldStyle>
             <CustomTextField
+              onChange={handleChange('email')}
               style={InputStyle}
               type='text'
               label={'이메일'}
               variant='outlined'
             />
             <CustomTextField
+              onChange={handleChange('password')}
               style={InputStyle}
               type='password'
               label={'비밀번호'}
@@ -47,7 +73,12 @@ const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
             />
           </TextFieldStyle>
           <div style={{ flex: 1 }}>
-            <BasicButton text={'로그인'} />
+            <BasicButton
+              text={'로그인'}
+              onClick={() => {
+                handleLogin();
+              }}
+            />
             <div style={{ marginTop: '10px' }}>
               <BasicButton
                 onClick={() => {

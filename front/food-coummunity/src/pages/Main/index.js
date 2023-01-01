@@ -1,14 +1,15 @@
 import KakaoMap from 'components/kakao/KakaoMap';
 import NavBar from 'components/navbar';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import S from './styles';
 import MuiTab from '../../components/MuiTab';
 import SearchInput from 'components/inputs/SearchInput';
+import { Map, useMap } from 'react-kakao-maps-sdk';
 
 const { kakao } = window;
-
 const Main = () => {
   const [value, setValue] = useState('0');
+
   const [selectData, setSelectData] = useState([]);
   const [markerData, setMarkerData] = useState([]);
 
@@ -16,23 +17,21 @@ const Main = () => {
   const [isGeolocation, setIsGeolocation] = useState(false);
   const [mainSearchAddressCenter, SetMainSearchAddressCenter] = useState();
   const [selectSearchonClick, setSelectSearchOnClick] = useState([]);
+  const [page, setPage] = useState();
 
-  const handleChange = React.useCallback((event, newValue) => {
+  const handleChange = useCallback((event, newValue) => {
     setValue(newValue);
   }, []);
-
-  const handleClick = React.useCallback(
-    (data, makerSet) => {
-      if (data) {
-        setValue('1');
-        setSelectData(data);
-      }
-    },
-    [selectData]
-  );
+  const handleClick = useCallback((data) => {
+    if (data) {
+      setValue('1');
+      setSelectData(data);
+    }
+  });
 
   const SearchMap = () => {
     const ps = new kakao.maps.services.Places();
+
     const placesSearchCB = function (data, status, pagination) {
       if (status === kakao.maps.services.Status.OK) {
         const newSearch = data[0];
@@ -40,13 +39,24 @@ const Main = () => {
         SetMainSearchAddressCenter({
           center: { lat: newSearch.y, lng: newSearch.x },
         });
+        setPage(pagination);
         setMarkerData(data);
+      } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+        alert('검색 결과가 존재하지 않습니다.');
+        return;
+      } else if (status === kakao.maps.services.Status.ERROR) {
+        alert('검색 결과 중 오류가 발생했습니다.');
+        return;
       }
     };
-    ps.keywordSearch(`${searchAddress}`, placesSearchCB);
+
+    ps.keywordSearch(`${searchAddress}`, placesSearchCB, {
+      category_group_code: 'FD6',
+      size: 5,
+    });
     SetSearchAddress('');
   };
-  // console.log(searchData);
+
   const handleSearchAddress = (e) => {
     SetSearchAddress(e.target.value);
   };
@@ -57,9 +67,10 @@ const Main = () => {
     }
   };
   return (
-    <>
+    <div>
       <S.RootMainStyle>
         <NavBar isGeolocation={isGeolocation} />
+
         <S.SectionMainStyle>
           <SearchInput
             onChange={handleSearchAddress}
@@ -71,18 +82,16 @@ const Main = () => {
             markerData={markerData}
             mainSearchAddressCenter={mainSearchAddressCenter}
             handleClick={handleClick}
-          />
-          <MuiTab
-            markerData={markerData}
             selectData={selectData}
             setSelectData={setSelectData}
             handleChange={handleChange}
             value={value}
             setValue={setValue}
+            page={page}
           />
         </S.SectionMainStyle>
       </S.RootMainStyle>
-    </>
+    </div>
   );
 };
 

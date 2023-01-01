@@ -5,8 +5,6 @@ import CustomTextField from 'components/inputs/CustomTextField';
 import { BasicButton } from 'components/button';
 
 const CreateRecruitment = ({ selectData, setSelectData }) => {
-  console.log(selectData);
-
   const [value, setValue] = React.useState({
     title: '',
     maxinum: '',

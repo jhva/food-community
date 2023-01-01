@@ -3,14 +3,20 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Login from 'components/modal/Login';
 import SignUp from 'components/modal/SignUp';
+import { useDispatch, useSelector } from 'react-redux';
+import { localLogout } from 'redux/userReducer';
 
 const NavBar = ({ isGeolocation }) => {
-  const user = false;
+  // const user = false;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const select = useSelector();
+  // const { token, user } = useSelector((state) => state.auth);
 
   const [isLoginOpenModal, setIsLoginOpenModal] = useState(false);
   const [isSignUpOpenModal, setIsSignUpOpenModal] = useState(false);
 
+  const { token, user } = useSelector((state) => state.auth);
   const handleNavigate = (type) => {
     switch (type) {
       case '채팅':
@@ -37,13 +43,26 @@ const NavBar = ({ isGeolocation }) => {
             채팅{' '}
           </p>
           <p>게시판</p>
-          <p
-            onClick={() => {
-              setIsLoginOpenModal(true);
-            }}
-          >
-            로그인
-          </p>
+          {!user ? (
+            <p
+              onClick={() => {
+                setIsLoginOpenModal(true);
+              }}
+            >
+              로그인
+            </p>
+          ) : (
+            <p
+              onClick={() => {
+                if (window.confirm('정말 로그아웃 하시겠습니까 ?')) {
+                  dispatch(localLogout(token));
+                }
+                return;
+              }}
+            >
+              로그아웃
+            </p>
+          )}
           {isLoginOpenModal ? (
             <Login
               setIsSignUpOpenModal={setIsSignUpOpenModal}

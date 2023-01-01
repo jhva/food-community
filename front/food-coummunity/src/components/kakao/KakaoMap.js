@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { Map, MapMarker, useMap } from 'react-kakao-maps-sdk';
 import useLocation from '../../hooks/useLocation';
 import { geolocationOptions } from '../../constants/geolcation';
 import Loading from 'components/common/Loading';
 import MuiTab from 'components/MuiTab';
-import SearchInput from 'components/inputs/SearchInput';
 import styled from 'styled-components';
+import CustomMapMarker from './CustomMapMarker';
 
 const KakaoMap = ({
   handleClick,
   mainSearchAddressCenter,
   markerData,
   isGeolocation,
+  selectData,
+  setSelectData,
+  page,
+  handleChange,
+  value,
+  setValue,
 }) => {
   const { location, error, isLoading } = useLocation(geolocationOptions);
 
@@ -21,6 +27,7 @@ const KakaoMap = ({
     lng: location.longitude,
   });
   const [map, setMap] = useState();
+
   const [info, setInfo] = useState();
 
   // 주소 검색시 위치로 이동
@@ -33,7 +40,6 @@ const KakaoMap = ({
         });
     }
   };
-
   const handleMapInfo = () => {
     {
       map &&
@@ -63,6 +69,7 @@ const KakaoMap = ({
     // console.log('4, 지도의 정보를 다시 받아옴')
     handleMapInfo();
   }, [map, initLocation]);
+
   return (
     <>
       {isLoading ? (
@@ -99,34 +106,27 @@ const KakaoMap = ({
                 {/* {state.errMsg ? state.errMsg : '여기에 계신가요?!'} */}
               </div>
             </MapMarker>
+            <MuiTab
+              handleClick={handleClick}
+              markerData={markerData}
+              selectData={selectData}
+              setSelectData={setSelectData}
+              handleChange={handleChange}
+              value={value}
+              page={page}
+              setValue={setValue}
+            />
             {markerData &&
               markerData.map((el, index) => (
-                <MapMarker
-                  onClick={(e) => {
-                    handleClick(el);
-                  }}
-                  image={{
-                    src: 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 마커이미지의 주소입니다
-                    size: {
-                      width: 24,
-                      height: 35,
-                    }, // 마커이미지의 크기입니다
-                  }}
-                  title={markerData && el?.title}
-                  key={index}
-                  position={{
-                    lat: !isGeolocation ? location?.latitude : el.y,
-                    lng: !isGeolocation ? location?.longitude : el.x,
-                  }}
-                >
-                  <div
-                    style={{
-                      height: '50px',
+                <div key={index}>
+                  <CustomMapMarker
+                    index={index}
+                    el={el}
+                    handleClick={(e) => {
+                      handleClick(el, e);
                     }}
-                  >
-                    {el?.placename}
-                  </div>
-                </MapMarker>
+                  />
+                </div>
               ))}
           </Map>
         </>
