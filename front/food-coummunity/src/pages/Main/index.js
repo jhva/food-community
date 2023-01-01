@@ -16,18 +16,24 @@ const Main = () => {
   const [searchAddress, SetSearchAddress] = useState();
   const [isGeolocation, setIsGeolocation] = useState(false);
   const [mainSearchAddressCenter, SetMainSearchAddressCenter] = useState();
-  const [selectSearchonClick, setSelectSearchOnClick] = useState([]);
   const [page, setPage] = useState();
+  const [selectKeywordData, setKeywordData] = useState({});
 
   const handleChange = useCallback((event, newValue) => {
     setValue(newValue);
   }, []);
-  const handleClick = useCallback((data) => {
-    if (data) {
-      setValue('1');
-      setSelectData(data);
+  const handleClick = (data, type) => {
+    if (type === '모집현황') {
+      SetMainSearchAddressCenter({
+        center: { lat: data.y, lng: data.x },
+      });
+    } else {
+      if (data) {
+        setValue('1');
+        setSelectData(data);
+      }
     }
-  });
+  };
 
   const SearchMap = () => {
     const ps = new kakao.maps.services.Places();
@@ -78,6 +84,7 @@ const Main = () => {
             value={searchAddress}
           />
           <KakaoMap
+            selectKeywordData={selectKeywordData}
             isGeolocation={isGeolocation}
             markerData={markerData}
             mainSearchAddressCenter={mainSearchAddressCenter}

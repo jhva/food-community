@@ -14,6 +14,7 @@ const KakaoMap = ({
   isGeolocation,
   selectData,
   setSelectData,
+  selectKeywordData,
   page,
   handleChange,
   value,
@@ -35,6 +36,8 @@ const KakaoMap = ({
     {
       mainSearchAddressCenter &&
         setInitLocation({
+          // lat: y,
+          // lng: x,
           lat: mainSearchAddressCenter.center.lat,
           lng: mainSearchAddressCenter.center.lng,
         });
@@ -82,8 +85,8 @@ const KakaoMap = ({
             center={{
               // lat: initLocation.lat,
               // lng: initLocation.lng,
-              lat: !isGeolocation ? location.latitude : initLocation.lat,
-              lng: !isGeolocation ? location.longitude : initLocation.lng,
+              lat: !isGeolocation ? location?.latitude : initLocation?.lat,
+              lng: !isGeolocation ? location?.longitude : initLocation?.lng,
             }}
             style={{
               width: '77%',
@@ -107,6 +110,7 @@ const KakaoMap = ({
               </div>
             </MapMarker>
             <MuiTab
+              mainSearch={mainSearch}
               handleClick={handleClick}
               markerData={markerData}
               selectData={selectData}

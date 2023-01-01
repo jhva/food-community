@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Box, TextField } from '@mui/material';
 import styled from 'styled-components';
 import { useMap, Map, MapMarker } from 'react-kakao-maps-sdk';
@@ -6,33 +6,35 @@ import CustomMapMarker from 'components/kakao/CustomMapMarker';
 import { isDisabled } from '@testing-library/user-event/dist/utils';
 const { kakao } = window;
 
-const RecruitmentStatus = ({ handleClick, markerData, page }) => {
+const RecruitmentStatus = ({ handleClick, markerData, page, mainSearch }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isdisabled, setIsDisabled] = useState(false);
   const handleOpen = () => {
     setIsOpen(!isOpen);
   };
 
-  const handlePage = () => {
+  const handlePage = useCallback(() => {
     if (page.hasNextPage === true) {
       page.nextPage();
     }
     if (page.hasNextPage === false) {
       return alert('마지막 페이지 입니다');
     }
-  };
-  const handlePrevPage = () => {
+  }, [page]);
+  const handlePrevPage = useCallback(() => {
     if (page.hasPrevPage === true) {
       page.prevPage();
     }
     if (page.hasPrevPage === false) {
       return alert('첫번째 페이지 입니다');
     }
-  };
+  }, [page]);
 
   return (
     <>
-      <h4 onClick={handleOpen}> 검색 결과 리스트 보기👇</h4>
+      <h4 style={{ cursor: 'pointer' }} onClick={handleOpen}>
+        검색 결과 리스트 보기👇
+      </h4>
 
       <Box
         component='div'
@@ -47,11 +49,11 @@ const RecruitmentStatus = ({ handleClick, markerData, page }) => {
       >
         <div>
           <div>
-            {isOpen &&
+            {markerData.length > 0 &&
               markerData?.map((item, key) => (
                 <SearchBoxStyle
                   onClick={() => {
-                    console.log(item);
+                    handleClick(item, '모집현황');
                   }}
                   key={key}
                 >
@@ -62,7 +64,8 @@ const RecruitmentStatus = ({ handleClick, markerData, page }) => {
                   </SearchContainer>
                 </SearchBoxStyle>
               ))}
-            {isOpen && markerData.length !== 0 && (
+
+            {markerData.length > 0 && (
               <CustomBox>
                 <button
                   onClick={() => {
