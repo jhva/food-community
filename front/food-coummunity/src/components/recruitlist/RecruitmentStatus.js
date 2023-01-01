@@ -10,6 +10,9 @@ const RecruitmentStatus = ({ handleClick, markerData, page, mainSearch }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isdisabled, setIsDisabled] = useState(false);
   const handleOpen = () => {
+    if (markerData.length === 0) {
+      alert('검색 된 내용이 없어요!');
+    }
     setIsOpen(!isOpen);
   };
 
@@ -49,40 +52,42 @@ const RecruitmentStatus = ({ handleClick, markerData, page, mainSearch }) => {
       >
         <div>
           <div>
-            {markerData.length > 0 &&
-              markerData?.map((item, key) => (
-                <SearchBoxStyle
-                  onClick={() => {
-                    handleClick(item, '모집현황');
-                  }}
-                  key={key}
-                >
-                  <SearchContainer>
-                    <p>{item?.address_name}</p>
-                    <p>{item?.place_name}</p>
-                    <p>{item?.phone}</p>
-                  </SearchContainer>
-                </SearchBoxStyle>
-              ))}
+            {isOpen ||
+              (markerData.length > 0 &&
+                markerData?.map((item, key) => (
+                  <SearchBoxStyle
+                    onClick={() => {
+                      handleClick(item, '모집현황');
+                    }}
+                    key={key}
+                  >
+                    <SearchContainer>
+                      <p>{item?.address_name}</p>
+                      <p>{item?.place_name}</p>
+                      <p>{item?.phone}</p>
+                    </SearchContainer>
+                  </SearchBoxStyle>
+                )))}
 
-            {markerData.length > 0 && (
-              <CustomBox>
-                <button
-                  onClick={() => {
-                    handlePrevPage();
-                  }}
-                >
-                  이전
-                </button>
-                <button
-                  onClick={() => {
-                    handlePage();
-                  }}
-                >
-                  다음
-                </button>
-              </CustomBox>
-            )}
+            {isOpen ||
+              (markerData.length > 0 && (
+                <CustomBox>
+                  <button
+                    onClick={() => {
+                      handlePrevPage();
+                    }}
+                  >
+                    이전
+                  </button>
+                  <button
+                    onClick={() => {
+                      handlePage();
+                    }}
+                  >
+                    다음
+                  </button>
+                </CustomBox>
+              ))}
           </div>
         </div>
       </Box>

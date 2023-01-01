@@ -37,7 +37,7 @@ const CreateRecruitment = ({ selectData, setSelectData }) => {
           noValidate
           autoComplete='off'
         >
-          <h3>모집 장소는 해당 지도에서 검색해서 넣어주세요!</h3>
+          <h3>모집 장소는 지도에서 원하는 위치를 클릭해주세요!</h3>
           <CustomTextField
             name='title'
             onChange={(e) => {
@@ -70,6 +70,7 @@ const CreateRecruitment = ({ selectData, setSelectData }) => {
             label={'모집 내용'}
           />
           <CustomTextField
+            style={{ paddingTop: '10px' }}
             variant='standard'
             placeholder={'모집 장소'}
             disabled

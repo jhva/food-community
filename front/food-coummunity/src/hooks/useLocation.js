@@ -32,7 +32,6 @@ const useLocation = (options = {}) => {
     if (!geolocation) {
       setError('현재 위치가 지원되지 않습니다.');
       setIsLoading(false);
-      return;
     }
 
     // Geolocation API 호출

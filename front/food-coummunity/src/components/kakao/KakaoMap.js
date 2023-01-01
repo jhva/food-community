@@ -11,6 +11,7 @@ const KakaoMap = ({
   handleClick,
   mainSearchAddressCenter,
   markerData,
+  setIsGeolocation,
   isGeolocation,
   selectData,
   setSelectData,
@@ -42,6 +43,9 @@ const KakaoMap = ({
           lng: mainSearchAddressCenter.center.lng,
         });
     }
+  };
+  const handleErrorGeolocation = () => {
+    alert('현재 위치를 찾지못하였습니다');
   };
   const handleMapInfo = () => {
     {
@@ -77,7 +81,13 @@ const KakaoMap = ({
     <>
       {isLoading ? (
         <>
-          <Loading text={'🙌 현재 위치를 가져오고있어요!!'} />
+          {error ? (
+            <div style={{ margin: '0 auto' }}>
+              웹 페이지의 위치정보를 확인해주세요 !
+            </div>
+          ) : (
+            <Loading text={'🙌 현재 위치를 가져오고있어요!!'} />
+          )}
         </>
       ) : (
         <>

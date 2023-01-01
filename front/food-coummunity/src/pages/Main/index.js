@@ -12,7 +12,6 @@ const Main = () => {
 
   const [selectData, setSelectData] = useState([]);
   const [markerData, setMarkerData] = useState([]);
-
   const [searchAddress, SetSearchAddress] = useState();
   const [isGeolocation, setIsGeolocation] = useState(false);
   const [mainSearchAddressCenter, SetMainSearchAddressCenter] = useState();
@@ -84,6 +83,7 @@ const Main = () => {
             value={searchAddress}
           />
           <KakaoMap
+            setIsGeolocation={setIsGeolocation}
             selectKeywordData={selectKeywordData}
             isGeolocation={isGeolocation}
             markerData={markerData}

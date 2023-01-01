@@ -7,23 +7,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { localLogout } from 'redux/userReducer';
 
 const NavBar = ({ isGeolocation }) => {
-  // const user = false;
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const select = useSelector();
-  // const { token, user } = useSelector((state) => state.auth);
 
   const [isLoginOpenModal, setIsLoginOpenModal] = useState(false);
   const [isSignUpOpenModal, setIsSignUpOpenModal] = useState(false);
 
   const { token, user } = useSelector((state) => state.auth);
+
   const handleNavigate = (type) => {
     switch (type) {
       case '채팅':
+        if (!user) {
+          return alert('로그인 후 이용해주세요');
+        }
         navigate('/chat');
         break;
       case '로그인':
-
+        break;
+      case '게시판':
+        if (!user) {
+          return alert('로그인 후 이용해주세요');
+        }
+        break;
       default:
         break;
     }
@@ -42,7 +48,13 @@ const NavBar = ({ isGeolocation }) => {
           >
             채팅{' '}
           </p>
-          <p>게시판</p>
+          <p
+            onClick={() => {
+              handleNavigate('게시판');
+            }}
+          >
+            게시판
+          </p>
           {!user ? (
             <p
               onClick={() => {

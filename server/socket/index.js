@@ -3,13 +3,21 @@ module.exports = (app) => {
     cors: { origin: "*" },
   });
   io.on("connection", (socket) => {
-    console.log("New client connected");
+    console.log("SOCKETIO connection EVENT: ", socket.id, " client connected");
+
+    socket.on("join room", (item, callboack) => {
+      console.log();
+      let roomId = item.id;
+      console.log(item.id);
+      socket.join(roomId);
+      io.to([roomId]).emit("join room", item);
+    });
+    socket.on("chatmsg", (item) => {
+      console.log(item);
+      socket.to(item.roomId).emit("chatmsg", item.msg);
+    });
 
     socket.on("disconnect", () => console.log("user disconnect", socket.id));
-
-    socket.on("msg", (req) => {
-      console.log(req);
-    });
   });
 };
 /**
