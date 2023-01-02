@@ -1,3 +1,4 @@
+import { blue, red } from '@mui/material/colors';
 import styled from 'styled-components';
 
 export const ChatConatiner = styled.div`
@@ -11,7 +12,11 @@ export const ChatConatiner = styled.div`
   height: 100%;
 `;
 export const ChatText = styled.span``;
-export const ChatTextBox = styled.div``;
+export const ChatTextBox = styled.div`
+  text-align: ${(props) => {
+    return props.hasUser === props.USER ? 'right' : 'left';
+  }};
+`;
 export const ChatRootContainer = styled.div`
   width: 100%;
   height: 100vh;

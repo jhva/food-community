@@ -88,11 +88,13 @@ const ChatRoom = () => {
   return (
     <ChatRootContainer>
       <ChatConatiner>
-        {socketMsg?.map((data, key) => (
-          <ChatTextBox hasUser={data?.UserId} USER={user.id}>
-            <ChatText key={key}>{data?.msg}</ChatText>
-          </ChatTextBox>
-        ))}
+        {socketMsg?.map((data, key) => {
+          return (
+            <ChatTextBox hasUser={data?.UserId} USER={user.id}>
+              <ChatText key={key}>{data?.msg}</ChatText>
+            </ChatTextBox>
+          );
+        })}
       </ChatConatiner>
 
       <form
