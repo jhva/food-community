@@ -4,7 +4,13 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
-import { ChatConatiner, ChatFooter, ChatRootContainer } from './chatPageStyle';
+import {
+  ChatConatiner,
+  ChatFooter,
+  ChatText,
+  ChatRootContainer,
+  ChatTextBox,
+} from './chatPageStyle';
 
 const ChatRoom = () => {
   const { token, user } = useSelector((state) => state.auth);
@@ -79,15 +85,14 @@ const ChatRoom = () => {
       socket.off();
     };
   }, []);
-
   return (
     <ChatRootContainer>
       <ChatConatiner>
-        {socketMsg?.map((data, key) => {
-          <p hasUser={hasUser} key={key}>
-            {data.msg}
-          </p>;
-        })}
+        {socketMsg?.map((data, key) => (
+          <ChatTextBox hasUser={data?.UserId} USER={user.id}>
+            <ChatText key={key}>{data?.msg}</ChatText>
+          </ChatTextBox>
+        ))}
       </ChatConatiner>
 
       <form

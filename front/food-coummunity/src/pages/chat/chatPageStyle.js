@@ -9,9 +9,9 @@ export const ChatConatiner = styled.div`
 
   overflow-y: auto;
   height: 100%;
-  p {
-  }
 `;
+export const ChatText = styled.span``;
+export const ChatTextBox = styled.div``;
 export const ChatRootContainer = styled.div`
   width: 100%;
   height: 100vh;
