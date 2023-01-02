@@ -2,6 +2,9 @@ const router = require("express").Router();
 const controllers = require("../controller");
 const { isAuthorization } = require("../jwt");
 
+//healthcheck
+router.get("/healthcheck", controllers.authentication);
+
 //일반 로그인
 router.post("/login", controllers.login);
 router.post("/signup", controllers.signup);

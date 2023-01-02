@@ -25,7 +25,19 @@ const userSlice = createSlice({
   },
 });
 export const { LOGIN, LOGOUT, UserUpdate } = userSlice.actions;
-
+export const healthcheck = (body) => async (dispatch) => {
+  try {
+    const { data } = await api.get('user/healthcheck');
+    alert(data.msg);
+    dispatch(LOGOUT());
+    // dispatch(LOGIN({ user: data.user, token: data.token }));
+  } catch (e) {
+    // if (e?.response?.data?.msg) {
+    //   alert(e?.response?.data?.msg);
+    // }
+    console.log(e?.response);
+  }
+};
 export const connectSignUp = (body) => async (dispatch) => {
   try {
     const { data } = await api.post('user/signup', body);

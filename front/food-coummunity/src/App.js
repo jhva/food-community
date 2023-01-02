@@ -10,8 +10,13 @@ import theme from 'theme';
 import NavBar from 'components/navbar';
 import ChatPage from 'pages/chat/ChatPage';
 import ChatRoom from 'pages/chat/ChatRoom';
+import { useDispatch, useSelector } from 'react-redux';
+import { healthcheck } from 'redux/userReducer';
 
 function App() {
+  const { token, user } = useSelector((state) => state.auth);
+  // const dispatch = useDispatch();
+  // useEffect(() => {}, [user]);
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />

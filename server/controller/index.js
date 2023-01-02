@@ -3,6 +3,8 @@ module.exports = {
   test: require("./user/test"),
   // naverlogin: require("./user/naverlogin"),
 
+  authentication: require("./user/authentication"),
+
   kakaocallback: require("./user/kakaocallback"),
   authkakao: require("./user/authkakao"),
   signup: require("./user/signup"),
