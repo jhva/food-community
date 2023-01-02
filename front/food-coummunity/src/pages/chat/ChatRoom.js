@@ -4,14 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
+import { ChatConatiner, ChatFooter, ChatRootContainer } from './chatPageStyle';
 
 const ChatRoom = () => {
   const { token, user } = useSelector((state) => state.auth);
   const navigater = useNavigate();
   const params = useParams();
-  const location = useLocation();
-  const [msgList, setMsgList] = useState([]);
-  const [isValue, setIsValue] = useState(false);
   const [socketMsg, setSocketMsg] = useState([]);
   const [value, setValue] = useState({
     msg: '',
@@ -21,7 +19,7 @@ const ChatRoom = () => {
     query: { roomId: params.id },
   });
 
-  const onChange = (e) => {
+  const onhandleChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
   };
 
@@ -30,9 +28,8 @@ const ChatRoom = () => {
       msg: value.msg,
       RecruitId: params.id,
     };
-
     if (value.msg.trim() === '') {
-      return;
+      return alert('띄워쓰기를 제거해주세요');
     }
     try {
       const res = await api.post(`/chat/msg`, body, {
@@ -69,7 +66,6 @@ const ChatRoom = () => {
     if (!params.id) {
       return navigater(-1);
     }
-    getChatMsg();
 
     socket.on('chatmsg', (item) => {
       setSocketMsg((prev) => {
@@ -77,43 +73,54 @@ const ChatRoom = () => {
         return newMsg;
       });
     });
+    getChatMsg();
+
     return () => {
       socket.off();
     };
   }, []);
 
   return (
-    <div>
-      {socketMsg?.map((data, key) => (
-        <p key={key}>{data.msg}</p>
-      ))}
+    <ChatRootContainer>
+      <ChatConatiner>
+        {socketMsg?.map((data, key) => {
+          <p hasUser={hasUser} key={key}>
+            {data.msg}
+          </p>;
+        })}
+      </ChatConatiner>
 
       <form
+        id='footer-btn'
         onSubmit={(e) => {
           e.preventDefault();
         }}
       >
-        <input
-          value={value.msg}
-          name='msg'
-          onChange={(e) => {
-            onChange(e);
-            setIsValue(true);
-          }}
-          onKeyPress={(e) => {
-            onKeyPress(e);
-          }}
-        />
-        <button
-          disabled={isValue === false ? true : false}
-          onClick={() => {
-            sendMsg();
-          }}
-        >
-          버튼
-        </button>
+        <ChatFooter>
+          <input
+            value={value.msg}
+            name='msg'
+            onChange={(e) => {
+              onhandleChange(e);
+              // setIsValue(true);
+            }}
+            onKeyPress={(e) => {
+              onKeyPress(e);
+            }}
+          />
+          <button
+            form='footer-btn'
+            type='submit'
+            onClick={() => {
+              sendMsg();
+            }}
+            disabled={!value.msg}
+          >
+            보내기
+          </button>
+        </ChatFooter>
       </form>
-    </div>
+    </ChatRootContainer>
   );
 };
 

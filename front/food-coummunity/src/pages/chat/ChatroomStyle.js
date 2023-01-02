@@ -21,7 +21,6 @@ export const Box = styled.div`
 `;
 
 export const TopContainerStyle = styled.div`
-  margin-left: 30px;
   display: flex;
   width: 100%;
   align-items: center;
