@@ -2,6 +2,7 @@ import Button from '@mui/material/Button';
 import React, { useMemo } from 'react';
 import { MdCancel } from 'react-icons/md';
 import { BiArrowBack } from 'react-icons/bi';
+import { MdOutlineArrowBackIosNew } from 'react-icons/md';
 
 export const BasicButton = (props) => {
   const ButtonStyle = useMemo(
@@ -20,6 +21,21 @@ export const BasicButton = (props) => {
     >
       {props.text}
     </Button>
+  );
+};
+
+export const CustomMdOutlineArrowBackIosNew = (props) => {
+  const CUSTOMBACK = useMemo(
+    () => ({
+      width: '20px',
+      height: '20px',
+      cursor: 'pointer',
+    }),
+    []
+  );
+
+  return (
+    <MdOutlineArrowBackIosNew onClick={props.onClick} style={CUSTOMBACK} />
   );
 };
 

@@ -3,20 +3,24 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
+import { Box, Container, TopContainerStyle } from './ChatroomStyle';
+import { COLOR, COLORNAME } from 'constants/color';
+import { CustomMdOutlineArrowBackIosNew } from 'components/button';
 
 const ChatPage = () => {
   const { token, user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [chatList, setChatList] = useState([]);
 
+  const socket = io('http://localhost:9000', {
+    transports: ['websocket'],
+  });
+
   const routingNavigate = (id, data) => {
     navigate(`/chatroom/${id}`, {
       state: { data },
     });
   };
-  const socket = io('http://localhost:9000', {
-    transports: ['websocket'],
-  });
 
   const chatRoomGet = async () => {
     try {
@@ -26,6 +30,7 @@ const ChatPage = () => {
           Authorization: 'Bearer ' + token,
         },
       });
+      console.log(res);
       setChatList(res.data.data);
     } catch (e) {
       console.log(e?.response?.data);
@@ -36,16 +41,32 @@ const ChatPage = () => {
   }, []);
   return (
     <div>
-      {chatList.map((item, index) => (
-        <p
-          key={index}
+      <TopContainerStyle>
+        <CustomMdOutlineArrowBackIosNew
+          style={{ marginLeft: '10px' }}
           onClick={() => {
-            socket.emit('join room', item);
-            routingNavigate(item.id, item);
+            navigate(-1);
           }}
-        >
-          {item.title}
-        </p>
+        />
+        <h3>채팅 방 </h3>
+      </TopContainerStyle>
+
+      {chatList.map((item, index) => (
+        <Container key={index}>
+          <Box
+            onClick={() => {
+              socket.emit('join room', item);
+              routingNavigate(item.id, item);
+            }}
+            INDEX={index}
+            COLORNAME={COLORNAME}
+            COLOR={COLOR}
+          >
+            <p>{item.title}</p>
+
+            <p>{item.content}</p>
+          </Box>
+        </Container>
       ))}
     </div>
   );

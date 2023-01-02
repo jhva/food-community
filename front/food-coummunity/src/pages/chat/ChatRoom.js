@@ -2,12 +2,12 @@ import api from 'api/api';
 import { onKeyPress } from 'constants/geolcation';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 
 const ChatRoom = () => {
   const { token, user } = useSelector((state) => state.auth);
-
+  const navigater = useNavigate();
   const params = useParams();
   const location = useLocation();
   const [msgList, setMsgList] = useState([]);
@@ -41,8 +41,6 @@ const ChatRoom = () => {
           Authorization: 'Bearer ' + token,
         },
       });
-      // socket.io(params.id).emit('createMessage', { data: body });
-      console.log(res);
       socket.emit('join room', {
         name: user.username,
         msg: value.msg,
@@ -62,18 +60,15 @@ const ChatRoom = () => {
         },
       });
       setSocketMsg(socketMsg.concat(res.data.data));
-      // setMsgList(res.data.data);
-      // socket.on('sendMsg', (data) => {
-      //   // setSocketMsg((prev) => {}
-      //   // setMsgList(data);
-      //   // console.log(data);
-      // });
     } catch (e) {
       console.log(e);
     }
   };
 
   useEffect(() => {
+    if (!params.id) {
+      return navigater(-1);
+    }
     getChatMsg();
 
     socket.on('chatmsg', (item) => {
