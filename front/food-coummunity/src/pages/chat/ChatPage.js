@@ -1,6 +1,6 @@
 import api from 'api/api';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
 
@@ -8,16 +8,17 @@ const ChatPage = () => {
   const { token, user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [chatList, setChatList] = useState([]);
-  const socket = io('http://localhost:9000', {
-    transports: ['websocket'],
-  });
+
   const routingNavigate = (id, data) => {
     navigate(`/chatroom/${id}`, {
       state: { data },
     });
   };
+  const socket = io('http://localhost:9000', {
+    transports: ['websocket'],
+  });
 
-  const codeFunction = async () => {
+  const chatRoomGet = async () => {
     try {
       const res = await api.get(`/chat/rooms`, {
         headers: {
@@ -31,7 +32,7 @@ const ChatPage = () => {
     }
   };
   useEffect(() => {
-    codeFunction();
+    chatRoomGet();
   }, []);
   return (
     <div>

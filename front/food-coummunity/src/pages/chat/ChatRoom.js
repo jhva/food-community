@@ -18,27 +18,11 @@ const ChatRoom = () => {
   });
   const socket = io('http://localhost:9000', {
     transports: ['websocket'],
+    query: { roomId: params.id },
   });
 
   const onChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
-  };
-
-  const getChatMsg = async () => {
-    try {
-      const res = await api.get(`/chat/rooms/${params.id}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      setMsgList(res.data.data);
-      socket.on('sendMsg', (data) => {
-        console.log(data);
-      });
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   const sendMsg = async () => {
@@ -58,10 +42,10 @@ const ChatRoom = () => {
         },
       });
       // socket.io(params.id).emit('createMessage', { data: body });
-
-      socket.emit('chatmsg', {
+      console.log(res);
+      socket.emit('join room', {
         name: user.username,
-        message: value.msg,
+        msg: value.msg,
         roomId: params.id,
       });
       setValue({ ...value, msg: '' });
@@ -69,23 +53,44 @@ const ChatRoom = () => {
       console.log(e);
     }
   };
+  const getChatMsg = async () => {
+    try {
+      const res = await api.get(`/chat/rooms/${params.id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      setSocketMsg(socketMsg.concat(res.data.data));
+      // setMsgList(res.data.data);
+      // socket.on('sendMsg', (data) => {
+      //   // setSocketMsg((prev) => {}
+      //   // setMsgList(data);
+      //   // console.log(data);
+      // });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
-    socket.on('join room', (data, e) => {
-      console.log(data);
-    });
-    socket.on('chatmsg', (item) => {
-      console.log(item);
-      // 클라이언트가 채팅 내용을 보냈을 시
-    });
+    getChatMsg();
 
-    // getChatMsg();
-  }, [socketMsg, socket]);
+    socket.on('chatmsg', (item) => {
+      setSocketMsg((prev) => {
+        let newMsg = [item, ...prev];
+        return newMsg;
+      });
+    });
+    return () => {
+      socket.off();
+    };
+  }, []);
 
   return (
     <div>
-      {socketMsg.map((data, key) => (
-        <p key={key}>{data.message}</p>
+      {socketMsg?.map((data, key) => (
+        <p key={key}>{data.msg}</p>
       ))}
 
       <form
