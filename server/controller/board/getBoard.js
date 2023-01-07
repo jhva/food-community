@@ -1,10 +1,11 @@
 const { ERROR } = require("../../error");
 const Board = require("../../models/board");
 const Comment = require("../../models/comment");
+const User = require("../../models/user");
 module.exports = async (req, res, next) => {
   try {
     const boardFindAll = await Board.findAll({
-      include: [{ model: Comment }],
+      include: [{ model: Comment }, { model: User, attributes: ["nickname"] }],
     });
 
     return res

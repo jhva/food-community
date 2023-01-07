@@ -12,6 +12,9 @@ import ChatPage from 'pages/chat/ChatPage';
 import ChatRoom from 'pages/chat/ChatRoom';
 import { useDispatch, useSelector } from 'react-redux';
 import { healthcheck } from 'redux/userReducer';
+import Board from 'pages/board';
+import BoardUpload from 'pages/board/BoardUpload';
+import BoardDetail from './pages/board/BoardDetail';
 
 function App() {
   const { token, user } = useSelector((state) => state.auth);
@@ -28,6 +31,12 @@ function App() {
             <Route path='/chat' element={<ChatPage />} />
             <Route path='/chatroom' element={<ChatRoom />}>
               <Route path='/chatroom/:id' element={<ChatRoom />} />
+            </Route>
+
+            <Route path='/board' element={<Board />} />
+            <Route path='/boardUpload' element={<BoardUpload />} />
+            <Route path='/boardContent' element={<BoardUpload />}>
+              <Route path=':id' element={<BoardDetail />} />
             </Route>
 
             <Route path='/auth/kakao/callback' element={<Kakao />} />

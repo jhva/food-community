@@ -29,6 +29,7 @@ const NavBar = ({}) => {
         if (!user) {
           return alert('로그인 후 이용해주세요');
         }
+        navigate('/board');
         break;
       default:
         break;
