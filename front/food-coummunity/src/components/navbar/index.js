@@ -6,14 +6,14 @@ import SignUp from 'components/modal/SignUp';
 import { useDispatch, useSelector } from 'react-redux';
 import { localLogout } from 'redux/userReducer';
 
-const NavBar = ({ isGeolocation }) => {
+const NavBar = ({}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  // const { isLoginModal, isSignUpModal } = useSelector((state) => state?.auth);
   const [isLoginOpenModal, setIsLoginOpenModal] = useState(false);
   const [isSignUpOpenModal, setIsSignUpOpenModal] = useState(false);
 
-  const { token, user } = useSelector((state) => state.auth);
+  const { token, user } = useSelector((state) => state?.auth);
 
   const handleNavigate = (type) => {
     switch (type) {
@@ -41,30 +41,30 @@ const NavBar = ({ isGeolocation }) => {
           <b>같이먹으러가요</b>
         </div>
         <RightContainer>
-          <p
+          <Text
             onClick={() => {
               handleNavigate('채팅');
             }}
           >
-            채팅{' '}
-          </p>
-          <p
+            채팅
+          </Text>
+          <Text
             onClick={() => {
               handleNavigate('게시판');
             }}
           >
             게시판
-          </p>
+          </Text>
           {!user ? (
-            <p
+            <Text
               onClick={() => {
                 setIsLoginOpenModal(true);
               }}
             >
               로그인
-            </p>
+            </Text>
           ) : (
-            <p
+            <Text
               onClick={() => {
                 if (window.confirm('정말 로그아웃 하시겠습니까 ?')) {
                   dispatch(localLogout(token));
@@ -73,7 +73,7 @@ const NavBar = ({ isGeolocation }) => {
               }}
             >
               로그아웃
-            </p>
+            </Text>
           )}
           {isLoginOpenModal ? (
             <Login
@@ -106,12 +106,12 @@ const NavBarContainer = styled.div`
 `;
 
 const RightContainer = styled.div`
-  p {
-    cursor: pointer;
-    margin: 0px 10px;
-  }
-
   display: flex;
+`;
+const Text = styled.p`
+  margin: 0px 10px;
+  cursor: ${(props) =>
+    props.mylocation === false ? 'not-allowed' : 'pointer'};
 `;
 
 const Container = styled.div`

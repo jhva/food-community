@@ -74,7 +74,7 @@ const Main = () => {
   return (
     <div>
       <S.RootMainStyle>
-        <NavBar isGeolocation={isGeolocation} />
+        <NavBar />
 
         <S.SectionMainStyle>
           <SearchInput

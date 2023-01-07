@@ -38,7 +38,6 @@ const RecruitmentStatus = ({ handleClick, markerData, page, mainSearch }) => {
       <h4 style={{ cursor: 'pointer' }} onClick={handleOpen}>
         검색 결과 리스트 보기👇
       </h4>
-
       <Box
         component='div'
         sx={{

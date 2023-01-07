@@ -1,15 +1,16 @@
 import { Box, TextField } from '@mui/material';
 import { BasicButton, CustomCancelMdCancel } from 'components/button';
 import CustomTextField from 'components/inputs/CustomTextField';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ModalBackdrop } from './commonStyle';
 import kakaoImg from 'assets/kakaologin.png';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LOGIN } from 'redux/userReducer';
 import { localLogin } from '../../redux/userReducer';
 
 const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
+  const { token, user } = useSelector((state) => state?.auth);
   const dispatch = useDispatch();
   const [value, setValue] = useState({
     email: '',
@@ -20,15 +21,19 @@ const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
   const handleChange = (type) => (e) => {
     setValue({ ...value, [type]: e.target.value });
   };
-
+  useEffect(() => {
+    if (!user) {
+      setIsLoginOpenModal(true);
+    } else {
+      setIsLoginOpenModal(false);
+    }
+  }, [user]);
   const handleLogin = () => {
-    console.log('!23');
     if (email.trim() === '' || password.trim() === '') {
-      return alert('다시 입력해주시기 바랍니다');
+      return alert('필드의 내용을 다시 입력해주세요');
     }
     let body = { email, password };
     dispatch(localLogin(body));
-    setIsLoginOpenModal(false);
   };
 
   const handleClosingModal = useCallback((type) => {

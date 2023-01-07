@@ -1,19 +1,26 @@
+import { height } from '@mui/system';
 import api from 'api/api';
 import { onKeyPress } from 'constants/geolcation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import {
   ChatConatiner,
   ChatFooter,
-  ChatText,
+  ChatContainerText,
   ChatRootContainer,
+  ChatContainer,
+  Msg,
+  ChatMsg,
+  SubmintButton,
   ChatTextBox,
-} from './chatPageStyle';
+} from './chatRoomStyle';
 
 const ChatRoom = () => {
   const { token, user } = useSelector((state) => state.auth);
+  const ref = useRef();
+
   const navigater = useNavigate();
   const params = useParams();
   const [socketMsg, setSocketMsg] = useState([]);
@@ -24,6 +31,8 @@ const ChatRoom = () => {
     transports: ['websocket'],
     query: { roomId: params.id },
   });
+  const nowScrollY = ref.current?.scrollTop;
+  const chatHeight = ref.current?.scrollHeight;
 
   const onhandleChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
@@ -45,7 +54,8 @@ const ChatRoom = () => {
         },
       });
       socket.emit('join room', {
-        name: user.username,
+        nickname: user?.nickname,
+        userId: user?.id,
         msg: value.msg,
         roomId: params.id,
       });
@@ -62,7 +72,8 @@ const ChatRoom = () => {
           Authorization: 'Bearer ' + token,
         },
       });
-      setSocketMsg(socketMsg.concat(res.data.data));
+      // console.log(res);
+      setSocketMsg(socketMsg.concat(res?.data?.data));
     } catch (e) {
       console.log(e);
     }
@@ -73,25 +84,49 @@ const ChatRoom = () => {
       return navigater(-1);
     }
 
+    // 현재 스크롤 위치 === scrollRef.current.scrollTop
+    // 스크롤 길이 === scrollRef.current.scrollHeight
+
+    getChatMsg();
+
     socket.on('chatmsg', (item) => {
       setSocketMsg((prev) => {
-        let newMsg = [item, ...prev];
-        return newMsg;
+        let newData = Object.assign([], prev);
+        newData.push(item);
+        return newData;
       });
     });
-    getChatMsg();
 
     return () => {
       socket.off();
     };
   }, []);
+  useEffect(() => {
+    ref.current.scrollTop = ref.current.scrollHeight;
+  }, [socketMsg]);
+
   return (
     <ChatRootContainer>
-      <ChatConatiner>
+      <ChatConatiner ref={ref}>
         {socketMsg?.map((data, key) => {
           return (
-            <ChatTextBox hasUser={data?.UserId} USER={user.id}>
-              <ChatText key={key}>{data?.msg}</ChatText>
+            <ChatTextBox key={key}>
+              <ChatContainerText>
+                <Msg
+                  hasUser={
+                    !data?.User?.nickname
+                      ? data?.userId === user?.id
+                      : data?.User.id === user?.id
+                  }
+                >
+                  <p style={{ fontWeight: 'bold' }}>
+                    {!data?.User?.nickname
+                      ? data.nickname
+                      : data?.User?.nickname}
+                  </p>
+                  <p> {data?.msg}</p>
+                </Msg>
+              </ChatContainerText>
             </ChatTextBox>
           );
         })}
@@ -115,7 +150,7 @@ const ChatRoom = () => {
               onKeyPress(e);
             }}
           />
-          <button
+          <SubmintButton
             form='footer-btn'
             type='submit'
             onClick={() => {
@@ -124,7 +159,7 @@ const ChatRoom = () => {
             disabled={!value.msg}
           >
             보내기
-          </button>
+          </SubmintButton>
         </ChatFooter>
       </form>
     </ChatRootContainer>

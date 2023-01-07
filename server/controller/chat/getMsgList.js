@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
   try {
     const chatMsgList = await ChatMsg.findAll({
       include: [{ model: User, attributes: ["nickname", "id"] }],
-      where: { RecruitId: 5 },
+      where: { RecruitId: id },
     });
     RES(200, "success", res, chatMsgList);
   } catch (e) {

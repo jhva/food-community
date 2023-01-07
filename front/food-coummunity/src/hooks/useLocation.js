@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { geomylocation } from 'redux/utilReducer';
 
 const useLocation = (options = {}) => {
+  const dispatch = useDispatch();
   // location 정보 저장
   const [isLoading, setIsLoading] = useState(true);
   const [location, setLocation] = useState({
@@ -19,6 +22,7 @@ const useLocation = (options = {}) => {
       longitude,
     });
     setIsLoading(false);
+    dispatch(geomylocation(isLoading));
   };
 
   // Geolocation의 `getCurrentPosition` 메소드에 대한 실패 callback 핸들러

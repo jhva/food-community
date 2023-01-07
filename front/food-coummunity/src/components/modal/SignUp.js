@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { CommonModal } from './index';
 import styled from 'styled-components';
 import {
@@ -12,11 +12,11 @@ import { PhoneNumberConvert } from 'utils';
 import { useDispatch, useSelector } from 'react-redux';
 
 import api from 'api/api';
-import { connectSignUp } from 'redux/userReducer';
+import { connectSignUp, SIGNUPSTATE } from 'redux/userReducer';
 
 const SignUp = ({ setIsSignUpOpenModal, setIsLoginOpenModal }) => {
   const dispatch = useDispatch();
-
+  const { signUpState } = useSelector((state) => state.auth);
   const [userInfo, setUserInfo] = useState({
     email: '',
     username: '',
@@ -24,6 +24,7 @@ const SignUp = ({ setIsSignUpOpenModal, setIsLoginOpenModal }) => {
     phoneNumber: '',
     nickname: '',
     isMarketing: 'Y',
+    password_check: '',
   });
   const [isError, setIsError] = useState({
     isPassword: false,
@@ -44,38 +45,57 @@ const SignUp = ({ setIsSignUpOpenModal, setIsLoginOpenModal }) => {
     errorAll: '',
   });
 
-  const handleSignup = () => {
-    const { email, username, password, nickname, phoneNumber } = userInfo;
+  const handleSignup = async () => {
+    const { email, username, password, nickname, phoneNumber, password_check } =
+      userInfo;
     if (!email || !username || !password || !nickname || !phoneNumber) {
       alert('정보를 모두 기입해주세요');
+      return;
+    }
+    if (isError.isPassword) {
+      alert('비밀번호를 다시 한번 확인해주세요');
+      return;
+    }
+    if (password !== password_check) {
+      alert('비밀번호를 다시한번 확인해주세요');
       return;
     }
     let body = {
       email,
       username,
-      password,
-      nickname,
       phoneNumber,
+      nickname,
+      password,
       isMarketing: 'Y',
     };
-    console.log(body);
-    dispatch(connectSignUp(body));
+    try {
+      const { data } = await api.post('user/signup', body);
+      console.log(data);
+      alert('회원가입이 완료되었습니다');
+      setIsSignUpOpenModal(false);
+      setIsLoginOpenModal(true);
 
-    setIsSignUpOpenModal(false);
-    setIsLoginOpenModal(true);
+      // dispatch(data);
+    } catch (e) {
+      if (e?.response?.data?.msg) {
+        alert(e?.response?.data?.msg);
+      }
+      console.log(e?.response);
+    }
   };
+
   const handleChange = (type) => (e) => {
     setUserInfo({ ...userInfo, [type]: e.target.value });
 
     if (type === 'password') {
-      if (userInfo.password.length < 7) {
+      if (userInfo.password.length < 6) {
         setLabel({ ...label, passwordMsg: '비밀번호는 최소 7자리이상입니다' });
         setIsError({ ...isError, isPassword: true });
       } else {
         setIsError({ ...isError, isPassword: false });
       }
     }
-    if (type === 'pasword_check') {
+    if (type === 'password_check') {
       if (e.target.value !== userInfo.password) {
         setIsError({ ...isError, isPwdCheck: true });
         setLabel({ ...label, passwordCheck: '비밀번호를 다시확인해주세요' });
@@ -141,7 +161,7 @@ const SignUp = ({ setIsSignUpOpenModal, setIsLoginOpenModal }) => {
             variant='outlined'
           />
           <CustomTextField
-            onChange={handleChange('pasword_check')}
+            onChange={handleChange('password_check')}
             style={InputStyle}
             type='password'
             label={isError.isPwdCheck ? label.passwordCheck : '비밀번호 확인'}

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
-import { Box, Container, TopContainerStyle } from './chatRoomStyle';
+import { Box, Container, TopContainerStyle } from './chatPageStyle';
 import { COLOR, COLORNAME } from 'constants/color';
 import { CustomMdOutlineArrowBackIosNew } from 'components/button';
 
@@ -30,7 +30,7 @@ const ChatPage = () => {
           Authorization: 'Bearer ' + token,
         },
       });
-      console.log(res);
+      // console.log(res);
       setChatList(res.data.data);
     } catch (e) {
       console.log(e?.response?.data);

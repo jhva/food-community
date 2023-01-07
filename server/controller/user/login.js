@@ -33,9 +33,9 @@ module.exports = async (req, res, next) => {
           data: userfilter,
         });
     } else {
-      res.status(400).json({ error: "비밀번호가 맞지않습니다" });
+      res.status(400).json({ msg: "비밀번호가 맞지않습니다" });
     }
   } else {
-    res.status(404).json({ error: "해당 유저가 존재하지 않습니다." });
+    res.status(404).json({ msg: "해당 유저가 존재하지 않습니다." });
   }
 };

@@ -5,7 +5,6 @@ module.exports = async (req, res, next) => {
   const { username, email, phoneNumber, nickname, password, isMarketing } =
     req.body;
 
-
   try {
     const isUserEmail = await User.findOne({ where: { email: email } });
     const isNickname = await User.findOne({ where: { nickname: nickname } });
@@ -37,6 +36,11 @@ module.exports = async (req, res, next) => {
       });
     }
   } catch (e) {
+    res.status(500).json({
+      status: 500,
+      msg: "server err",
+      data: e,
+    });
     console.log(e);
   }
 };
