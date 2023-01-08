@@ -9,6 +9,13 @@ export const TopContainerStyle = styled.div`
   }
 `;
 
+export const UploadTopStyle = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  padding: 10px;
+`;
+
 export const RootStyle = styled.div`
   padding: 10px 0px;
   display: flex;
@@ -30,4 +37,40 @@ export const NullableStyle = styled.div`
   width: 100%;
   margin: 10px 0px;
   text-align: center;
+`;
+
+export const UploadRootConatiner = styled.div`
+  padding: 10px;
+`;
+
+export const UploadSubContentStyle = styled.div`
+  min-width: 310px;
+  width: 100%;
+  display: flex;
+  margin: 10px 0px;
+  justify-content: center;
+  p {
+    margin: 10px 10px 0px;
+    white-space: nowrap;
+  }
+  div {
+    padding: 10px;
+    display: flex;
+    width: 100%;
+  }
+  input {
+    padding: 10px;
+    width: 100%;
+  }
+
+  textarea {
+    resize: none;
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border: none;
+    height: 10vh;
+  }
+
+  align-items: center;
 `;

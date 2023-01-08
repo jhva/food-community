@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { Box, Container, TopContainerStyle } from './chatPageStyle';
 import { COLOR, COLORNAME } from 'constants/color';
 import { CustomMdOutlineArrowBackIosNew } from 'components/button';
+import TopBar from 'components/TopBar';
 
 const ChatPage = () => {
   const { token, user } = useSelector((state) => state.auth);
@@ -41,15 +42,7 @@ const ChatPage = () => {
   }, []);
   return (
     <div>
-      <TopContainerStyle>
-        <CustomMdOutlineArrowBackIosNew
-          style={{ marginLeft: '10px' }}
-          onClick={() => {
-            navigate(-1);
-          }}
-        />
-        <h3>채팅 방 </h3>
-      </TopContainerStyle>
+      <TopBar text={'채팅'} />
 
       {chatList.map((item, index) => (
         <Container key={index}>

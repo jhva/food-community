@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 import api from 'api/api';
 import dayjs from 'dayjs';
 import PageNation from '../../components/pagenation/index';
+import TopBar from 'components/TopBar';
 
 const Board = () => {
   const { token } = useSelector((state) => state.auth);
@@ -48,20 +49,19 @@ const Board = () => {
   return (
     <>
       <div style={{ paddigBottom: '20px' }}>
-        <TopContainerStyle>
-          <CustomMdOutlineArrowBackIosNew
-            style={{ marginLeft: '10px' }}
-            onClick={() => {
-              navigate(-1);
-            }}
-          />
-          <h3>게시판 </h3>
-        </TopContainerStyle>
+        <TopBar text={'게시판'} />
       </div>
-      <RootStyle>
-        <Button>게시글 작성</Button>
-      </RootStyle>
       <div>
+        <RootStyle>
+          <Button
+            onClick={() => {
+              navigate('/boardUpload');
+            }}
+          >
+            게시글 등록
+          </Button>
+        </RootStyle>
+
         <TableContainer component={Paper}>
           <Table aria-label='simple table'>
             <TableHead>
@@ -72,16 +72,20 @@ const Board = () => {
               </TableRow>
             </TableHead>
             {resData
-              .slice((page - 1) * perpage, (page - 1) * perpage + 10)
-              .map((row) => (
-                <TableBody>
-                  <TableRow key={row?.id}>
+              .slice((page - 1) * perpage, (page - 1) * perpage + perpage)
+              .map((row, key) => (
+                <TableBody key={key}>
+                  <TableRow
+                    sx={{ cursor: 'pointer' }}
+                    onClick={() => {
+                      navigate(`/boardContent/${row.id}`, { state: row });
+                    }}
+                    key={row?.id}
+                  >
                     <TableCell component='th' scope='row'>
                       {row?.title}
                     </TableCell>
-                    <TableCell component='th' scope='row'>
-                      {row?.content}
-                    </TableCell>
+
                     <TableCell component='th' scope='row'>
                       {dayjs(row?.createdAt).format('YYYY-MM-DD')}
                     </TableCell>
@@ -112,4 +116,4 @@ const Board = () => {
 
 export default Board;
 
-let header = ['제목', '내용', '작성 시간', '작성자(닉네임)'];
+let header = ['제목', '작성 시간', '작성자(닉네임)'];
