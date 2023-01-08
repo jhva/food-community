@@ -47,8 +47,7 @@ const BoardUpload = () => {
         }
       );
       alert(type ? '게시글 수정 성공' : '게시글 등록 성공');
-      navigate(-1);
-      console.log(res);
+      navigate(type ? '/board' : -1);
     } catch (e) {
       if (e?.response?.data?.msg) {
         alert(e?.response?.data?.msg);
@@ -78,14 +77,12 @@ const BoardUpload = () => {
           </div>
         </UploadSubContentStyle>
         <UploadSubContentStyle>
-          <div>
-            <p>내용</p>
-            <textarea
-              value={board?.content}
-              onChange={handleChange('content')}
-              placeholder='내용을 입력해주세요'
-            />
-          </div>
+          <p>내용</p>
+          <textarea
+            value={board?.content}
+            onChange={handleChange('content')}
+            placeholder='내용을 입력해주세요'
+          />
         </UploadSubContentStyle>
       </div>
     </div>

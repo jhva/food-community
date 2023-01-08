@@ -5,7 +5,9 @@ module.exports = (app) => {
   io.on("connection", (socket) => {
     console.log("SOCKETIO connection EVENT: ", socket.id, " client connected");
     const rommsocket = socket.handshake.query.roomId;
+    const boardsocket = socket.handshake.query.boardId;
     socket.join(rommsocket);
+    socket.join(boardsocket);
 
     socket.on("join room", (item) => {
       socket.to(rommsocket).emit("chatmsg", item);
@@ -13,6 +15,13 @@ module.exports = (app) => {
     socket.on("chatmsg", (item) => {
       // console.log(item);
       socket.to(rommsocket).emit("chatmsg", item);
+    });
+
+    socket.on("board", (item) => {
+      socket.to(boardsocket).emit("commentMsg", item);
+    });
+    socket.on("commentMsg", (item) => {
+      socket.to(boardsocket).emit("commentMsg", item);
     });
 
     socket.on("disconnect", () => console.log("user disconnect", socket.id));

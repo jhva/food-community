@@ -15,6 +15,8 @@ import {
   ChatMsg,
   SubmintButton,
   ChatTextBox,
+  TopBox,
+  TopText,
 } from './chatRoomStyle';
 
 const ChatRoom = () => {
@@ -22,6 +24,7 @@ const ChatRoom = () => {
   const ref = useRef();
 
   const navigater = useNavigate();
+  const location = useLocation();
   const params = useParams();
   const [socketMsg, setSocketMsg] = useState([]);
   const [value, setValue] = useState({
@@ -31,8 +34,6 @@ const ChatRoom = () => {
     transports: ['websocket'],
     query: { roomId: params.id },
   });
-  const nowScrollY = ref.current?.scrollTop;
-  const chatHeight = ref.current?.scrollHeight;
 
   const onhandleChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
@@ -106,63 +107,69 @@ const ChatRoom = () => {
   }, [socketMsg]);
 
   return (
-    <ChatRootContainer>
-      <ChatConatiner ref={ref}>
-        {socketMsg?.map((data, key) => {
-          return (
-            <ChatTextBox key={key}>
-              <ChatContainerText>
-                <Msg
-                  hasUser={
-                    !data?.User?.nickname
-                      ? data?.userId === user?.id
-                      : data?.User.id === user?.id
-                  }
-                >
-                  <p style={{ fontWeight: 'bold' }}>
-                    {!data?.User?.nickname
-                      ? data.nickname
-                      : data?.User?.nickname}
-                  </p>
-                  <p> {data?.msg}</p>
-                </Msg>
-              </ChatContainerText>
-            </ChatTextBox>
-          );
-        })}
-      </ChatConatiner>
+    <>
+      <TopBox>
+        <TopText>{location?.state?.data?.title}</TopText>
+      </TopBox>
 
-      <form
-        id='footer-btn'
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
-        <ChatFooter>
-          <input
-            value={value.msg}
-            name='msg'
-            onChange={(e) => {
-              onhandleChange(e);
-              // setIsValue(true);
-            }}
-            onKeyPress={(e) => {
-              onKeyPress(e);
-            }}
-          />
-          <SubmintButton
-            form='footer-btn'
-            type='submit'
-            onClick={() => {
-              sendMsg();
-            }}
-            disabled={!value.msg}
-          >
-            보내기
-          </SubmintButton>
-        </ChatFooter>
-      </form>
-    </ChatRootContainer>
+      <ChatRootContainer>
+        <ChatConatiner ref={ref}>
+          {socketMsg?.map((data, key) => {
+            return (
+              <ChatTextBox key={key}>
+                <ChatContainerText>
+                  <Msg
+                    hasUser={
+                      !data?.User?.nickname
+                        ? data?.userId === user?.id
+                        : data?.User.id === user?.id
+                    }
+                  >
+                    <p style={{ fontWeight: 'bold' }}>
+                      {!data?.User?.nickname
+                        ? data.nickname
+                        : data?.User?.nickname}
+                    </p>
+                    <p> {data?.msg}</p>
+                  </Msg>
+                </ChatContainerText>
+              </ChatTextBox>
+            );
+          })}
+        </ChatConatiner>
+
+        <form
+          id='footer-btn'
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <ChatFooter>
+            <input
+              value={value.msg}
+              name='msg'
+              onChange={(e) => {
+                onhandleChange(e);
+                // setIsValue(true);
+              }}
+              onKeyPress={(e) => {
+                onKeyPress(e);
+              }}
+            />
+            <SubmintButton
+              form='footer-btn'
+              type='submit'
+              onClick={() => {
+                sendMsg();
+              }}
+              disabled={!value.msg}
+            >
+              보내기
+            </SubmintButton>
+          </ChatFooter>
+        </form>
+      </ChatRootContainer>
+    </>
   );
 };
 

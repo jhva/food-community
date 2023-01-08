@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import { MdCancel } from 'react-icons/md';
 import { BiArrowBack } from 'react-icons/bi';
 import { MdOutlineArrowBackIosNew } from 'react-icons/md';
-
+import { BiTrash } from 'react-icons/bi';
 export const BasicButton = (props) => {
   const ButtonStyle = useMemo(
     () => ({
@@ -22,6 +22,19 @@ export const BasicButton = (props) => {
       {props.text}
     </Button>
   );
+};
+
+export const CustomBiTrash = (props) => {
+  const CUSTOMBACK = useMemo(
+    () => ({
+      width: '20px',
+      height: '20px',
+      cursor: 'pointer',
+    }),
+    []
+  );
+
+  return <BiTrash onClick={props.onClick} style={CUSTOMBACK} />;
 };
 
 export const CustomMdOutlineArrowBackIosNew = (props) => {

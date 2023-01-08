@@ -12,8 +12,11 @@ export const CommentBox = styled.div`
   border-radius: 10px;
   background-color: #fff;
   margin: 10px;
-  div {
-    display: flex;
-    flex-direction: column;
-  }
+  display: flex;
+  flex-direction: column;
+`;
+
+export const CommentContent = styled.div`
+  display: flex;
+  align-items: center;
 `;

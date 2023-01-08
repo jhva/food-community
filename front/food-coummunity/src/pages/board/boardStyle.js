@@ -51,7 +51,7 @@ export const UploadSubContentStyle = styled.div`
   margin: 10px 0px;
   justify-content: center;
   p {
-    margin: 10px 10px 0px;
+    margin: 10px 10px;
     white-space: nowrap;
   }
   div {

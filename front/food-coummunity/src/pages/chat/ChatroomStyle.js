@@ -1,6 +1,20 @@
 import { blue, red } from '@mui/material/colors';
 import styled from 'styled-components';
 
+export const TopBox = styled.div`
+  position: fixed;
+  background-color: #585858;
+  width: 100%;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const TopText = styled.span`
+  font-weight: bold;
+  font-size: 20px;
+`;
 export const ChatConatiner = styled.div`
   width: 100%;
   padding-bottom: 90px;
@@ -16,6 +30,7 @@ export const ChatContainerText = styled.div`
   /* text-align: left; */
   display: flex;
   flex-direction: column;
+  padding: 90px 0px;
 `;
 
 export const Msg = styled.div`

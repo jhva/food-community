@@ -19,8 +19,13 @@ import api from 'api/api';
 import dayjs from 'dayjs';
 import PageNation from '../../components/pagenation/index';
 import TopBar from 'components/TopBar';
+import { io } from 'socket.io-client';
 
 const Board = () => {
+  const socket = io('http://localhost:9000', {
+    transports: ['websocket'],
+  });
+
   const { token } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
@@ -78,6 +83,7 @@ const Board = () => {
                   <TableRow
                     sx={{ cursor: 'pointer' }}
                     onClick={() => {
+                      socket.emit('board', row);
                       navigate(`/boardContent/${row.id}`, { state: row });
                     }}
                     key={row?.id}

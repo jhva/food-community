@@ -1,9 +1,15 @@
 import api from 'api/api';
+import { CustomBiTrash } from 'components/button';
 import TopBar from 'components/TopBar';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { CommentBox, CommentRootStyle } from './boardDetailStyle';
+import { io } from 'socket.io-client';
+import {
+  CommentBox,
+  CommentContent,
+  CommentRootStyle,
+} from './boardDetailStyle';
 import {
   Button,
   ButtonStyle,
@@ -14,16 +20,22 @@ import {
 const BoardDetail = () => {
   let text = '수정';
   const { token, user } = useSelector((state) => state.auth);
-  const [getData, setGetData] = useState();
+  const [getData, setGetData] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
   const [commentData, setCommentData] = useState({
     content: '',
   });
+  const [getCommentData, setGetCommentData] = useState([]);
   const params = useParams();
+
+  const socket = io('http://localhost:9000', {
+    transports: ['websocket'],
+    query: { roomId: params?.id },
+  });
   useEffect(() => {
     if (!location?.state) {
-      alert('/');
+      navigate('/');
       return;
     }
   }, [location]);
@@ -43,6 +55,7 @@ const BoardDetail = () => {
         },
       });
       setGetData(res?.data?.data[0]);
+      setGetCommentData(res?.data?.data[0].Comments);
     } catch (e) {
       if (e?.response?.data?.msg) {
         alert(e?.response?.data?.msg);
@@ -58,7 +71,13 @@ const BoardDetail = () => {
           Authorization: 'Bearer ' + token,
         },
       });
-      alert('댓글 등록 성공');
+      // alert('댓글 등록 성공');
+      socket.emit('board', {
+        nickname: user?.nickname,
+        userId: user?.id,
+        content: commentData.content,
+        board: params.id,
+      });
       setCommentData({ ...commentData, content: '' });
     } catch (e) {
       if (e?.response?.data?.msg) {
@@ -86,17 +105,33 @@ const BoardDetail = () => {
   };
   useEffect(() => {
     detailGetBoard();
+    socket.on('commentMsg', (item) => {
+      setGetCommentData((prev) => {
+        let newData = Object.assign([], prev);
+        newData.unshift(item);
+        return newData;
+      });
+    });
+    return () => {
+      socket.off();
+    };
   }, []);
-
-  const renderBox = () => {
-    return (
-      <CommentBox>
-        <div>
-          <p>닉네임: {getData?.User?.nickname}</p>
-          <p>댓글: {getData?.content}</p>
-        </div>
-      </CommentBox>
-    );
+  const deleteComment = async (id) => {
+    try {
+      const res = await api.delete(`comment/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      alert('댓글 삭제 완료');
+      setGetCommentData(getCommentData.filter((data) => data.id !== id));
+    } catch (e) {
+      if (e?.response?.data?.msg) {
+        alert(e?.response?.data?.msg);
+      }
+      console.log(e?.response);
+    }
   };
   return (
     <div>
@@ -159,13 +194,27 @@ const BoardDetail = () => {
           </UploadSubContentStyle>
           <UploadSubContentStyle>
             <CommentRootStyle style={{}}>
-              {getData?.Comments?.map((item) => {
+              {getCommentData?.map((item, key) => {
                 return (
-                  <CommentBox>
-                    <div>
-                      <p>닉네임: {item?.User?.nickname}</p>
-                      <p>댓글: {item?.content}</p>
-                    </div>
+                  <CommentBox key={key}>
+                    <CommentContent>
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <p>
+                          닉네임:
+                          {!item?.User?.nickname
+                            ? item?.nickname
+                            : item?.User?.nickname}
+                        </p>
+                        <p>댓글: {item?.content}</p>
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <CustomBiTrash
+                          onClick={() => {
+                            deleteComment(item?.id);
+                          }}
+                        />
+                      </div>
+                    </CommentContent>
                   </CommentBox>
                 );
               })}
