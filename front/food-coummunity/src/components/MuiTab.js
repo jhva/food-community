@@ -26,7 +26,7 @@ export default function MuiTab({
           <RecruitmentStatus
             handleClick={handleClick}
             markerData={markerData}
-            page={page}
+            currentPage={page}
           />
         </TabPanel>
         <TabPanel value={'1'}>

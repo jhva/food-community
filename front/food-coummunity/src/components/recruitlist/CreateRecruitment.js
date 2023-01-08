@@ -3,12 +3,15 @@ import Box from '@mui/material/Box';
 
 import CustomTextField from 'components/inputs/CustomTextField';
 import { BasicButton } from 'components/button';
+import api from 'api/api';
+import { useSelector } from 'react-redux';
 
 const CreateRecruitment = ({ selectData, setSelectData }) => {
+  const { token, user } = useSelector((state) => state?.auth);
   const [value, setValue] = React.useState({
     title: '',
     maxinum: '',
-    place: selectData.place_name,
+    // place: selectData.place_name,
     content: '',
     lat: selectData.y,
     lng: selectData.x,
@@ -20,8 +23,22 @@ const CreateRecruitment = ({ selectData, setSelectData }) => {
     });
   };
 
-  const handleCreateClick = () => {
-    console.log(value);
+  const handleCreateClick = async () => {
+    try {
+      const res = await api.post(`recurit`, value, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      alert('모집 성공');
+      console.log(res);
+    } catch (e) {
+      if (e?.response?.data?.msg) {
+        alert(e?.response?.data?.msg);
+      }
+      console.log(e?.response);
+    }
   };
   return (
     <>

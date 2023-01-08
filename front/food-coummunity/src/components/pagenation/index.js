@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Pagination from 'react-js-pagination';
 import './page.css';
 
-const PageNation = ({ data, page, setPage, perpage }) => {
+const PageNation = ({ data, page, setPage, perpage, rangepage }) => {
   const handlePageChange = (page) => {
     setPage(page);
   };
