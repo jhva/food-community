@@ -17,6 +17,7 @@ const KakaoMap = ({
   setSelectData,
   selectKeywordData,
   page,
+  handleCreateClick,
   handleChange,
   value,
   setValue,
@@ -120,6 +121,7 @@ const KakaoMap = ({
               </div>
             </MapMarker>
             <MuiTab
+              handleCreateClick={handleCreateClick}
               mainSearch={mainSearch}
               handleClick={handleClick}
               markerData={markerData}

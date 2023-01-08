@@ -6,7 +6,11 @@ import { BasicButton } from 'components/button';
 import api from 'api/api';
 import { useSelector } from 'react-redux';
 
-const CreateRecruitment = ({ selectData, setSelectData }) => {
+const CreateRecruitment = ({
+  selectData,
+
+  handleCreateClick,
+}) => {
   const { token, user } = useSelector((state) => state?.auth);
   const [value, setValue] = React.useState({
     title: '',
@@ -23,23 +27,6 @@ const CreateRecruitment = ({ selectData, setSelectData }) => {
     });
   };
 
-  const handleCreateClick = async () => {
-    try {
-      const res = await api.post(`recurit`, value, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      alert('모집 성공');
-      console.log(res);
-    } catch (e) {
-      if (e?.response?.data?.msg) {
-        alert(e?.response?.data?.msg);
-      }
-      console.log(e?.response);
-    }
-  };
   return (
     <>
       <div style={{ marginBottom: '30px' }}>
@@ -97,7 +84,12 @@ const CreateRecruitment = ({ selectData, setSelectData }) => {
         </Box>
       </div>
       <div>
-        <BasicButton onClick={handleCreateClick} text={'모집 하기'} />
+        <BasicButton
+          onClick={() => {
+            handleCreateClick(value);
+          }}
+          text={'모집 하기'}
+        />
       </div>
     </>
   );

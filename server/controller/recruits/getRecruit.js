@@ -1,10 +1,17 @@
+const { QueryTypes } = require("sequelize");
 const { ERROR } = require("../../error");
+const { sequelize } = require("../../models");
 const Recruit = require("../../models/recruits");
-const AttendRecruit = require("../../models/attendRecruit");
 
 module.exports = async (req, res, next) => {
   try {
-    const recruits = await Recruit.findAll({});
+    let cnt;
+    const query =
+      "select * from recruits where statusNumber not in(select maxinum  from recruits r)";
+
+    const recruits = await sequelize.query(query, {
+      type: QueryTypes.SELECT,
+    });
 
     return res
       .status(200)

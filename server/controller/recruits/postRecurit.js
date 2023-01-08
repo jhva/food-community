@@ -13,9 +13,10 @@ module.exports = async (req, res, next) => {
   ) {
     return ERROR(400, "모든 필드값을 입력해주세요", res);
   }
+
   const returnRecruitId = await Recruit.create({
     title,
-    maxinum: maxinum + 1,
+    maxinum: Number(maxinum) + 1,
     content,
     lat,
     lng,

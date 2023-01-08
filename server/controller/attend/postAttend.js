@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
   });
 
   if (statusNumber === maxinum) {
-    return ERROR(400, "인원이 모집이 종료 되었습니다.", res);
+    return ERROR(400, "모집이 종료 되었습니다.", res);
   }
 
   if (myUser) {

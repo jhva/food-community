@@ -5,10 +5,13 @@ import S from './styles';
 import MuiTab from '../../components/MuiTab';
 import SearchInput from 'components/inputs/SearchInput';
 import { Map, useMap } from 'react-kakao-maps-sdk';
+import api from 'api/api';
+import { useSelector } from 'react-redux';
 
 const { kakao } = window;
 const Main = () => {
   const [value, setValue] = useState('0');
+  const { token, user } = useSelector((state) => state.auth);
 
   const [selectData, setSelectData] = useState([]);
   const [markerData, setMarkerData] = useState([]);
@@ -71,6 +74,23 @@ const Main = () => {
       setValue('0');
     }
   };
+  const handleCreateClick = async (data) => {
+    try {
+      const res = await api.post(`recurit`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      alert('모집 성공');
+      setValue('0');
+    } catch (e) {
+      if (e?.response?.data?.msg) {
+        alert(e?.response?.data?.msg);
+      }
+      console.log(e?.response);
+    }
+  };
   return (
     <div>
       <S.RootMainStyle>
@@ -83,6 +103,7 @@ const Main = () => {
             value={searchAddress}
           />
           <KakaoMap
+            handleCreateClick={handleCreateClick}
             setIsGeolocation={setIsGeolocation}
             selectKeywordData={selectKeywordData}
             isGeolocation={isGeolocation}

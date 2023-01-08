@@ -62,34 +62,81 @@ const RecruitmentStatus = ({
       console.log(e?.response);
     }
   };
+
+  const attendWithDelete = async (type, data, id) => {
+    let body = {
+      RecruitId: data?.id,
+      isAttend: 'Y',
+      statusNumber: data?.statusNumber,
+      maxinum: data.maxinum,
+    };
+    try {
+      const res = await api.post('/attend', body, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      });
+      alert('참가 성공!');
+    } catch (e) {
+      console.log(e);
+      if (e?.response?.data?.msg) {
+        alert(e?.response?.data?.msg);
+      }
+      console.log(e?.response);
+    }
+  };
+
   useEffect(() => {
     getRecruits();
   }, []);
   return (
     <>
       <div>
-        <h4>현재 그룹 모집중이에요!</h4>
+        <h4>
+          {getRecruitData.length === 0
+            ? '현재 모집중인 그룹이 없어요!'
+            : '현재 그룹 모집중이에요!'}
+        </h4>
         {getRecruitData
           .slice((page - 1) * perpage, (page - 1) * perpage + perpage)
           .map((item, index) => (
-            <ul>
-              <RecruitBox key={index}>
-                <div>
-                  <p>{item?.title}</p>
-                  <p>{item?.content}</p>
-                  <p>
-                    인원 상태: {item?.statusNumber} / {item?.maxinum}
-                  </p>
-                </div>
-              </RecruitBox>
-            </ul>
+            <RecruitBox
+              onClick={() => {
+                console.log(item);
+              }}
+              key={index}
+            >
+              <ButtonBox>
+                <p>{item?.title}</p>
+                {user?.id !== item?.UserId ? (
+                  <div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        attendWithDelete('참가', item);
+                      }}
+                    >
+                      참가
+                    </button>
+                  </div>
+                ) : null}
+              </ButtonBox>
+
+              <p>{item?.content}</p>
+              <p>
+                인원 상태: {item?.statusNumber} / {item?.maxinum}
+              </p>
+            </RecruitBox>
           ))}
-        <PageNation
-          perpage={perpage}
-          page={page}
-          setPage={setPage}
-          data={getRecruitData}
-        />
+        {getRecruitData?.length === 0 ? null : (
+          <PageNation
+            perpage={perpage}
+            page={page}
+            setPage={setPage}
+            data={getRecruitData}
+          />
+        )}
       </div>
       <h4 style={{ cursor: 'pointer' }} onClick={handleOpen}>
         검색 결과 리스트 보기👇
@@ -162,9 +209,11 @@ const CustomBox = styled.div`
 
 const RecruitBox = styled.div`
   display: flex;
+  padding: 0px 10px;
   flex-direction: column;
   border-radius: 10px;
   background: #d8f781;
+  cursor: pointer;
   width: 100%;
   margin: 10px 0px;
   p {
@@ -178,4 +227,17 @@ const SearchContainer = styled.div`
 
 const SearchBoxStyle = styled.div`
   /* height: 440px; */
+`;
+
+const ButtonBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  button {
+    width: 50px;
+    padding: 5px 0px;
+    background-color: #a9bcf5;
+    margin-left: 10px;
+  }
 `;
