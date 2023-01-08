@@ -5,6 +5,7 @@ const User = require("../../models/user");
 module.exports = async (req, res, next) => {
   try {
     const boardFindAll = await Board.findAll({
+      order: [["createdAt", "DESC"]],
       include: [{ model: Comment }, { model: User, attributes: ["nickname"] }],
     });
 

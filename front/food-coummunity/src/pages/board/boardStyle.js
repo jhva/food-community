@@ -22,3 +22,12 @@ export const Button = styled.button`
   border-radius: 10px;
   background-color: #6eeaff;
 `;
+
+export const NullableStyle = styled.div`
+  p {
+    font-weight: bold;
+  }
+  width: 100%;
+  margin: 10px 0px;
+  text-align: center;
+`;
