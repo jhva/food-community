@@ -5,7 +5,11 @@ module.exports = async (req, res, next) => {
   try {
     const { boardId } = req.params;
     const { content } = req.body;
-
+    if (!content) {
+      return res.status(400).json({
+        msg: "필드의 내용을 입력해주세요",
+      });
+    }
     await Comment.create({
       BoardId: boardId,
       UserId: req.authId,

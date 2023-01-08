@@ -1,9 +1,17 @@
 const { ERROR } = require("../../error");
 const Board = require("../../models/board");
 const Comment = require("../../models/comment");
+const User = require("../../models/user");
 module.exports = async (req, res, next) => {
   const { id } = req.params;
-  await Board.findOne({ where: { id }, include: { model: Comment } })
+  await Board.findOne({
+    where: { id },
+    order: [[{ model: Comment }, "createdAt", "DESC"]],
+    include: {
+      model: Comment,
+      include: { model: User, attributes: ["nickname"] },
+    },
+  })
     .then((data) => {
       return res
         .status(200)

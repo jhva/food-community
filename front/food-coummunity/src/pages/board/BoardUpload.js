@@ -2,7 +2,7 @@ import api from 'api/api';
 import TopBar from 'components/TopBar';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import {
   Button,
@@ -13,8 +13,10 @@ import {
 
 const BoardUpload = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { token, user } = useSelector((state) => state?.auth);
-
+  const params = useParams();
+  let type = location?.state?.type === '수정';
   useEffect(() => {
     if (!user) {
       navigate('/');
@@ -23,8 +25,8 @@ const BoardUpload = () => {
   }, [user]);
 
   const [board, setBoard] = useState({
-    title: '',
-    content: '',
+    title: location?.state ? location?.state?.getData?.title : '',
+    content: location?.state ? location?.state?.getData?.content : '',
   });
 
   const handleChange = (type) => (e) => {
@@ -32,14 +34,19 @@ const BoardUpload = () => {
   };
 
   const uploadBoard = async () => {
+    let locationAPI = type ? api.patch : api.post;
     try {
-      const res = await api.post(`board`, board, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
-        },
-      });
-      alert('게시글 등록 성공');
+      const res = await locationAPI(
+        type ? `board/${params?.id}` : `board`,
+        board,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      alert(type ? '게시글 수정 성공' : '게시글 등록 성공');
       navigate(-1);
       console.log(res);
     } catch (e) {
@@ -52,16 +59,19 @@ const BoardUpload = () => {
   return (
     <div>
       <div style={{ paddigBottom: '20px' }}>
-        <TopBar text={'게시판 등록하기'} />
+        <TopBar text={type ? '게시글 수정' : '게시글 등록'} />
       </div>
       <UploadTopStyle>
-        <Button onClick={uploadBoard}>등록</Button>
+        <Button onClick={uploadBoard}>
+          {type ? '게시글 수정' : '게시글 등록'}
+        </Button>
       </UploadTopStyle>
       <div style={{}}>
         <UploadSubContentStyle>
           <div>
             <p>제목</p>
             <input
+              value={board?.title}
               onChange={handleChange('title')}
               placeholder='제목을 입력해주세요'
             />
@@ -71,9 +81,10 @@ const BoardUpload = () => {
           <div>
             <p>내용</p>
             <textarea
+              value={board?.content}
               onChange={handleChange('content')}
               placeholder='내용을 입력해주세요'
-            ></textarea>
+            />
           </div>
         </UploadSubContentStyle>
       </div>

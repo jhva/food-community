@@ -34,7 +34,9 @@ function App() {
             </Route>
 
             <Route path='/board' element={<Board />} />
-            <Route path='/boardUpload' element={<BoardUpload />} />
+            <Route path='/boardUpload' element={<BoardUpload />}>
+              <Route path=':id' element={<BoardUpload />} />
+            </Route>
             <Route path='/boardContent' element={<BoardDetail />}>
               <Route path=':id' element={<BoardDetail />} />
             </Route>

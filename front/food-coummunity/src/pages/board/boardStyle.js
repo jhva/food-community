@@ -28,6 +28,7 @@ export const Button = styled.button`
   padding: 10px 0px;
   border-radius: 10px;
   background-color: #6eeaff;
+  margin-left: 10px;
 `;
 
 export const NullableStyle = styled.div`
@@ -58,6 +59,11 @@ export const UploadSubContentStyle = styled.div`
     display: flex;
     width: 100%;
   }
+  form {
+    padding: 10px;
+    display: flex;
+    width: 100%;
+  }
   input {
     padding: 10px;
     width: 100%;
@@ -69,7 +75,7 @@ export const UploadSubContentStyle = styled.div`
     padding: 10px;
     outline: none;
     border: none;
-    height: 10vh;
+    height: 5vh;
   }
 
   align-items: center;
