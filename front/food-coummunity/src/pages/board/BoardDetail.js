@@ -116,7 +116,7 @@ const BoardDetail = () => {
       socket.off();
     };
   }, []);
-  const deleteComment = async (id) => {
+  const deleteComment = async (id, item) => {
     try {
       const res = await api.delete(`comment/${id}`, {
         headers: {
@@ -124,7 +124,7 @@ const BoardDetail = () => {
           Authorization: 'Bearer ' + token,
         },
       });
-      alert('댓글 삭제 완료');
+      // alert('댓글 삭제 완료');
       setGetCommentData(getCommentData.filter((data) => data.id !== id));
     } catch (e) {
       if (e?.response?.data?.msg) {
@@ -207,13 +207,15 @@ const BoardDetail = () => {
                         </p>
                         <p>댓글: {item?.content}</p>
                       </div>
-                      <div style={{ flex: 1 }}>
-                        <CustomBiTrash
-                          onClick={() => {
-                            deleteComment(item?.id);
-                          }}
-                        />
-                      </div>
+                      {user?.id !== item.UserId ? null : (
+                        <div style={{ flex: 1 }}>
+                          <CustomBiTrash
+                            onClick={() => {
+                              deleteComment(item?.id, item);
+                            }}
+                          />
+                        </div>
+                      )}
                     </CommentContent>
                   </CommentBox>
                 );

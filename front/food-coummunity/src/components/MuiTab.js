@@ -7,14 +7,15 @@ import { BasicButton } from './button';
 
 export default function MuiTab({
   value,
+  currentRecruitmentHandleLocation,
   markerData,
   handleChange,
   selectData,
   handleClick,
   page,
-  setValue,
-  setSelectData,
+
   handleCreateClick,
+  position,
 }) {
   return (
     <TabContext value={value}>
@@ -25,6 +26,7 @@ export default function MuiTab({
         </Tabs>
         <TabPanel style={{ bacground: 'blue' }} value={'0'}>
           <RecruitmentStatus
+            currentRecruitmentHandleLocation={currentRecruitmentHandleLocation}
             handleClick={handleClick}
             markerData={markerData}
             currentPage={page}
@@ -32,6 +34,7 @@ export default function MuiTab({
         </TabPanel>
         <TabPanel value={'1'}>
           <CreateRecruitment
+            position={position}
             handleCreateClick={handleCreateClick}
             selectData={selectData}
           />

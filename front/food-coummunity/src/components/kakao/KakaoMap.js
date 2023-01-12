@@ -19,15 +19,18 @@ const KakaoMap = ({
   page,
   handleCreateClick,
   handleChange,
+  SetMainSearchAddressCenter,
   value,
   setValue,
 }) => {
   const { location, error, isLoading } = useLocation(geolocationOptions);
+  const [position, setPosition] = useState();
 
   const [initLocation, setInitLocation] = useState({
     // 지도의 초기 위치
     lat: location.latitude,
     lng: location.longitude,
+    isPanTo: false,
   });
   const [map, setMap] = useState();
 
@@ -45,6 +48,15 @@ const KakaoMap = ({
         });
     }
   };
+  const currentRecruitmentHandleLocation = (item) => {
+    setIsGeolocation(true);
+    setInitLocation({
+      lat: item?.lat,
+      lng: item?.lng,
+      isPanTo: true,
+    });
+  };
+
   const handleErrorGeolocation = () => {
     alert('현재 위치를 찾지못하였습니다');
   };
@@ -69,6 +81,8 @@ const KakaoMap = ({
         });
     }
   };
+
+  // console.log(isGeolocation);
   useEffect(() => {
     mainSearch();
   }, [mainSearchAddressCenter]);
@@ -93,6 +107,7 @@ const KakaoMap = ({
       ) : (
         <>
           <Map // 지도를 표시할 Container
+            isPanto={initLocation?.isPanTo}
             center={{
               // lat: initLocation.lat,
               // lng: initLocation.lng,
@@ -106,9 +121,24 @@ const KakaoMap = ({
             level={4} // 지도의 확대 레벨
             onCreate={(map) => setMap(map)}
             onIdle={handleMapInfo} // 중심 좌표나 확대 수준이 변경됐을 때
-
-            // onIdle={handleMapInfo} // 중심 좌표나 확대 수준이 변경됐을 때
+            onClick={(_t, mouseEvent) =>
+              setPosition({
+                lat: mouseEvent.latLng.getLat(),
+                lng: mouseEvent.latLng.getLng(),
+              })
+            }
           >
+            {initLocation && (
+              <MapMarker
+                position={{
+                  lat: initLocation?.lat,
+                  lng: initLocation?.lng,
+                }}
+              />
+            )}
+
+            {/* {position && <MapMarker position={position} />} */}
+
             <MapMarker
               position={{
                 lat: location?.latitude,
@@ -121,8 +151,11 @@ const KakaoMap = ({
               </div>
             </MapMarker>
             <MuiTab
+              currentRecruitmentHandleLocation={
+                currentRecruitmentHandleLocation
+              }
+              position={position}
               handleCreateClick={handleCreateClick}
-              mainSearch={mainSearch}
               handleClick={handleClick}
               markerData={markerData}
               selectData={selectData}

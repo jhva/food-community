@@ -103,6 +103,7 @@ const Main = () => {
             value={searchAddress}
           />
           <KakaoMap
+            SetMainSearchAddressCenter={SetMainSearchAddressCenter}
             handleCreateClick={handleCreateClick}
             setIsGeolocation={setIsGeolocation}
             selectKeywordData={selectKeywordData}

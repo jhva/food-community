@@ -88,10 +88,14 @@ const Board = () => {
                     }}
                     key={row?.id}
                   >
+                    {console.log(row)}
+
                     <TableCell component='th' scope='row'>
                       {row?.title}
                     </TableCell>
-
+                    <TableCell component='th' scope='row'>
+                      {row?.content} [{row?.Comments?.length}]
+                    </TableCell>
                     <TableCell component='th' scope='row'>
                       {dayjs(row?.createdAt).format('YYYY-MM-DD')}
                     </TableCell>
@@ -122,4 +126,4 @@ const Board = () => {
 
 export default Board;
 
-let header = ['제목', '작성 시간', '작성자(닉네임)'];
+let header = ['제목', '내용', '작성 시간', '작성자(닉네임)'];

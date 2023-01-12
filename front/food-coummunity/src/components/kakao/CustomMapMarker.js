@@ -16,6 +16,8 @@ const CustomMapMarker = ({ index, el, handleClick }) => {
         position={{
           lat: el.y,
           lng: el.x,
+          // lat: initLocation.lat,
+          // lng: initLocation.lng,
         }}
         onClick={(data) => {
           handleClick(data);

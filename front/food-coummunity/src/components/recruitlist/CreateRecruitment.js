@@ -6,19 +6,17 @@ import { BasicButton } from 'components/button';
 import api from 'api/api';
 import { useSelector } from 'react-redux';
 
-const CreateRecruitment = ({
-  selectData,
-
-  handleCreateClick,
-}) => {
+const CreateRecruitment = ({ selectData, position, handleCreateClick }) => {
+  console.log(position);
   const { token, user } = useSelector((state) => state?.auth);
   const [value, setValue] = React.useState({
     title: '',
     maxinum: '',
     // place: selectData.place_name,
     content: '',
-    lat: selectData.y,
-    lng: selectData.x,
+    lat: position !== undefined ? position.lat : selectData.y,
+    lng: position !== undefined ? position.lng : selectData.x,
+    placename: '',
   });
   const onChange = (e) => {
     setValue({
@@ -41,14 +39,14 @@ const CreateRecruitment = ({
           noValidate
           autoComplete='off'
         >
-          <h3>모집 장소는 지도에서 원하는 위치를 클릭해주세요!</h3>
+          {/* <h3>모집 장소는 지도에서 검색해서 원하는 위치를 클릭해주세요!</h3> */}
           <CustomTextField
             name='title'
             onChange={(e) => {
               onChange(e);
             }}
             variant='standard'
-            value={value.title}
+            value={value?.title}
             label={'모집 제목'}
           />
           <CustomTextField
@@ -57,7 +55,7 @@ const CreateRecruitment = ({
             }}
             variant='standard'
             name='maxinum'
-            value={value.maxinum}
+            value={value?.maxinum}
             label={'모집 인원'}
           />
           <CustomTextField
@@ -65,7 +63,7 @@ const CreateRecruitment = ({
               onChange(e);
             }}
             name='content'
-            value={value.content}
+            value={value?.content}
             asd={'standard-multiline-flexible'}
             multiline
             maxRows={4}
@@ -78,7 +76,10 @@ const CreateRecruitment = ({
             variant='standard'
             placeholder={'모집 장소'}
             disabled
-            value={selectData.place_name}
+            onChange={(e) => {
+              onChange(e);
+            }}
+            value={selectData?.place_name}
           />
           {/* <TextField id='standard-basic' label='모집 기간' variant='standard' /> */}
         </Box>

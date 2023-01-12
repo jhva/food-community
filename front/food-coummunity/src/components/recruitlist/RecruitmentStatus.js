@@ -13,7 +13,7 @@ const RecruitmentStatus = ({
   handleClick,
   markerData,
   currentPage,
-  mainSearch,
+  currentRecruitmentHandleLocation,
 }) => {
   const { token, user } = useSelector((state) => state.auth);
   const [page, setPage] = useState(1);
@@ -62,7 +62,6 @@ const RecruitmentStatus = ({
       console.log(e?.response);
     }
   };
-
   const attendWithDelete = async (type, data, id) => {
     let body = {
       RecruitId: data?.id,
@@ -86,7 +85,6 @@ const RecruitmentStatus = ({
       console.log(e?.response);
     }
   };
-
   useEffect(() => {
     getRecruits();
   }, []);
@@ -103,7 +101,8 @@ const RecruitmentStatus = ({
           .map((item, index) => (
             <RecruitBox
               onClick={() => {
-                console.log(item);
+                // console.log(item);
+                currentRecruitmentHandleLocation(item);
               }}
               key={index}
             >
