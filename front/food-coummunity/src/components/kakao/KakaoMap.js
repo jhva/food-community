@@ -25,6 +25,7 @@ const KakaoMap = ({
 }) => {
   const { location, error, isLoading } = useLocation(geolocationOptions);
   const [position, setPosition] = useState();
+  const [isVisible, setIsVisible] = useState(false);
 
   const [initLocation, setInitLocation] = useState({
     // 지도의 초기 위치
@@ -48,12 +49,14 @@ const KakaoMap = ({
         });
     }
   };
+
   const currentRecruitmentHandleLocation = (item) => {
     setIsGeolocation(true);
     setInitLocation({
       lat: item?.lat,
       lng: item?.lng,
       isPanTo: true,
+      item,
     });
   };
 
@@ -130,11 +133,15 @@ const KakaoMap = ({
           >
             {initLocation && (
               <MapMarker
+                onMouseOver={() => setIsVisible(true)}
+                onMouseOut={() => setIsVisible(false)}
                 position={{
                   lat: initLocation?.lat,
                   lng: initLocation?.lng,
                 }}
-              />
+              >
+                {isVisible && initLocation?.item?.title}
+              </MapMarker>
             )}
 
             {/* {position && <MapMarker position={position} />} */}
