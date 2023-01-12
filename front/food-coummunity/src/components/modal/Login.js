@@ -8,6 +8,7 @@ import kakaoImg from 'assets/kakaologin.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOGIN } from 'redux/userReducer';
 import { localLogin } from '../../redux/userReducer';
+import naverImg from 'assets/btnG_완성형.png';
 
 const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
   const { token, user } = useSelector((state) => state?.auth);
@@ -93,7 +94,9 @@ const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
                 text={'회원가입'}
               />
             </div>
-            <Img src={kakaoImg} />
+            {/* <Img src={kakaoImg} /> */}
+            <LoginBox>네이버 로그인</LoginBox>
+            <LoginBox kakao={true}>카카오 로그인</LoginBox>
           </div>
         </LoginForm>
       </BoxContainer>
@@ -102,6 +105,22 @@ const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
 };
 
 export default Login;
+const LoginBox = styled.div`
+  height: 70px;
+  width: 100%;
+  cursor: pointer;
+  background-color: ${(props) => {
+    return props.kakao === true ? '#FEE500' : '#03c75a';
+  }};
+  display: flex;
+  margin: 10px 0px;
+  border-radius: 10px;
+  font-size: 26px;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+`;
 const Img = styled.img`
   width: 100%;
   margin: 10px 0px;
