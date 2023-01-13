@@ -9,7 +9,7 @@ const { sessions } = require("./constant/databaseSet");
 const app = express();
 
 require("dotenv").config();
-
+require("./redis/index");
 app.set("port", process.env.PORT);
 
 app.use(cookieParser(process.env.COOKIE_SECRET));

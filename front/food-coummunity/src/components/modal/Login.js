@@ -115,11 +115,12 @@ const LoginBox = styled.div`
   display: flex;
   margin: 10px 0px;
   border-radius: 10px;
-  font-size: 26px;
   color: white;
   align-items: center;
   justify-content: center;
   font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
 `;
 const Img = styled.img`
   width: 100%;

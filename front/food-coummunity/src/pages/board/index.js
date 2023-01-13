@@ -40,6 +40,7 @@ const Board = () => {
           Authorization: 'Bearer ' + token,
         },
       });
+      console.log(res);
       setResData(res?.data?.data);
     } catch (e) {
       if (e?.response?.data?.msg) {
@@ -88,8 +89,6 @@ const Board = () => {
                     }}
                     key={row?.id}
                   >
-                    {console.log(row)}
-
                     <TableCell component='th' scope='row'>
                       {row?.title}
                     </TableCell>
