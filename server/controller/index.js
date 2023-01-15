@@ -36,4 +36,7 @@ module.exports = {
   postChat: require("./chat/postChat"),
   getRooms: require("./chat/getRooms"),
   getMsgList: require("./chat/getMsgList"),
+
+  //push
+  push: require("./alarm"),
 };

@@ -3,17 +3,21 @@ module.exports = (app) => {
     cors: { origin: "*" },
   });
   io.on("connection", (socket) => {
-    console.log("SOCKETIO connection EVENT: ", socket.id, " client connected");
+    // console.log("SOCKETIO connection EVENT: ", socket.id, " client connected");
     const rommsocket = socket.handshake.query.roomId;
     const boardsocket = socket.handshake.query.boardId;
+    const userAlarm = socket.handshake.query.user;
     socket.join(rommsocket);
+    socket.join(userAlarm);
     socket.join(boardsocket);
 
     socket.on("join room", (item) => {
       socket.to(rommsocket).emit("chatmsg", item);
     });
+
     socket.on("chatmsg", (item) => {
       // console.log(item);
+
       socket.to(rommsocket).emit("chatmsg", item);
     });
 

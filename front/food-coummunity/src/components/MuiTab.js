@@ -13,7 +13,7 @@ export default function MuiTab({
   selectData,
   handleClick,
   page,
-
+  setRecruitsData,
   handleCreateClick,
   position,
 }) {
@@ -26,6 +26,7 @@ export default function MuiTab({
         </Tabs>
         <TabPanel style={{ bacground: 'blue' }} value={'0'}>
           <RecruitmentStatus
+            setRecruitsData={setRecruitsData}
             currentRecruitmentHandleLocation={currentRecruitmentHandleLocation}
             handleClick={handleClick}
             markerData={markerData}

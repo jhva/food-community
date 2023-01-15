@@ -5,13 +5,15 @@ import Login from 'components/modal/Login';
 import SignUp from 'components/modal/SignUp';
 import { useDispatch, useSelector } from 'react-redux';
 import { localLogout } from 'redux/userReducer';
+import Alarm from 'components/modal/Alarm';
+import { io } from 'socket.io-client';
 
 const NavBar = ({}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const { isLoginModal, isSignUpModal } = useSelector((state) => state?.auth);
   const [isLoginOpenModal, setIsLoginOpenModal] = useState(false);
   const [isSignUpOpenModal, setIsSignUpOpenModal] = useState(false);
+  const [isAlarm, setIsAlarm] = useState(false);
 
   const { token, user } = useSelector((state) => state?.auth);
 
@@ -31,6 +33,12 @@ const NavBar = ({}) => {
         }
         navigate('/board');
         break;
+
+      case '알림':
+        if (!user) {
+          return alert('로그인 후 이용해주세요');
+        }
+        break;
       default:
         break;
     }
@@ -40,8 +48,20 @@ const NavBar = ({}) => {
       <Container>
         <div>
           <b>같이먹으러가요</b>
+          {/* {user && <b>안녕하세요 {user?.nickname}님! </b>} */}
         </div>
         <RightContainer>
+          {/* <Text
+            onClick={() => {
+              if (!user) {
+                alert('로그인 후 이용해주세요');
+                return;
+              }
+              setIsAlarm(true);
+            }}
+          >
+            알림
+          </Text> */}
           <Text
             onClick={() => {
               handleNavigate('채팅');
@@ -88,6 +108,7 @@ const NavBar = ({}) => {
               setIsSignUpOpenModal={setIsSignUpOpenModal}
             />
           ) : null}
+          {/* {isAlarm ? <Alarm setIsAlarm={setIsAlarm} /> : null} */}
 
           {/* {user && <p>마이페이지 </p>} */}
         </RightContainer>

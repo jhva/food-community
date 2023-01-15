@@ -20,6 +20,7 @@ function App() {
   const { token, user } = useSelector((state) => state.auth);
   // const dispatch = useDispatch();
   // useEffect(() => {}, [user]);
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />

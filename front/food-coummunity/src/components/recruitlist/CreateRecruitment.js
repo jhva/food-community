@@ -7,7 +7,7 @@ import api from 'api/api';
 import { useSelector } from 'react-redux';
 
 const CreateRecruitment = ({ selectData, position, handleCreateClick }) => {
-  console.log(position);
+  // console.log(position);
   const { token, user } = useSelector((state) => state?.auth);
   const [value, setValue] = React.useState({
     title: '',
@@ -16,7 +16,7 @@ const CreateRecruitment = ({ selectData, position, handleCreateClick }) => {
     content: '',
     lat: position !== undefined ? position.lat : selectData.y,
     lng: position !== undefined ? position.lng : selectData.x,
-    placename: '',
+    // placename: position !== undefined ? '' : selectData,
   });
   const onChange = (e) => {
     setValue({
@@ -71,7 +71,7 @@ const CreateRecruitment = ({ selectData, position, handleCreateClick }) => {
             placeholder='최대 4줄 까지 작성가능합니다'
             label={'모집 내용'}
           />
-          <CustomTextField
+          {/* <CustomTextField
             style={{ paddingTop: '10px' }}
             variant='standard'
             placeholder={'모집 장소'}
@@ -80,7 +80,7 @@ const CreateRecruitment = ({ selectData, position, handleCreateClick }) => {
               onChange(e);
             }}
             value={selectData?.place_name}
-          />
+          /> */}
           {/* <TextField id='standard-basic' label='모집 기간' variant='standard' /> */}
         </Box>
       </div>

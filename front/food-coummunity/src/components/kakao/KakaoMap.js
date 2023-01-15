@@ -26,7 +26,8 @@ const KakaoMap = ({
   const { location, error, isLoading } = useLocation(geolocationOptions);
   const [position, setPosition] = useState();
   const [isVisible, setIsVisible] = useState(false);
-
+  const [recruitsData, setRecruitsData] = useState([]);
+  // console.log(recruitsData);
   const [initLocation, setInitLocation] = useState({
     // 지도의 초기 위치
     lat: location.latitude,
@@ -143,9 +144,7 @@ const KakaoMap = ({
                 {isVisible && initLocation?.item?.title}
               </MapMarker>
             )}
-
-            {/* {position && <MapMarker position={position} />} */}
-
+            {position && <MapMarker position={position}>선택한위치</MapMarker>}
             <MapMarker
               position={{
                 lat: location?.latitude,
@@ -158,6 +157,7 @@ const KakaoMap = ({
               </div>
             </MapMarker>
             <MuiTab
+              setRecruitsData={setRecruitsData}
               currentRecruitmentHandleLocation={
                 currentRecruitmentHandleLocation
               }

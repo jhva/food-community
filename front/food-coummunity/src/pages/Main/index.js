@@ -75,6 +75,11 @@ const Main = () => {
     }
   };
   const handleCreateClick = async (data) => {
+    console.log(data);
+    if (data.title === '' || data?.content === '') {
+      alert('모든 필드를 입력해주세요');
+      return;
+    }
     try {
       const res = await api.post(`recurit`, data, {
         headers: {

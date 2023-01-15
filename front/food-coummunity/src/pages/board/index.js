@@ -40,8 +40,8 @@ const Board = () => {
           Authorization: 'Bearer ' + token,
         },
       });
-      console.log(res);
       setResData(res?.data?.data);
+      console.log(res);
     } catch (e) {
       if (e?.response?.data?.msg) {
         alert(e?.response?.data?.msg);
@@ -78,14 +78,14 @@ const Board = () => {
               </TableRow>
             </TableHead>
             {resData
-              .slice((page - 1) * perpage, (page - 1) * perpage + perpage)
-              .map((row, key) => (
+              ?.slice((page - 1) * perpage, (page - 1) * perpage + perpage)
+              ?.map((row, key) => (
                 <TableBody key={key}>
                   <TableRow
                     sx={{ cursor: 'pointer' }}
                     onClick={() => {
                       socket.emit('board', row);
-                      navigate(`/boardContent/${row.id}`, { state: row });
+                      navigate(`/boardContent/${row?.id}`, { state: row });
                     }}
                     key={row?.id}
                   >

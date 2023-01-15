@@ -18,7 +18,9 @@ redisClient.on("connect", () => {
 redisClient.on("error", (err) => {
   console.error("레디스 연결 끊김", err);
 });
+
 redisClient.connect().then(); // redis v4 연결 (비동기)
+
 // 기본 redisClient 객체는 콜백기반인데 v4버젼은 프로미스 기반이라 사용
 
 module.exports = {

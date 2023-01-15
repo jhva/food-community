@@ -22,7 +22,7 @@ module.exports = async (req, res, next) => {
       const hash = await bcrypt.hash(password, 10);
 
       await User.create({
-        email,
+        email: email.trim(),
         username,
         phoneNumber,
         nickname,

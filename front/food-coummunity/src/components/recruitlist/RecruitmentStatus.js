@@ -12,6 +12,7 @@ const { kakao } = window;
 const RecruitmentStatus = ({
   handleClick,
   markerData,
+  setRecruitsData,
   currentPage,
   currentRecruitmentHandleLocation,
 }) => {
@@ -54,6 +55,7 @@ const RecruitmentStatus = ({
           Authorization: 'Bearer ' + token,
         },
       });
+      setRecruitsData(res?.data?.data);
       setRecruitData(res?.data?.data);
     } catch (e) {
       if (e?.response?.data?.msg) {

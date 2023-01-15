@@ -18,7 +18,7 @@ export const TopText = styled.span`
 export const ChatConatiner = styled.div`
   width: 100%;
   padding-bottom: 90px;
-  scroll-behavior: smooth;
+  /* scroll-behavior: smooth; */
 
   /* display: flex;
 

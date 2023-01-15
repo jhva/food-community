@@ -4,6 +4,6 @@ const { isAuthorization } = require("../jwt");
 
 router.delete("/:id", isAuthorization, controllers.deleteRecruit);
 router.post("", isAuthorization, controllers.postRecurit);
-router.get("", isAuthorization, controllers.getRecruit);
+router.get("", controllers.getRecruit);
 
 module.exports = router;

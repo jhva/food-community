@@ -52,6 +52,7 @@ const SignUp = ({ setIsSignUpOpenModal, setIsLoginOpenModal }) => {
       alert('정보를 모두 기입해주세요');
       return;
     }
+
     if (isError.isPassword) {
       alert('비밀번호를 다시 한번 확인해주세요');
       return;
@@ -70,7 +71,7 @@ const SignUp = ({ setIsSignUpOpenModal, setIsLoginOpenModal }) => {
     };
     try {
       const { data } = await api.post('user/signup', body);
-      console.log(data);
+      // console.log(data);
       alert('회원가입이 완료되었습니다');
       setIsSignUpOpenModal(false);
       setIsLoginOpenModal(true);
@@ -83,7 +84,6 @@ const SignUp = ({ setIsSignUpOpenModal, setIsLoginOpenModal }) => {
       console.log(e?.response);
     }
   };
-
   const handleChange = (type) => (e) => {
     setUserInfo({ ...userInfo, [type]: e.target.value });
 

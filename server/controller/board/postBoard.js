@@ -18,8 +18,10 @@ module.exports = async (req, res, next) => {
       content,
       UserId: req.authId,
     });
+    // await redisClient.pSubscribe("channe*", (message, channel) => {
+    //   console.log(message, channel, "post"); // 'message', 'channel'
+    // });
 
-    await redisClient.set("get-board", data);
     res.status(200).json({
       msg: "board created successfully",
       code: 200,

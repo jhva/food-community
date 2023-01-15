@@ -4,12 +4,12 @@ const bcrypt = require("bcrypt");
 
 module.exports = async (req, res, next) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ where: { email: email } });
+  const user = await User.findOne({ where: { email: email.trim() } });
   if (user) {
     const password_valid = bcrypt.compare(password, user.password);
     if (password_valid) {
       let accesstoken = generateAccessToken(
-        { email: user.email, nickname: user.nickname, id: user.id },
+        { email: user.email.trim(), nickname: user.nickname, id: user.id },
         process.env.ACCESS_TOKEN
       );
       let refreshtoken = refresh();
