@@ -49,22 +49,6 @@ const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
     setIsLoginOpenModal(false);
   }, []);
 
-  // const naverLogin = async (e) => {
-  //   console.log(e);
-  //   let params = new URL(document.URL).searchParams;
-  //   const href = window.location.href;
-  //   console.log(href);
-  //   console.log(params);
-  //   let body = e?.response;
-  //   return;
-  //   // try {
-  //   //   // /auth/naver-login
-  //   //   const res = await api.post(`/chat/msg`, body);
-  //   // } catch (e) {
-  //   //   console.log(e);
-  //   // }
-  // };
-
   const initializeNaverLogin = () => {
     const { naver } = window;
     const naverLogin = new naver.LoginWithNaverId({
@@ -153,9 +137,14 @@ const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
               }}
               onFailure={(e) => console.error(e)}
             /> */}
-            <div ref={ref} id='naverIdLogin'></div>
+            <div ref={ref} hidden id='naverIdLogin'></div>
             <LoginBox kakao={true}>카카오 로그인</LoginBox>
-            <LoginBox id='naverIdLogin'>
+            <LoginBox
+              onClick={() => {
+                ref.current.children[0].click();
+              }}
+              id='naverIdLogin'
+            >
               <p>네이버 로그인</p>
             </LoginBox>
           </div>
