@@ -1,22 +1,27 @@
 import { Box, TextField } from '@mui/material';
 import { BasicButton, CustomCancelMdCancel } from 'components/button';
 import CustomTextField from 'components/inputs/CustomTextField';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { ModalBackdrop } from './commonStyle';
 import kakaoImg from 'assets/kakaologin.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { LOGIN } from 'redux/userReducer';
 import { localLogin } from '../../redux/userReducer';
-import naverImg from 'assets/btnG_완성형.png';
+import NaverLogin from 'react-naver-login';
+import api from 'api/api';
+import { useNavigate } from 'react-router-dom';
 
 const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
   const { token, user } = useSelector((state) => state?.auth);
+  const ref = useRef();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [value, setValue] = useState({
     email: '',
     password: '',
   });
+  const [isNaverLogin, setIsNaverLogin] = useState(false);
   const { email, password } = value;
 
   const handleChange = (type) => (e) => {
@@ -44,6 +49,41 @@ const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
     setIsLoginOpenModal(false);
   }, []);
 
+  // const naverLogin = async (e) => {
+  //   console.log(e);
+  //   let params = new URL(document.URL).searchParams;
+  //   const href = window.location.href;
+  //   console.log(href);
+  //   console.log(params);
+  //   let body = e?.response;
+  //   return;
+  //   // try {
+  //   //   // /auth/naver-login
+  //   //   const res = await api.post(`/chat/msg`, body);
+  //   // } catch (e) {
+  //   //   console.log(e);
+  //   // }
+  // };
+
+  const initializeNaverLogin = () => {
+    const { naver } = window;
+    const naverLogin = new naver.LoginWithNaverId({
+      clientId: process.env.REACT_APP_CLIENT_ID_NAVER,
+      callbackUrl: 'http://localhost:3000/oauth/naver/callback',
+      clientSecret: process.env.REACT_APP_CLIENT_SECRET_NAVER,
+      isPopup: false, // popup 형식으로 띄울것인지 설정
+      loginButton: {
+        color: 'green',
+        type: 3,
+        height: '60',
+      }, //버튼의 스타일, 타입, 크기를 지정
+    });
+    naverLogin.init();
+  };
+
+  useEffect(() => {
+    initializeNaverLogin();
+  }, []);
   return (
     <ModalBackdrop onClick={handleClosingModal}>
       <BoxContainer onClick={(e) => e.stopPropagation()}>
@@ -95,8 +135,29 @@ const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
               />
             </div>
             {/* <Img src={kakaoImg} /> */}
-            <LoginBox>네이버 로그인</LoginBox>
+            {/* <NaverLogin
+              clientId={'rleZtljmgGlKwMlyqz4J'}
+              callbackUrl={`http://localhost:3000/oauth/naver/callback`}
+              render={(props) => (
+                <LoginBox
+                  onClick={(e) => {
+                    console.log(props);
+                    props.onClick(e);
+                  }}
+                >
+                  네이버 로그인
+                </LoginBox>
+              )}
+              onSuccess={(e) => {
+                console.log(e);
+              }}
+              onFailure={(e) => console.error(e)}
+            /> */}
+            <div ref={ref} id='naverIdLogin'></div>
             <LoginBox kakao={true}>카카오 로그인</LoginBox>
+            <LoginBox id='naverIdLogin'>
+              <p>네이버 로그인</p>
+            </LoginBox>
           </div>
         </LoginForm>
       </BoxContainer>
@@ -107,6 +168,16 @@ const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
 export default Login;
 const LoginBox = styled.div`
   height: 70px;
+  p {
+  }
+  a {
+    display: flex;
+    align-items: center;
+    display: none;
+    img {
+      max-width: 100%;
+    }
+  }
   width: 100%;
   cursor: pointer;
   background-color: ${(props) => {

@@ -15,6 +15,7 @@ import { healthcheck } from 'redux/userReducer';
 import Board from 'pages/board';
 import BoardUpload from 'pages/board/BoardUpload';
 import BoardDetail from './pages/board/BoardDetail';
+import TestNaver from 'pages/Testnaver';
 
 function App() {
   const { token, user } = useSelector((state) => state.auth);
@@ -43,6 +44,7 @@ function App() {
             </Route>
 
             <Route path='/auth/kakao/callback' element={<Kakao />} />
+            <Route path='/oauth/naver/callback' element={<TestNaver />} />
           </Routes>
         </Router>
       </S.RootStyle>

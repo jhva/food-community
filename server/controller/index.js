@@ -1,7 +1,7 @@
 module.exports = {
   test2: require("./user/test2"),
   test: require("./user/test"),
-  // naverlogin: require("./user/naverlogin"),
+  naverlogin: require("./user/naverlogin"),
 
   authentication: require("./user/authentication"),
 

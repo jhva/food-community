@@ -17,6 +17,6 @@ router.post("/test", controllers.test);
 router.get("/test2", isAuthorization, controllers.test2);
 
 // //네이버 로그인
-// router.post("/naver-login", controllers.naverlogin);
+router.post("/auth/naver-login", controllers.naverlogin);
 
 module.exports = router;
