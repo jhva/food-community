@@ -40,8 +40,8 @@ const Board = () => {
           Authorization: 'Bearer ' + token,
         },
       });
-      setResData(res?.data?.data);
-      console.log(res);
+      // setResData(res?.data?.data);
+      console.log(res?.data);
     } catch (e) {
       if (e?.response?.data?.msg) {
         alert(e?.response?.data?.msg);
@@ -49,6 +49,7 @@ const Board = () => {
       console.log(e?.response);
     }
   };
+
   useEffect(() => {
     getBoard();
   }, []);

@@ -13,11 +13,25 @@ module.exports = async (req, res, next) => {
   }
 
   try {
-    const data = await Board.create({
+    // const data = await Board.create({
+    //   title,
+    //   content,
+    //   UserId: req.authId,
+    // });
+    let datafilter = {
       title,
       content,
       UserId: req.authId,
-    });
+    };
+    await redisClient.lPush("asf", JSON.stringify(datafilter));
+    // await redisClient.json.set("data", ".live", { games: [] });
+    // await redisClient.rPush("test", {
+    //   title: title,
+    //   content: "!23",
+    //   UserId: req.authId,
+    // });
+
+    // await redisClient.json.arrAppend("sex", "$", JSON.stringify(data));
     // await redisClient.pSubscribe("channe*", (message, channel) => {
     //   console.log(message, channel, "post"); // 'message', 'channel'
     // });
