@@ -139,9 +139,9 @@ const RecruitmentStatus = ({
           />
         )}
       </div>
-      <h4 style={{ cursor: 'pointer' }} onClick={handleOpen}>
+      <span style={{ cursor: 'pointer' }} onClick={handleOpen}>
         검색 결과 리스트 보기👇
-      </h4>
+      </span>
       <Box
         component='div'
         sx={{

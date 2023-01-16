@@ -1,36 +1,74 @@
 const axios = require("axios");
-
+const { ERROR } = require("../../error");
+const { generateAccessToken, refresh } = require("../../jwt");
+const User = require("./../../models/user");
 require("dotenv").config();
 
-const KAKAO_USER_INFO_URL = "https://kapi.kakao.com/v2/user/me";
+const KAKAO_USER_INFO_URL = "";
 
 module.exports = async (req, res) => {
-  const { session, query } = req;
-  const { code } = query;
-  console.log(code);
+  const { response } = req.body;
+  const user = await axios.get(process.env.KAKAO_USER_INFO_URL, {
+    headers: {
+      Authorization: `Bearer ${response?.access_token}`,
+      // redirect_uri: process.env.KAKAO_REACT_REDIRECT,
+    },
+  });
+  const kakaoUserInfo = user?.data?.kakao_account;
+
+  const existkakaoUser = await User.findOne({
+    where: { oauthId: user?.data?.id },
+  });
+
   try {
-    axios
-      .post("https://kauth.kakao.com/oauth/token", null, {
-        params: {
-          grant_type: "authorization_code",
-          client_id: process.env.KAKAO_CLIENT_ID,
-          redirect_uri: process.env.KAKAO_REACT_REDIRECT,
-          code,
+    if (existkakaoUser) {
+      let accesstoken = generateAccessToken(
+        {
+          email: existkakaoUser?.email,
+          nickname: existkakaoUser?.nickname,
+          id: existkakaoUser?.id,
+          oauth: "kakao",
+          oauthId: existkakaoUser?.oauthId,
         },
-      })
-      .then((res) => res.data)
-      .then((data) => {
-        return axios.get(KAKAO_USER_INFO_URL, {
-          headers: { Authorization: `Bearer ${data.access_token}` },
+        process.env.ACCESS_TOKEN
+      );
+      let refreshtoken = refresh();
+      let userfilter = {
+        id: existkakaoUser?.id,
+        email: existkakaoUser?.email,
+        nickname: existkakaoUser?.nickname,
+        username: existkakaoUser?.username,
+        provider: existkakaoUser?.provider,
+        oauthId: existkakaoUser?.oauthId,
+        refreshtoken,
+        accesstoken,
+      };
+      return res
+        .cookie("user", refreshtoken, { httpOnly: true })
+        .status(200)
+        .json({
+          status: 200,
+          msg: "success",
+          data: userfilter,
         });
-      })
-      .then((data) => {
-        console.log(data);
-        res
-          .status(200)
-          .json({ status: 200, msg: "success", data: [data.data] });
+    } else {
+      await User.create({
+        email: kakaoUserInfo.email,
+        nickname: kakaoUserInfo.profile.nickname,
+        phoneNumber: "wait",
+        username: "wait",
+        provider: "카카오 사용자",
+        isMarketing: "Y",
+        oauthId: user?.data.id,
       });
+      return res.status(200).json({
+        status: 200,
+        msg: "kakao login success",
+        oauthId: user?.data.id,
+      });
+    }
   } catch (err) {
+    console.log(err);
     res.status(500).json({ msg: "카카오 로그인 오류" });
   }
 };

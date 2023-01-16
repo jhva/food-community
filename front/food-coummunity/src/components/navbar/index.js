@@ -14,7 +14,11 @@ const NavBar = ({}) => {
   const [isLoginOpenModal, setIsLoginOpenModal] = useState(false);
   const [isSignUpOpenModal, setIsSignUpOpenModal] = useState(false);
   const [isAlarm, setIsAlarm] = useState(false);
-
+  const [kakaoValue, setKakaoValue] = useState({
+    isSign: '',
+    type: '',
+    oauthId: '',
+  });
   const { token, user } = useSelector((state) => state?.auth);
 
   const handleNavigate = (type) => {
@@ -98,12 +102,16 @@ const NavBar = ({}) => {
           )}
           {isLoginOpenModal ? (
             <Login
+              kakaoValue={kakaoValue}
+              setKakaoValue={setKakaoValue}
               setIsSignUpOpenModal={setIsSignUpOpenModal}
               setIsLoginOpenModal={setIsLoginOpenModal}
             />
           ) : null}
           {isSignUpOpenModal ? (
             <SignUp
+              kakaoValue={kakaoValue}
+              setKakaoValue={setKakaoValue}
               setIsLoginOpenModal={setIsLoginOpenModal}
               setIsSignUpOpenModal={setIsSignUpOpenModal}
             />

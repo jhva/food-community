@@ -48,7 +48,7 @@ module.exports = class User extends Sequelize.Model {
           defaultValue: "일반사용자",
         },
         oauthId: {
-          type: Sequelize.STRING(50),
+          type: Sequelize.STRING(60),
           allowNull: true,
         },
       },

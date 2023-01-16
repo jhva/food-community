@@ -1,18 +1,29 @@
 import { Box, TextField } from '@mui/material';
 import { BasicButton, CustomCancelMdCancel } from 'components/button';
 import CustomTextField from 'components/inputs/CustomTextField';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 import { ModalBackdrop } from './commonStyle';
-import kakaoImg from 'assets/kakaologin.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { LOGIN } from 'redux/userReducer';
 import { localLogin } from '../../redux/userReducer';
 import NaverLogin from 'react-naver-login';
 import api from 'api/api';
+import KaKaoLogin from 'react-kakao-login';
+
 import { useNavigate } from 'react-router-dom';
 
-const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
+const Login = ({
+  setIsLoginOpenModal,
+  setIsSignUpOpenModal,
+  setKakaoValue,
+  kakaoValue,
+}) => {
   const { token, user } = useSelector((state) => state?.auth);
   const ref = useRef();
   const dispatch = useDispatch();
@@ -21,8 +32,19 @@ const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
     email: '',
     password: '',
   });
-  const [isNaverLogin, setIsNaverLogin] = useState(false);
+
   const { email, password } = value;
+
+  const CUSTOMSTYLE = useMemo(
+    () => ({
+      width: '100%',
+      height: '70px',
+      borderRadius: '10px',
+      backgroundColor: '#FEE500',
+      marginTop: '10px',
+    }),
+    []
+  );
 
   const handleChange = (type) => (e) => {
     setValue({ ...value, [type]: e.target.value });
@@ -63,6 +85,26 @@ const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
       }, //버튼의 스타일, 타입, 크기를 지정
     });
     naverLogin.init();
+  };
+  const kakaoLogin = async (e) => {
+    let body = {
+      response: e?.response,
+    };
+    try {
+      const { data } = await api.post('/user/auth/kakao-login', body);
+      console.log(data);
+      if (data?.status === 200) {
+        setIsSignUpOpenModal(true);
+        setKakaoValue({
+          ...kakaoValue,
+          isSign: true,
+          type: 'kakao',
+          oauthId: data?.oauthId,
+        });
+      }
+    } catch (e) {
+      console.log(e?.response);
+    }
   };
 
   useEffect(() => {
@@ -118,27 +160,19 @@ const Login = ({ setIsLoginOpenModal, setIsSignUpOpenModal }) => {
                 text={'회원가입'}
               />
             </div>
-            {/* <Img src={kakaoImg} /> */}
-            {/* <NaverLogin
-              clientId={'rleZtljmgGlKwMlyqz4J'}
-              callbackUrl={`http://localhost:3000/oauth/naver/callback`}
-              render={(props) => (
-                <LoginBox
-                  onClick={(e) => {
-                    console.log(props);
-                    props.onClick(e);
-                  }}
-                >
-                  네이버 로그인
-                </LoginBox>
-              )}
-              onSuccess={(e) => {
-                console.log(e);
-              }}
-              onFailure={(e) => console.error(e)}
-            /> */}
+
             <div ref={ref} hidden id='naverIdLogin'></div>
-            <LoginBox kakao={true}>카카오 로그인</LoginBox>
+            <KaKaoLogin
+              token={process.env.REACT_APP_KAKAO_APP_KEY}
+              onSuccess={(e) => {
+                kakaoLogin(e);
+              }}
+              onFail={console.error}
+              style={CUSTOMSTYLE}
+              kakao={true}
+            >
+              카카오 로그인
+            </KaKaoLogin>
             <LoginBox
               onClick={() => {
                 ref.current.children[0].click();

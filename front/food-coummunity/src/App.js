@@ -16,6 +16,7 @@ import Board from 'pages/board';
 import BoardUpload from 'pages/board/BoardUpload';
 import BoardDetail from './pages/board/BoardDetail';
 import NaverLoginCallback from 'pages/NaverLoginCallback';
+import PageNotFound from 'pages/404/PageNotFound';
 
 function App() {
   const { token, user } = useSelector((state) => state.auth);
@@ -43,11 +44,13 @@ function App() {
               <Route path=':id' element={<BoardDetail />} />
             </Route>
 
-            <Route path='/auth/kakao/callback' element={<Kakao />} />
+            {/* <Route path='/oauth/kakao/callback' element={<Kakao />} /> */}
             <Route
               path='/oauth/naver/callback'
               element={<NaverLoginCallback />}
             />
+
+            <Route path='*' element={<PageNotFound />} />
           </Routes>
         </Router>
       </S.RootStyle>

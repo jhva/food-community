@@ -5,7 +5,8 @@ module.exports = {
 
   authentication: require("./user/authentication"),
 
-  kakaocallback: require("./user/kakaocallback"),
+  kakaoLogin: require("./user/kakaocallback"),
+  kakaoLoginUpdate: require("./user/kakaoLoginUpdate"),
   authkakao: require("./user/authkakao"),
   signup: require("./user/signup"),
   logout: require("./user/logout"),
