@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
         .status(200)
         .json({
           status: 200,
-          msg: "success",
+          msg: "kakao login success",
           data: userfilter,
         });
     } else {
@@ -59,11 +59,11 @@ module.exports = async (req, res) => {
         username: "wait",
         provider: "카카오 사용자",
         isMarketing: "Y",
-        oauthId: user?.data.id,
+        oauthId: String(user?.data.id),
       });
       return res.status(200).json({
         status: 200,
-        msg: "kakao login success",
+        msg: "kakao sign success",
         oauthId: user?.data.id,
       });
     }

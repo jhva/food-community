@@ -13,31 +13,33 @@ module.exports = async (req, res) => {
     },
   });
 
-  let accesstoken = generateAccessToken(
-    {
-      email: userData.data.response.email,
-      nickname: userData.data.response.nickname,
-      id: userData.data.response.id,
-      oauth: "naver",
-    },
-    process.env.ACCESS_TOKEN
-  );
+  const user = await User.findOne({
+    where: { oauthId: userData?.data?.response.id },
+  });
   let refreshtoken = refresh();
+
   try {
-    const user = await User.findOne({
-      where: { oauthId: userData.data.response.id },
-    });
-    let userfilter = {
-      id: user?.id,
-      email: user?.email,
-      nickname: user?.nickname,
-      username: user?.username,
-      provider: user?.provider,
-      oauthId: user?.oauthId,
-      refreshtoken,
-      accesstoken,
-    };
     if (user) {
+      let accesstoken = generateAccessToken(
+        {
+          email: user.email,
+          nickname: user.nickname,
+          id: user.id,
+          provider: "naver",
+          oauthId: user.oauthId,
+        },
+        process.env.ACCESS_TOKEN
+      );
+      let userfilter = {
+        id: user?.id,
+        email: user?.email,
+        nickname: user?.nickname,
+        username: user?.username,
+        provider: user?.provider,
+        oauthId: user?.oauthId,
+        refreshtoken,
+        accesstoken,
+      };
       return res
         .cookie("user", refreshtoken, { httpOnly: true })
         .status(200)
@@ -58,6 +60,26 @@ module.exports = async (req, res) => {
         isMarketing: "Y",
         oauthId: userData.data.response.id,
       });
+      let accesstoken = generateAccessToken(
+        {
+          email: userData.data.response.email,
+          nickname: userData.data.response.nickname,
+          id: userData.data.response.id,
+          oauth: "naver",
+        },
+        process.env.ACCESS_TOKEN
+      );
+
+      let userfilter = {
+        id: user?.id,
+        email: user?.email,
+        nickname: user?.nickname,
+        username: user?.username,
+        provider: user?.provider,
+        oauthId: user?.oauthId,
+        refreshtoken,
+        accesstoken,
+      };
       return res
         .cookie("user", refreshtoken, { httpOnly: true })
         .status(200)

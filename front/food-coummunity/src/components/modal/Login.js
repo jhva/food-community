@@ -11,7 +11,7 @@ import React, {
 import styled from 'styled-components';
 import { ModalBackdrop } from './commonStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { localLogin } from '../../redux/userReducer';
+import { localLogin, LOGIN } from '../../redux/userReducer';
 import NaverLogin from 'react-naver-login';
 import api from 'api/api';
 import KaKaoLogin from 'react-kakao-login';
@@ -93,7 +93,11 @@ const Login = ({
     try {
       const { data } = await api.post('/user/auth/kakao-login', body);
       console.log(data);
-      if (data?.status === 200) {
+      if (data?.msg === 'kakao login success') {
+        setIsSignUpOpenModal(false);
+        dispatch(LOGIN({ user: data, token: data.data.accesstoken }));
+      }
+      if (data?.msg === 'kakao sign success') {
         setIsSignUpOpenModal(true);
         setKakaoValue({
           ...kakaoValue,

@@ -51,8 +51,11 @@ const NavBar = ({}) => {
     <NavBarContainer>
       <Container>
         <div>
-          <b>같이먹으러가요</b>
-          {/* {user && <b>안녕하세요 {user?.nickname}님! </b>} */}
+          {user ? (
+            <b>안녕하세요 {user?.nickname}님! </b>
+          ) : (
+            <b>같이먹으러가요</b>
+          )}
         </div>
         <RightContainer>
           {/* <Text
