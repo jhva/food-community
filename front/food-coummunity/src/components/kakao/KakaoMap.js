@@ -6,6 +6,8 @@ import Loading from 'components/common/Loading';
 import MuiTab from 'components/MuiTab';
 import styled from 'styled-components';
 import CustomMapMarker from './CustomMapMarker';
+import { useDispatch } from 'react-redux';
+import { POSITION } from 'redux/utilReducer';
 
 const KakaoMap = ({
   handleClick,
@@ -24,6 +26,7 @@ const KakaoMap = ({
   setValue,
 }) => {
   const { location, error, isLoading } = useLocation(geolocationOptions);
+  const dispatch = useDispatch();
   const [position, setPosition] = useState();
   const [isVisible, setIsVisible] = useState(false);
   const [recruitsData, setRecruitsData] = useState([]);
@@ -52,6 +55,7 @@ const KakaoMap = ({
   };
 
   const currentRecruitmentHandleLocation = (item) => {
+    console.log(item);
     setIsGeolocation(true);
     setInitLocation({
       lat: item?.lat,
@@ -125,14 +129,20 @@ const KakaoMap = ({
             level={4} // 지도의 확대 레벨
             onCreate={(map) => setMap(map)}
             onIdle={handleMapInfo} // 중심 좌표나 확대 수준이 변경됐을 때
-            onClick={(_t, mouseEvent) =>
-              setPosition({
-                lat: mouseEvent.latLng.getLat(),
-                lng: mouseEvent.latLng.getLng(),
-              })
-            }
+            // onClick={(_t, mouseEvent) => {
+            //   setPosition({
+            //     lat: mouseEvent.latLng.getLat(),
+            //     lng: mouseEvent.latLng.getLng(),
+            //   });
+            //   // dispatch(
+            //   //   POSITION({
+            //   //     lat: mouseEvent.latLng.getLat(),
+            //   //     lng: mouseEvent.latLng.getLng(),
+            //   //   })
+            //   // );
+            // }}
           >
-            {initLocation && (
+            {/* {initLocation && (
               <MapMarker
                 onMouseOver={() => setIsVisible(true)}
                 onMouseOut={() => setIsVisible(false)}
@@ -143,8 +153,8 @@ const KakaoMap = ({
               >
                 {isVisible && initLocation?.item?.title}
               </MapMarker>
-            )}
-            {position && <MapMarker position={position}>선택한위치</MapMarker>}
+            )} */}
+            {/* {position && <MapMarker position={position}>선택한위치</MapMarker>} */}
             <MapMarker
               position={{
                 lat: location?.latitude,
@@ -179,7 +189,7 @@ const KakaoMap = ({
                     index={index}
                     el={el}
                     handleClick={(e) => {
-                      handleClick(el, e);
+                      handleClick(el, e, 'type');
                     }}
                   />
                 </div>

@@ -14,24 +14,25 @@ module.exports = async (req, res, next) => {
   //     data: [data],
   //   });
   // });
-  await redisClient.lRange("asf", 0, -1, (err, data) => {
-    let dataFilter = [];
-    data.forEach((i) => {
-      dataFilter.push(JSON.parse(i));
-    });
+  // await redisClient.EXPIRE("asf", 5);
+  // await redisClient.lRange("asf", 0, -1, (err, data) => {
+  //   let dataFilter = [];
+  //   data.forEach((i) => {
+  //     dataFilter.push(JSON.parse(i));
+  //   });
 
-    console.log(dataFilter);
-    res.status(200).json({
-      msg: "board redis cache success",
-      code: 200,
-      data: dataFilter,
-    });
-  });
+  //   console.log(dataFilter);
+  //   res.status(200).json({
+  //     msg: "board redis cache success",
+  //     code: 200,
+  //     data: dataFilter,
+  //   });
+  // });
   try {
-    // const boardFindAll = await Board.findAll({
-    //   order: [["createdAt", "DESC"]],
-    //   include: [{ model: Comment }, { model: User, attributes: ["nickname"] }],
-    // });
+    const boardFindAll = await Board.findAll({
+      order: [["createdAt", "DESC"]],
+      include: [{ model: Comment }, { model: User, attributes: ["nickname"] }],
+    });
     // if (boardFindAll?.length > redisLength) {
     //   res.status(200).json({
     //     msg: "board get success",
@@ -58,9 +59,9 @@ module.exports = async (req, res, next) => {
     // } else {
     // await redisClient.setEx("get-board", 2000, JSON.stringify(boardFindAll));
     // }
-    // return res
-    //   .status(200)
-    //   .json({ msg: "board get success", code: 200, data: boardFindAll });
+    return res
+      .status(200)
+      .json({ msg: "board get success", code: 200, data: boardFindAll });
   } catch (err) {
     console.error(err);
     ERROR(500, err, res);

@@ -35,10 +35,15 @@ const BoardUpload = () => {
 
   const uploadBoard = async () => {
     let locationAPI = type ? api.patch : api.post;
+    let body = {
+      title: board.title,
+      content: board.content,
+      username: user?.username,
+    };
     try {
       const res = await locationAPI(
         type ? `board/${params?.id}` : `board`,
-        board,
+        body,
         {
           headers: {
             'Content-Type': 'application/json',

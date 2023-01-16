@@ -40,7 +40,7 @@ const Board = () => {
           Authorization: 'Bearer ' + token,
         },
       });
-      // setResData(res?.data?.data);
+      setResData(res?.data?.data);
       console.log(res?.data);
     } catch (e) {
       if (e?.response?.data?.msg) {

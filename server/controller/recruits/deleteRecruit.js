@@ -1,9 +1,16 @@
 const { ERROR } = require("../../error");
 const Recruit = require("../../models/recruits");
+const { RES } = require("../../response");
 
 module.exports = async (req, res, next) => {
   const { id } = req.params;
-  console.log("!@3");
+
+  try {
+    await Recruit.destroy({ where: { id } });
+    RES(200, "success", res);
+  } catch (e) {
+    ERROR(500, "server err", res, e);
+  }
   // try {
   //   await Recruit.destroy({
   //     where: {

@@ -21,6 +21,7 @@ module.exports = {
   isAuthorization: async (req, res, next) => {
     if (req.headers.authorization) {
       const token = req.headers.authorization.split("Bearer ")[1];
+      console.log(token);
       //Bearer
       console.log(req.headers);
       try {

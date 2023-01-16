@@ -75,12 +75,19 @@ const Main = () => {
       setValue('0');
     }
   };
-  const handleCreateClick = async (data) => {
+  const handleCreateClick = async (data, setValue, select) => {
+    // if (data?.title === '' || data?.content === '') {
+    //   alert('모든 필드를 입력해주세요');
+    //   return;
+    // }
+
+    setValue({ ...data, lat: select?.x, lng: select?.y });
     console.log(data);
-    if (data.title === '' || data?.content === '') {
-      alert('모든 필드를 입력해주세요');
-      return;
-    }
+
+    // console.log(data);
+
+    // console.log(newData);
+
     try {
       const res = await api.post(`recurit`, data, {
         headers: {

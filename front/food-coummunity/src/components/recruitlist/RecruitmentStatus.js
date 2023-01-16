@@ -16,11 +16,10 @@ const RecruitmentStatus = ({
   currentPage,
   currentRecruitmentHandleLocation,
 }) => {
-  const { token, user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   const [page, setPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
-  const [getRecruitData, setRecruitData] = useState([]);
-
+  const [getData, setGetData] = useState([]);
   const perpage = 5;
 
   const handleOpen = () => {
@@ -52,11 +51,11 @@ const RecruitmentStatus = ({
       const res = await api.get(`recurit`, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
+          Authorization: 'Bearer ' + user?.accesstoken,
         },
       });
       setRecruitsData(res?.data?.data);
-      setRecruitData(res?.data?.data);
+      setGetData(res?.data?.data);
     } catch (e) {
       if (e?.response?.data?.msg) {
         alert(e?.response?.data?.msg);
@@ -64,21 +63,40 @@ const RecruitmentStatus = ({
       console.log(e?.response);
     }
   };
-  const attendWithDelete = async (type, data, id) => {
+  const handleAttend = async (type, data, id) => {
     let body = {
       RecruitId: data?.id,
       isAttend: 'Y',
       statusNumber: data?.statusNumber,
       maxinum: data.maxinum,
     };
+
     try {
       const res = await api.post('/attend', body, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
+          Authorization: 'Bearer ' + user?.accesstoken,
         },
       });
       alert('참가 성공!');
+    } catch (e) {
+      console.log(e);
+      if (e?.response?.data?.msg) {
+        alert(e?.response?.data?.msg);
+      }
+      console.log(e?.response);
+    }
+  };
+  const handleGroupDelete = async (id) => {
+    try {
+      const res = await api.delete(`/recurit/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + user?.accesstoken,
+        },
+      });
+      alert('그룹 삭제!');
+      setGetData(getData.filter((data) => data.id !== id));
     } catch (e) {
       console.log(e);
       if (e?.response?.data?.msg) {
@@ -94,11 +112,11 @@ const RecruitmentStatus = ({
     <>
       <div>
         <h4>
-          {getRecruitData.length === 0
+          {getData.length === 0
             ? '현재 모집중인 그룹이 없어요!'
             : '현재 그룹 모집중이에요!'}
         </h4>
-        {getRecruitData
+        {getData
           .slice((page - 1) * perpage, (page - 1) * perpage + perpage)
           .map((item, index) => (
             <RecruitBox
@@ -115,12 +133,22 @@ const RecruitmentStatus = ({
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        attendWithDelete('참가', item);
+                        handleAttend('참가', item);
                       }}
                     >
                       참가
-                    </button>
+                    </button>{' '}
                   </div>
+                ) : null}
+                {user?.id === item?.UserId ? (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleGroupDelete(item?.id);
+                    }}
+                  >
+                    삭제
+                  </button>
                 ) : null}
               </ButtonBox>
 
@@ -130,12 +158,12 @@ const RecruitmentStatus = ({
               </p>
             </RecruitBox>
           ))}
-        {getRecruitData?.length === 0 ? null : (
+        {getData?.length === 0 ? null : (
           <PageNation
             perpage={perpage}
             page={page}
             setPage={setPage}
-            data={getRecruitData}
+            data={getData}
           />
         )}
       </div>

@@ -7,18 +7,17 @@ import api from 'api/api';
 import { useSelector } from 'react-redux';
 
 const CreateRecruitment = ({ selectData, position, handleCreateClick }) => {
-  // console.log(position);
-  const { token, user } = useSelector((state) => state?.auth);
+  const { user } = useSelector((state) => state?.auth);
   const [value, setValue] = React.useState({
     title: '',
     maxinum: '',
     // place: selectData.place_name,
     content: '',
-    lat: position !== undefined ? position.lat : selectData.y,
-    lng: position !== undefined ? position.lng : selectData.x,
+    lat: '',
+    lng: '',
     // placename: position !== undefined ? '' : selectData,
   });
-  const onChange = (e) => {
+  const onChange = (type) => (e) => {
     setValue({
       ...value,
       [e.target.name]: e.target.value,
@@ -39,37 +38,32 @@ const CreateRecruitment = ({ selectData, position, handleCreateClick }) => {
           noValidate
           autoComplete='off'
         >
-          {/* <h3>모집 장소는 지도에서 검색해서 원하는 위치를 클릭해주세요!</h3> */}
+          <h3>
+            {/* {`지도에서 검색해서 마커를 클릭해서 추가하거나 ${'\n} 원하는 지도에 마커를  등록후 모집을할수있습니다`} */}
+          </h3>
           <CustomTextField
             name='title'
-            onChange={(e) => {
-              onChange(e);
-            }}
+            onChange={onChange('title')}
             variant='standard'
             value={value?.title}
-            label={'모집 제목'}
+            placeholder='모집 제목'
           />
           <CustomTextField
-            onChange={(e) => {
-              onChange(e);
-            }}
+            onChange={onChange('maxinum')}
             variant='standard'
             name='maxinum'
+            type='number'
+            placeholder='모집 인원'
             value={value?.maxinum}
-            label={'모집 인원'}
           />
           <CustomTextField
-            onChange={(e) => {
-              onChange(e);
-            }}
+            onChange={onChange('content')}
             name='content'
+            type='text'
             value={value?.content}
             asd={'standard-multiline-flexible'}
-            multiline
-            maxRows={4}
             variant='standard'
-            placeholder='최대 4줄 까지 작성가능합니다'
-            label={'모집 내용'}
+            placeholder='모집 내용'
           />
           {/* <CustomTextField
             style={{ paddingTop: '10px' }}
@@ -87,7 +81,11 @@ const CreateRecruitment = ({ selectData, position, handleCreateClick }) => {
       <div>
         <BasicButton
           onClick={() => {
-            handleCreateClick(value);
+            if (!user) {
+              alert('로그인 후 이용해주세요');
+              return;
+            }
+            handleCreateClick(value, setValue, selectData, position);
           }}
           text={'모집 하기'}
         />
