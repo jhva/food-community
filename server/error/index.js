@@ -18,6 +18,12 @@ const ERROR = (status, msg, res, err) => {
         status,
       });
       break;
+    case 403:
+      res.status(403).json({
+        msg: msg,
+        status,
+      });
+      break;
     default:
       break;
   }

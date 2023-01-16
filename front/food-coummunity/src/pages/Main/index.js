@@ -1,12 +1,13 @@
 import KakaoMap from 'components/kakao/KakaoMap';
 import NavBar from 'components/navbar';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import S from './styles';
 import MuiTab from '../../components/MuiTab';
 import SearchInput from 'components/inputs/SearchInput';
 import { Map, useMap } from 'react-kakao-maps-sdk';
 import api from 'api/api';
 import { useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const { kakao } = window;
 const Main = () => {
