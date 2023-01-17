@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
+// const productionOptions = require(__dirname + "..");
 
 const { sequelize } = require("../models");
 
@@ -25,7 +26,7 @@ let sessions = session({
     httpOnly: true,
   },
 });
-
+// let sessions = ({});
 sequelize
   .sync({ force: false })
   .then(() => {
