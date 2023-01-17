@@ -17,7 +17,7 @@
     "username": "root",
     "password": "12341234",
     "database": "foodCommunity",
-    "host": "svc.gksl2.cloudtype.app:32438",
+    "host": "svc.gksl2.cloudtype.app",
     "dialect": "mysql"
   }
 }
