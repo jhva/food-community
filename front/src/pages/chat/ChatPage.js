@@ -13,9 +13,14 @@ const ChatPage = () => {
   const navigate = useNavigate();
   const [chatList, setChatList] = useState([]);
 
-  const socket = io('http://localhost:9000', {
-    transports: ['websocket'],
-  });
+  const socket = io(
+    process.env.NODE_ENV === 'production'
+      ? process.env.REACT_APP_SERVER
+      : 'http://localhost:9000',
+    {
+      transports: ['websocket'],
+    }
+  );
 
   const routingNavigate = (id, data) => {
     navigate(`/chatroom/${id}`, {

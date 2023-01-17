@@ -22,9 +22,14 @@ import TopBar from 'components/TopBar';
 import { io } from 'socket.io-client';
 
 const Board = () => {
-  const socket = io('http://localhost:9000', {
-    transports: ['websocket'],
-  });
+  const socket = io(
+    process.env.NODE_ENV === 'production'
+      ? process.env.REACT_APP_SERVER
+      : 'http://localhost:9000',
+    {
+      transports: ['websocket'],
+    }
+  );
 
   const { token } = useSelector((state) => state.auth);
   const navigate = useNavigate();

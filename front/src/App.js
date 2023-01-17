@@ -19,7 +19,7 @@ import NaverLoginCallback from 'pages/NaverLoginCallback';
 import PageNotFound from 'pages/404/PageNotFound';
 
 function App() {
-  const { token, user } = useSelector((state) => state.auth);
+  // const { token, user } = useSelector((state) => state.auth);
   // const dispatch = useDispatch();
   // useEffect(() => {}, [user]);
 

@@ -29,10 +29,15 @@ const BoardDetail = () => {
   const [getCommentData, setGetCommentData] = useState([]);
   const params = useParams();
 
-  const socket = io('http://localhost:9000', {
-    transports: ['websocket'],
-    query: { roomId: params?.id },
-  });
+  const socket = io(
+    process.env.NODE_ENV === 'production'
+      ? process.env.REACT_APP_SERVER
+      : 'http://localhost:9000',
+    {
+      transports: ['websocket'],
+      query: { roomId: params?.id },
+    }
+  );
   useEffect(() => {
     if (!location?.state) {
       navigate('/');

@@ -30,10 +30,15 @@ const ChatRoom = () => {
   const [value, setValue] = useState({
     msg: '',
   });
-  const socket = io('http://localhost:9000', {
-    transports: ['websocket'],
-    query: { roomId: params.id },
-  });
+  const socket = io(
+    process.env.NODE_ENV === 'production'
+      ? process.env.REACT_APP_SERVER
+      : 'http://localhost:9000',
+    {
+      transports: ['websocket'],
+      query: { roomId: params.id },
+    }
+  );
 
   const onhandleChange = (e) => {
     setValue({ ...value, [e.target.name]: e.target.value });
