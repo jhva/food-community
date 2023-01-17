@@ -75,7 +75,8 @@ const Login = ({
     const { naver } = window;
     const naverLogin = new naver.LoginWithNaverId({
       clientId: process.env.REACT_APP_CLIENT_ID_NAVER,
-      callbackUrl: 'http://localhost:3000/oauth/naver/callback',
+      callbackUrl:
+        'https://web-food-community-front-1ih8d2glczugkpe.gksl2.cloudtype.app/oauth/naver/callback',
       clientSecret: process.env.REACT_APP_CLIENT_SECRET_NAVER,
       isPopup: false, // popup 형식으로 띄울것인지 설정
       loginButton: {
