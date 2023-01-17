@@ -22,7 +22,7 @@
     "password": "12341234",
     "database": "foodCommunity",
     "host": "svc.gksl2.cloudtype.app",
-    "port": "3306",
+    "port": "32438",
 
     "dialect": "mysql"
   }
