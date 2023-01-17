@@ -1,6 +1,9 @@
 module.exports = (app) => {
   const io = require("socket.io")(app, {
-    cors: { origin: "*" },
+    cors: {
+      origin:
+        "https://web-food-community-front-1ih8d2glczugkpe.gksl2.cloudtype.app",
+    },
   });
   io.on("connection", (socket) => {
     // console.log("SOCKETIO connection EVENT: ", socket.id, " client connected");

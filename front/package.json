@@ -56,5 +56,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://port-0-food-server-1ih8d2glczugkpe.gksl2.cloudtype.app"
+  "proxy": "http://localhost:9000"
 }
