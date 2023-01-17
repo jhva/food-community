@@ -21,7 +21,7 @@ let sessions = session({
   saveUninitialized: true,
   store: new MySQLStore(options),
   cookie: {
-    secure: false,
+    secure: true,
 
     httpOnly: true,
   },
