@@ -113,7 +113,7 @@ const BoardDetail = () => {
     socket.on('commentMsg', (item) => {
       setGetCommentData((prev) => {
         let newData = Object.assign([], prev);
-        newData.unshift(item);
+        newData.push(item);
         return newData;
       });
     });

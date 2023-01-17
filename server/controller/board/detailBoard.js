@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
   const { id } = req.params;
   await Board.findOne({
     where: { id },
-    order: [[{ model: Comment }, "createdAt", "DESC"]],
+    order: [[{ model: Comment }, "createdAt", "ASC"]],
     include: {
       model: Comment,
       include: { model: User, attributes: ["nickname"] },
