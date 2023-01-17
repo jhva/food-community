@@ -29,6 +29,15 @@ app.use((req, res, next) => {
   next(err);
 });
 app.use((req, res) => {
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "POST, PUT, OPTIONS, DELETE, GET"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Credentials", true);
   res.header(
     "Access-Control-Allow-Origin",
     "https://web-food-community-front-1ih8d2glczugkpe.gksl2.cloudtype.app"
