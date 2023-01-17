@@ -99,7 +99,6 @@ const KakaoMap = ({
     // console.log('4, 지도의 정보를 다시 받아옴')
     handleMapInfo();
   }, [map, initLocation]);
-
   return (
     <>
       {isLoading ? (
@@ -153,8 +152,8 @@ const KakaoMap = ({
               >
                 {isVisible && initLocation?.item?.title}
               </MapMarker>
-            )} */}
-            {/* {position && <MapMarker position={position}>선택한위치</MapMarker>} */}
+            )}
+            {position && <MapMarker position={position}>선택한위치</MapMarker>} */}
             <MapMarker
               position={{
                 lat: location?.latitude,

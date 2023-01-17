@@ -13,8 +13,8 @@ const CreateRecruitment = ({ selectData, position, handleCreateClick }) => {
     maxinum: '',
     // place: selectData.place_name,
     content: '',
-    lat: '',
-    lng: '',
+    lat: position !== undefined ? position?.lat : selectData.y,
+    lng: position !== undefined ? position?.lng : selectData.x,
     // placename: position !== undefined ? '' : selectData,
   });
   const onChange = (type) => (e) => {
@@ -80,7 +80,7 @@ const CreateRecruitment = ({ selectData, position, handleCreateClick }) => {
       </div>
       <div>
         <BasicButton
-          onClick={() => {
+          onClick={async () => {
             if (!user) {
               alert('로그인 후 이용해주세요');
               return;

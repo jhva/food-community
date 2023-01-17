@@ -81,14 +81,15 @@ const Main = () => {
     //   return;
     // }
 
-    setValue({ ...data, lat: select?.x, lng: select?.y });
-    console.log(data);
+    await setValue({ ...data, lat: selectData?.x, lng: selectData?.y });
 
     // console.log(data);
 
     // console.log(newData);
 
     try {
+      console.log(data);
+
       const res = await api.post(`recurit`, data, {
         headers: {
           'Content-Type': 'application/json',
