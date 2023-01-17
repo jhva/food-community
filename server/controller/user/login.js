@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
 
   try {
     const user = await User.findOne({ where: { email: email.trim() } });
-    const password_valid = bcrypt.compare(password, user.password);
+    const password_valid = await bcrypt.compare(password, user.password);
     if (user) {
       if (password_valid) {
         let accesstoken = generateAccessToken(
