@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 app.use((req, res) => {
   res.header(
     "Access-Control-Allow-Origin",
-    "https://web-food-community-front-1ih8d2glczugkpe.gksl2.cloudtype.app/"
+    "https://web-food-community-front-1ih8d2glczugkpe.gksl2.cloudtype.app"
   ); // 특정 도메인
 });
 // 에러가 발생한 경우 처리
