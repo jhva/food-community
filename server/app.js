@@ -26,13 +26,14 @@ app.use("/", rootRouter);
 
 app.use((req, res, next) => {
   res.status(404).json({ msg: "Page Not Found" });
+  next(err);
+});
+app.use((req, res) => {
   res.header(
     "Access-Control-Allow-Origin",
     "https://web-food-community-front-1ih8d2glczugkpe.gksl2.cloudtype.app/"
   ); // 특정 도메인
-  next(err);
 });
-
 // 에러가 발생한 경우 처리
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
