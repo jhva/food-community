@@ -216,6 +216,10 @@ const BoardDetail = () => {
                         <div style={{ flex: 1 }}>
                           <CustomBiTrash
                             onClick={() => {
+                              if (user?.id !== item.UserId) {
+                                alert('자신이 쓴 댓글만 가능합니다.');
+                                return;
+                              }
                               deleteComment(item?.id, item);
                             }}
                           />

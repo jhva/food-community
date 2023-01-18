@@ -40,6 +40,7 @@ app.use((req, res) => {
   res.header("Access-Control-Allow-Credentials", true);
   res.header(
     "Access-Control-Allow-Origin",
+    // "http://localhost:3000"
     "https://web-food-community-front-1ih8d2glczugkpe.gksl2.cloudtype.app"
   ); // 특정 도메인
 });

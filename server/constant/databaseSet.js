@@ -28,7 +28,7 @@ let sessions = session({
 });
 // let sessions = ({});
 sequelize
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
     console.log("데이터베이스 연결 성공");
   })

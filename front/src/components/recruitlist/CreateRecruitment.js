@@ -53,7 +53,7 @@ const CreateRecruitment = ({ selectData, position, handleCreateClick }) => {
             variant='standard'
             name='maxinum'
             type='number'
-            placeholder='모집 인원'
+            placeholder='모집 인원을 정해주세요 (본인포함 모집입니다)'
             value={value?.maxinum}
           />
           <CustomTextField

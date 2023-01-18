@@ -59,7 +59,7 @@ const SignUp = ({
       oauthId: kakaoValue.oauthId,
     };
     try {
-      const { data } = await api.patch('user/auth/kakao-login-update', body);
+      const { data } = await api.patch('/user/auth/kakao-login-update', body);
       console.log(data);
       alert('로그인 성공');
       setIsLoginOpenModal(false);
