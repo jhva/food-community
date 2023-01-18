@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 
 import CustomTextField from 'components/inputs/CustomTextField';
@@ -23,6 +23,12 @@ const CreateRecruitment = ({
     lng: searchData ? searchData?.x : selectData.x,
     // placename: position !== undefined ? '' : selectData,
   });
+  useEffect(() => {}, [
+    searchData?.y,
+    selectData.y,
+    selectData?.x,
+    searchData?.x,
+  ]);
   const onChange = (type) => (e) => {
     setValue({
       ...value,

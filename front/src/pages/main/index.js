@@ -25,9 +25,6 @@ const Main = () => {
   const [page, setPage] = useState();
   const [selectKeywordData, setKeywordData] = useState({});
 
-  useEffect(() => {
-    // setSelectData({ ...selectData });
-  }, []);
   const handleChange = useCallback((event, newValue) => {
     setValue(newValue);
   }, []);
@@ -39,8 +36,8 @@ const Main = () => {
     } else {
       if (data) {
         setValue('1');
-        setSelectData({ ...selectData, x: data?.x, y: data?.y });
       }
+      setSelectData({ ...selectData, x: data?.x, y: data?.y });
     }
   };
 
