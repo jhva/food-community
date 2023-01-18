@@ -39,7 +39,8 @@ const CreateRecruitment = ({ selectData, position, handleCreateClick }) => {
           autoComplete='off'
         >
           <h3>
-            {/* {`지도에서 검색해서 마커를 클릭해서 추가하거나 ${'\n} 원하는 지도에 마커를  등록후 모집을할수있습니다`} */}
+            지도에서 검색해서 마커를 클릭해서 추가하거나 원하는 지도에 마커를
+            등록후 모집을할수있습니다
           </h3>
           <CustomTextField
             name='title'
