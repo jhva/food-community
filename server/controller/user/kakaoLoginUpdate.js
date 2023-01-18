@@ -1,6 +1,6 @@
 const { ERROR } = require("../../error");
 const { generateAccessToken, refresh } = require("../../jwt");
-const User = require("./../../models/user");
+const User = require("../../models/user");
 
 require("dotenv").config();
 

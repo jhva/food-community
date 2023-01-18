@@ -1,7 +1,7 @@
 const axios = require("axios");
 const { ERROR } = require("../../error");
 const { generateAccessToken, refresh } = require("../../jwt");
-const User = require("./../../models/user");
+const User = require("../../models/user");
 require("dotenv").config();
 
 const KAKAO_USER_INFO_URL = "";
