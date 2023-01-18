@@ -16,11 +16,10 @@ module.exports = async (req, res) => {
   });
   const kakaoUserInfo = user?.data?.kakao_account;
 
-  const existkakaoUser = await User.findOne({
-    where: { oauthId: user?.data?.id },
-  });
-
   try {
+    const existkakaoUser = await User.findOne({
+      where: { oauthId: user?.data?.id },
+    });
     if (existkakaoUser) {
       let accesstoken = generateAccessToken(
         {
