@@ -55,8 +55,8 @@ module.exports = async (req, res) => {
         });
     } else {
       await User.create({
-        email: kakaoUserInfo.email,
-        nickname: kakaoUserInfo.profile.nickname,
+        email: kakaoUserInfo?.email,
+        nickname: kakaoUserInfo?.profile?.nickname,
         phoneNumber: "wait",
         username: "wait",
         provider: "카카오 사용자",
