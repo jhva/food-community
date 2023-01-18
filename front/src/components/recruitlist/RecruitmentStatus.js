@@ -12,6 +12,9 @@ const { kakao } = window;
 const RecruitmentStatus = ({
   handleClick,
   markerData,
+  searchData,
+  setValue,
+  setSearchData,
   setRecruitsData,
   currentPage,
   currentRecruitmentHandleLocation,
@@ -192,6 +195,8 @@ const RecruitmentStatus = ({
                       cursor: 'pointer',
                     }}
                     onClick={() => {
+                      setValue('1');
+                      setSearchData({ ...searchData, x: item?.x, y: item.y });
                       handleClick(item, '모집현황');
                     }}
                     key={key}

@@ -6,15 +6,21 @@ import { BasicButton } from 'components/button';
 import api from 'api/api';
 import { useSelector } from 'react-redux';
 
-const CreateRecruitment = ({ selectData, position, handleCreateClick }) => {
+const CreateRecruitment = ({
+  selectData,
+  position,
+  handleCreateClick,
+  searchData,
+  setSearchData,
+}) => {
   const { user } = useSelector((state) => state?.auth);
   const [value, setValue] = React.useState({
     title: '',
     maxinum: '',
     // place: selectData.place_name,
     content: '',
-    lat: position !== undefined ? position?.lat : selectData.y,
-    lng: position !== undefined ? position?.lng : selectData.x,
+    lat: searchData ? searchData?.y : selectData.y,
+    lng: searchData ? searchData?.x : selectData.x,
     // placename: position !== undefined ? '' : selectData,
   });
   const onChange = (type) => (e) => {
@@ -38,10 +44,7 @@ const CreateRecruitment = ({ selectData, position, handleCreateClick }) => {
           noValidate
           autoComplete='off'
         >
-          <h3>
-            지도에서 검색해서 마커를 클릭해서 추가하거나 원하는 지도에 마커를
-            등록후 모집을할수있습니다
-          </h3>
+          <h3>지도에서 검색해서 마커를 클릭해서 모집이 가능합니다.</h3>
           <CustomTextField
             name='title'
             onChange={onChange('title')}
@@ -82,10 +85,10 @@ const CreateRecruitment = ({ selectData, position, handleCreateClick }) => {
       <div>
         <BasicButton
           onClick={async () => {
-            if (!user) {
-              alert('로그인 후 이용해주세요');
-              return;
-            }
+            // if (!user) {
+            //   alert('로그인 후 이용해주세요');
+            //   return;
+            // }
             handleCreateClick(value, setValue, selectData, position);
           }}
           text={'모집 하기'}

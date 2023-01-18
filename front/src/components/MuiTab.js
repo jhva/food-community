@@ -12,12 +12,16 @@ export default function MuiTab({
   handleChange,
   selectData,
   handleClick,
-
+  setValue,
   page,
   setRecruitsData,
   handleCreateClick,
   position,
 }) {
+  const [searchData, setSearchData] = React.useState({
+    x: '',
+    y: '',
+  });
   return (
     <TabContext value={value}>
       <Box style={{ width: '50%' }}>
@@ -27,6 +31,9 @@ export default function MuiTab({
         </Tabs>
         <TabPanel style={{ bacground: 'blue' }} value={'0'}>
           <RecruitmentStatus
+            setValue={setValue}
+            searchData={searchData}
+            setSearchData={setSearchData}
             setRecruitsData={setRecruitsData}
             currentRecruitmentHandleLocation={currentRecruitmentHandleLocation}
             handleClick={handleClick}
@@ -36,6 +43,8 @@ export default function MuiTab({
         </TabPanel>
         <TabPanel value={'1'}>
           <CreateRecruitment
+            searchData={searchData}
+            setSearchData={setSearchData}
             position={position}
             handleCreateClick={handleCreateClick}
             selectData={selectData}

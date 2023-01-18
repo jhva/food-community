@@ -14,7 +14,10 @@ const Main = () => {
   const [value, setValue] = useState('0');
   const { token, user } = useSelector((state) => state.auth);
 
-  const [selectData, setSelectData] = useState([]);
+  const [selectData, setSelectData] = useState({
+    x: '',
+    y: '',
+  });
   const [markerData, setMarkerData] = useState([]);
   const [searchAddress, SetSearchAddress] = useState();
   const [isGeolocation, setIsGeolocation] = useState(false);
@@ -22,18 +25,21 @@ const Main = () => {
   const [page, setPage] = useState();
   const [selectKeywordData, setKeywordData] = useState({});
 
+  useEffect(() => {
+    // setSelectData({ ...selectData });
+  }, []);
   const handleChange = useCallback((event, newValue) => {
     setValue(newValue);
   }, []);
   const handleClick = (data, type) => {
     if (type === '모집현황') {
       SetMainSearchAddressCenter({
-        center: { lat: data.y, lng: data.x },
+        center: { lat: data?.y, lng: data?.x },
       });
     } else {
       if (data) {
         setValue('1');
-        setSelectData(data);
+        setSelectData({ ...selectData, x: data?.x, y: data?.y });
       }
     }
   };
