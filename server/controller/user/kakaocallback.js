@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
       // redirect_uri: process.env.KAKAO_REACT_REDIRECT,
     },
   });
-  const kakaoUserInfo = user?.data?.kakao_account;
+  const kakaoUserInfo = user;
   console.log(kakaoUserInfo);
 
   try {

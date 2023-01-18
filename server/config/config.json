@@ -1,10 +1,10 @@
 {
   "development": {
     "username": "root",
-    "password": "12345678",
+    "password": "12341234",
     "database": "foodCommunity",
-    "host": "localhost",
-    "port": "3306",
+    "host": "svc.gksl2.cloudtype.app",
+    "port": "32438",
 
     "dialect": "mysql"
   },
